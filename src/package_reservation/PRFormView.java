@@ -1,5 +1,6 @@
 package package_reservation;
 
+import fly_reservation.FRHistory;
 import hotel_reservation.HotelReservation;
 
 import java.awt.Color;
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import references.AutoCompletion;
 import references.JTextFieldHintUI;
@@ -28,7 +31,8 @@ public class PRFormView extends JFrame{
 	private JLabel lblDate, lblTime, lblType, lblCar,
 		lblPaymentType, lblGuestName, lblNoOfAdult, lblNoOfChild, lblReservationType, lblPayIn, lblPayInPHP,
 		lblPayInKRW, lblPayInDate, lblPayOut , lblPayOutPHP, lblPayOutKRW, lblPayOutDate,
-		lblIncome, lblIncomePHP, lblIncomeKRW, lblNote, lblCurrency, lblCurrencyNote;
+		lblIncome, lblIncomePHP, lblIncomeKRW, lblNote, lblCurrency, lblCurrencyNote,
+		lblHistory;
 	
 	private JTextField tfType, tfGuestName;
 	
@@ -38,8 +42,10 @@ public class PRFormView extends JFrame{
 						ftfNoOfAdult, ftfNoOfChild, ftfDate, ftfTime;
 	
 	private JTextArea taNote;
-	private JComboBox cbCar, cbFlightNo,
-		cbPaymentType, cbReservationType;
+	
+	private JList lHistory;
+	
+	private JComboBox cbCar, cbFlightNo, cbPaymentType, cbReservationType;
 	
 	private JButton btnAddCar;
 	private JButton btnAddRT;
@@ -151,6 +157,10 @@ public class PRFormView extends JFrame{
 		lblNote = new JLabel("Note");
 		lblNote.setBounds(10, 190, 40, 20);
 		add(lblNote);
+		
+		lblHistory = new JLabel("Edit History");
+		lblHistory.setBounds(480, 190, 100, 20);
+		add(lblHistory);
 		
 		ftfDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
@@ -283,8 +293,13 @@ public class PRFormView extends JFrame{
 		taNote.setLineWrap(true);
 		taNote.setWrapStyleWord(false);
 		JScrollPane jp = new JScrollPane(taNote);
-		jp.setBounds(50, 190, 740, 100);
+		jp.setBounds(50, 190, 300, 100);
 		add(jp);
+		
+		lHistory = new JList(new DefaultListModel());
+		lHistory.setName("History");
+		lHistory.setBounds(560, 190, 300, 100);
+		add(lHistory);
 		
 		btnSave = new JButton("Save");
 		btnSave.setBounds(300, 300, 90, 20);
@@ -294,7 +309,7 @@ public class PRFormView extends JFrame{
 		btnCancel.setBounds(400, 300, 90, 20);
 		add(btnCancel);
 		
-		autoConvert();
+		listeners();
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
 			lblPayOut.setVisible(false);
@@ -408,6 +423,8 @@ public class PRFormView extends JFrame{
 	
 	public PackageReservation getAllData(){
 		PackageReservation pr = new PackageReservation(
+				this.pr.getCreatedBy(),
+				this.pr.getCreatedAt(),
 				ftfDate.getText(), 
 				ftfTime.getText(), 
 				tfType.getText(), 
@@ -451,6 +468,17 @@ public class PRFormView extends JFrame{
 		ftfIncomePHP.setValue(pr.getIncomePHP());
 		ftfIncomeKRW.setValue(pr.getIncomeKRW()); 
 		taNote.setText(pr.getNote());
+		
+		ArrayList<PRHistory> prhs = model.getAllPRHistory(pr.getId());
+		DefaultListModel listmodel = (DefaultListModel) lHistory.getModel();
+		
+		if(pr.getId() > 0){
+			listmodel.addElement(pr.getCreatedAt() + " Created by: " + pr.getCreatedBy());
+		}
+
+		for(PRHistory prh : prhs){
+			listmodel.addElement(prh.getDate() + " Edited by: " + prh.getName());
+		}
 	}
 	
 	public void updateCar(ArrayList<String> list){
@@ -477,7 +505,7 @@ public class PRFormView extends JFrame{
 		}
 	}
 	
-	public void autoConvert(){
+	public void listeners(){
 		setAllEditable(false);
 		
 		ftfCurrency.addFocusListener(new FocusListener() {
@@ -510,6 +538,130 @@ public class PRFormView extends JFrame{
 		
 		setAutoConvertListener(ftfPayInPHP, ftfPayInKRW);
 		setAutoConvertListener(ftfPayOutPHP, ftfPayOutKRW);
+		
+		lHistory.addListSelectionListener(new ListSelectionListener(){
+			Border red = BorderFactory.createLineBorder(Color.red);
+			Border tfBorder = new JTextField().getBorder();
+			Border cbBorder = new JComboBox().getBorder();
+			Border taBorder = new JTextArea().getBorder();
+			
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				int i = lHistory.getSelectedIndex();
+				
+				if(i > 0){
+					PRHistory prh = model.getAllPRHistory(pr.getId()).get(i-1);
+					
+					if(prh.isDateEdited()){
+						ftfDate.setBorder(red);
+					}
+					else{
+						ftfDate.setBorder(tfBorder);
+					}
+					if(prh.isTimeEdited()){
+						ftfTime.setBorder(red);
+					}
+					else{
+						ftfTime.setBorder(tfBorder);
+					}
+					if(prh.isTypeEdited()){
+						tfType.setBorder(red);
+					}
+					else{
+						tfType.setBorder(tfBorder);
+					}
+					if(prh.isCarEdite()){
+						cbCar.setBorder(red);
+					}
+					else{
+						cbCar.setBorder(cbBorder);
+					}
+					if(prh.isPaymentTypeEdite()){
+						cbPaymentType.setBorder(red);
+					}
+					else{
+						cbPaymentType.setBorder(cbBorder);
+					}
+					if(prh.isGuestNameEdited()){
+						tfGuestName.setBorder(red);
+					}
+					else{
+						tfGuestName.setBorder(tfBorder);
+					}
+					if(prh.isNumberOfAdultEdited()){
+						ftfNoOfAdult.setBorder(red);
+					}
+					else{
+						ftfNoOfAdult.setBorder(tfBorder);
+					}
+					if(prh.isNumberOfChildEdited()){
+						ftfNoOfChild.setBorder(red);
+					}
+					else{
+						ftfNoOfChild.setBorder(tfBorder);
+					}
+					if(prh.isReservationTypeEdite()){
+						cbReservationType.setBorder(red);
+					}
+					else{
+						cbReservationType.setBorder(cbBorder);
+					}
+					if(prh.isPayInPHPEdited()){
+						ftfPayInPHP.setBorder(red);
+					}
+					else{
+						ftfPayInPHP.setBorder(tfBorder);
+					}
+					if(prh.isPayInKRWEdited()){
+						ftfPayInKRW.setBorder(red);
+					}
+					else{
+						ftfPayInKRW.setBorder(tfBorder);
+					}
+					if(prh.isPayInDateEdited()){
+						ftfPayInDate.setBorder(red);
+					}
+					else{
+						ftfPayInDate.setBorder(tfBorder);
+					}
+					if(prh.isPayOutPHPEdited()){
+						ftfPayOutPHP.setBorder(red);
+					}
+					else{
+						ftfPayOutPHP.setBorder(tfBorder);
+					}
+					if(prh.isPayOutKRWEdited()){
+						ftfPayOutKRW.setBorder(red);
+					}
+					else{
+						ftfPayOutKRW.setBorder(tfBorder);
+					}
+					if(prh.isPayOutDateEdited()){
+						ftfPayOutDate.setBorder(red);
+					}
+					else{
+						ftfPayOutDate.setBorder(tfBorder);
+					}
+					if(prh.isIncomePHPEdited()){
+						ftfIncomePHP.setBorder(red);
+					}
+					else{
+						ftfIncomePHP.setBorder(tfBorder);
+					}
+					if(prh.isIncomeKRWEdited()){
+						ftfIncomeKRW.setBorder(red);
+					}
+					else{
+						ftfIncomeKRW.setBorder(tfBorder);
+					}
+					if(prh.isNoteEdited()){
+						taNote.setBorder(red);
+					}
+					else{
+						taNote.setBorder(taBorder);
+					}
+				}
+			}});
 	}
 	
 	public void setAutoConvertListener(final JFormattedTextField ftfphp, final JFormattedTextField ftfkrw){		

@@ -2,6 +2,8 @@ package fly_reservation;
 
 public class FlightReservation {
 	private int id;
+	private String createdBy;
+	private String createdAt;
 	private String departure;
 	private String origin;
 	private String destination;
@@ -26,7 +28,7 @@ public class FlightReservation {
 		this.id = -1;
 	}
 
-	public FlightReservation(String departure, String origin,
+	public FlightReservation(String createdBy, String createdAt, String departure, String origin,
 			String destination, String flightNo, String reservationType,
 			String guestName, String paymentType, String gender,
 			int numberOfAdult, int numberOfChild, double payInPHP,
@@ -34,6 +36,8 @@ public class FlightReservation {
 			double payOutKRW, String payOutDate, double incomePHP,
 			double incomeKRW, String note) {
 		this.id = -1;
+		this.createdBy = createdBy;
+		this.createdAt = createdAt;
 		this.departure = departure;
 		this.origin = origin;
 		this.destination = destination;
@@ -53,6 +57,22 @@ public class FlightReservation {
 		this.incomePHP = incomePHP;
 		this.incomeKRW = incomeKRW;
 		this.note = note;
+	}
+	
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public int getId() {

@@ -3,6 +3,7 @@ package hotel_reservation;
 public class HotelReservation {
 	private int id;
 	private String createdBy;
+	private String createdAt;
 	private String checkIn;
 	private String checkOut;
 	private String hotelOrResort;
@@ -15,6 +16,7 @@ public class HotelReservation {
 	private int numberOfRooms;
 	private String breakfast;
 	private String optionToPay;
+	private double amountToPay;
 	private String reservationDate;
 	private String reservationType;
 	private String company;
@@ -35,16 +37,17 @@ public class HotelReservation {
 		this.id = -1;
 	}
 
-	public HotelReservation(String createdBy, String checkIn, String checkOut,
+	public HotelReservation(String createdBy, String createdAt, String checkIn, String checkOut,
 			String hotelOrResort, String guestName, String confirmationNumber,
 			int numberOfAdult, int numberOfChild, int numberOfNights, String roomType,
-			int numberOfRooms, String breakfast, String optionToPay, String reservationDate,
-			String reservationType, String company, String paymentType, String receiptNumber,
-			double payInPHP, double payInKRW, String payInDate, double payOutPHP,
-			double payOutKRW, String payOutDate, double incomePHP,
+			int numberOfRooms, String breakfast, String optionToPay, double amountToPay, 
+			String reservationDate, String reservationType, String company, String paymentType,
+			String receiptNumber, double payInPHP, double payInKRW, String payInDate, 
+			double payOutPHP, double payOutKRW, String payOutDate, double incomePHP,
 			double incomeKRW, String note, String status) {
 		this.id = -1;
 		this.createdBy = createdBy;
+		this.createdAt = createdAt;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		this.hotelOrResort = hotelOrResort;
@@ -57,6 +60,7 @@ public class HotelReservation {
 		this.numberOfRooms = numberOfRooms;
 		this.breakfast = breakfast;
 		this.optionToPay = optionToPay;
+		this.amountToPay = amountToPay;
 		this.reservationDate = reservationDate;
 		this.reservationType = reservationType;
 		this.company = company;
@@ -74,7 +78,22 @@ public class HotelReservation {
 		this.status = status;
 	}
 	
-	
+	public double getAmountToPay() {
+		return amountToPay;
+	}
+
+	public void setAmountToPay(double amountToPay) {
+		this.amountToPay = amountToPay;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
+	}
+
 	public String getCreatedBy() {
 		return createdBy;
 	}

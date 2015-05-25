@@ -4,11 +4,17 @@ import hotel_reservation.HotelReservation;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
@@ -26,6 +32,8 @@ public class FRView extends JFrame{
 	
 	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn, lblTotalPayOut, lblTotalIncome;
 	
+	private JLabel lblImage;
+	
 	private JComboBox cbSearch;
 	
 	private JTextField tfSearch;
@@ -39,7 +47,7 @@ public class FRView extends JFrame{
 	
 	public FRView(RSModel model){
 		super("Flight Reservation");
-		setSize(1000, 600);
+		setSize(1200, 600);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -47,6 +55,10 @@ public class FRView extends JFrame{
 		setIconImage(new ImageIcon(getClass().getResource("/Pictures/icon.png")).getImage());
 		
 		this.model = model;
+		
+		lblImage = new JLabel(getImageIcon("/Pictures/tableLogo.png", 320, 50));
+		lblImage.setBounds(850, 10, 420, 50);
+		add(lblImage);
 		
 		btnAdd = new JButton("Add");
 		btnAdd.setBounds(10, 10, 100, 20);
@@ -127,33 +139,33 @@ public class FRView extends JFrame{
 		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.setAutoCreateRowSorter(true);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 70, 980, 460);
+		scrollPane.setBounds(10, 70, 1180, 460);
 		add(scrollPane);
 		
 		lblTotalPayIn = new JLabel("Total Pay In:");
-		lblTotalPayIn.setBounds(10, 540, 100, 20);
+		lblTotalPayIn.setBounds(140, 540, 100, 20);
 		add(lblTotalPayIn);
 		
 		ftfTotalPayIn = new JFormattedTextField(model.NUMBER_FORMAT);
-		ftfTotalPayIn.setBounds(110, 540, 100, 20);
+		ftfTotalPayIn.setBounds(240, 540, 100, 20);
 		ftfTotalPayIn.setEditable(false);
 		add(ftfTotalPayIn);
 		
 		lblTotalPayOut = new JLabel("Total Pay Out:");
-		lblTotalPayOut.setBounds(330, 540, 100, 20);
+		lblTotalPayOut.setBounds(480, 540, 100, 20);
 		add(lblTotalPayOut);
 		
 		ftfTotalPayOut = new JFormattedTextField(model.NUMBER_FORMAT);
-		ftfTotalPayOut.setBounds(430, 540, 100, 20);
+		ftfTotalPayOut.setBounds(580, 540, 100, 20);
 		ftfTotalPayOut.setEditable(false);
 		add(ftfTotalPayOut);
 		
 		lblTotalIncome= new JLabel("Total Income:");
-		lblTotalIncome.setBounds(640, 540, 100, 20);
+		lblTotalIncome.setBounds(820, 540, 100, 20);
 		add(lblTotalIncome);
 		
 		ftfTotalIncome = new JFormattedTextField(model.NUMBER_FORMAT);
-		ftfTotalIncome.setBounds(740, 540, 100, 20);
+		ftfTotalIncome.setBounds(920, 540, 100, 20);
 		ftfTotalIncome.setEditable(false);
 		add(ftfTotalIncome);
 		
@@ -169,6 +181,29 @@ public class FRView extends JFrame{
         }
 
 		updateView(model.getAllFRs());
+	}
+	
+	public Image getScaledImage(Image srcImg, int w, int h){
+	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D g2 = resizedImg.createGraphics();
+	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    g2.drawImage(srcImg, 0, 0, w, h, null);
+	    g2.dispose();
+	    return resizedImg;
+	}
+	
+	public ImageIcon getImageIcon(String url, int width, int height){
+		Image temp;
+		ImageIcon tempImageIcon = null;
+		try {
+			temp = ImageIO.read(this.getClass().getResource(url));
+			temp = getScaledImage(temp, width, height);
+			tempImageIcon = new ImageIcon(temp);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tempImageIcon;
 	}
 	
 	public void setTextFieldFocusListener(FocusListener listener){
@@ -259,7 +294,7 @@ public class FRView extends JFrame{
 	}
 	
 	public int getFRSelectedID(int row){
-		int modelNo = (Integer) table.getValueAt(row, 1);
+		int modelNo = (Integer) table.getValueAt(row, 0);
 
 		for(int i=0;i<table.getModel().getRowCount();i++){
 			if((Integer)table.getModel().getValueAt(i, 1) == modelNo){

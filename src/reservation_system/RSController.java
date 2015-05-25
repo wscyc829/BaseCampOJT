@@ -1112,7 +1112,7 @@ public class RSController {
 
 		public void valueChanged(ListSelectionEvent e) {
 			int i = ((ListSelectionModel)e.getSource()).getLeadSelectionIndex();
-			int id = prView.getPRSelectedID(i);
+			int id = frView.getFRSelectedID(i);
 			
 			frfScreen();
 			frfView.updateView(model.getAllFRs("","","id", id+"").get(0));

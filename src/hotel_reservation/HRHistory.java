@@ -30,6 +30,7 @@ public class HRHistory {
 	private boolean isConfirmationNumberEdited;
 	private boolean isBreakfastEdited;
 	private boolean isNoteEdited;
+	
 	public HRHistory(String name, String date, boolean isCheckInEdited,
 			boolean isCheckOutEdited, boolean isHotelOrResortEdited,
 			boolean isGuestNameEdited, boolean isNumberOfAdultEdited,
@@ -44,7 +45,6 @@ public class HRHistory {
 			boolean isIncomePHPEdited, boolean isIncomeKRWEdited,
 			boolean isStatusEdited, boolean isConfirmationNumberEdited,
 			boolean isBreakfastEdited, boolean isNoteEdited) {
-		super();
 		this.name = name;
 		this.date = date;
 		this.isCheckInEdited = isCheckInEdited;

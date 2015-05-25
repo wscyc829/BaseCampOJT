@@ -1,5 +1,6 @@
 package reservation_system;
 
+import fly_reservation.FRHistory;
 import fly_reservation.FlightReservation;
 import hotel_reservation.HRHistory;
 import hotel_reservation.HotelReservation;
@@ -38,6 +39,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import package_reservation.PRHistory;
 import package_reservation.PackageReservation;
 
 public class RSModel {
@@ -58,7 +60,7 @@ public class RSModel {
 		
 		DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
 		TIME_FORMAT = new SimpleDateFormat("HH:mm");
-		DATE_TIME_FORMAT = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		DATE_TIME_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		NUMBER_FORMAT = NumberFormat.getNumberInstance();
 		NUMBER_FORMAT.setMaximumFractionDigits(2);
 		INTEGER_FORMAT = NumberFormat.getIntegerInstance();
@@ -212,10 +214,10 @@ public class RSModel {
 		Statement stat;
 
 		String query = "INSERT INTO `hotel reservation` " + 
-				"(`created by`, `created at`, `check in`, `check out`, `hotel/resort`, `guest name`," +
-				"`confirmation number`, `number of adult`, `number of child`," +
+				"(`created by`, `created at`, `check in`, `check out`, `hotel/resort`, " +
+				"`guest name`, `confirmation number`, `number of adult`, `number of child`," +
 				"`number of nights`, `room type`, `number of rooms`," +
-				"`breakfast`, `option to pay`, `reservation date`, " +
+				"`breakfast`, `option to pay`, `amount to pay`, `reservation date`, " +
 				"`reservation type`, `company`, `payment type`, `receipt number`, " +
 				"`pay in - php`, `pay in - krw`, `pay in - date`, `pay out - php`, `pay out - krw`," + 
 				"`pay out - date`, `income - php`, `income - krw`, `note`, `status`)" +
@@ -234,6 +236,7 @@ public class RSModel {
 				hr.getNumberOfRooms() + "," +
 				"'" + hr.getBreakfast() + "'," +
 				"'" + hr.getOptionToPay() + "'," +
+				hr.getAmountToPay() + "," +
 				"'" + hr.getReservationDate() + "'," +
 				"'" + hr.getReservationType() + "'," +
 				"'" + hr.getCompany() + "'," +
@@ -287,6 +290,7 @@ public class RSModel {
 				"`number of rooms` = " + hr.getNumberOfRooms() + "," +
 				"`breakfast` = '" + hr.getBreakfast() + "'," +
 				"`option to pay` = '" + hr.getOptionToPay() + "'," +
+				"`amount to pay` = " + hr.getAmountToPay() + "," +
 				"`reservation date` = '" + hr.getReservationDate() + "'," +
 				"`reservation type` = '" + hr.getReservationType() + "'," +
 				"`company` = '" + hr.getCompany() + "'," +
@@ -308,13 +312,13 @@ public class RSModel {
 				"(`hr id`, `name`, `date`, `isCheckInEdited`, `isCheckOutEdited`," +
 				"`isHotel/ResortEdited`, `isGuestNameEdited`, `isNumberOfAdultEdited`, " +
 				"`isNumberOfChildEdited`, `isNumberOfNightsEdited`, `isRoomTypeEdited`," +
-				"`isNumberOfRoomsEdited`, `isOptionToPayEdited`, `isReservationDateEdited`," +
-				"`isReservationTypeEdited`, `isCompanyEdited`, `isPaymentTypeEdited`," +
-				"`isReceiptNumberEdited`, `isPayInPHPEdited`, `isPayInKRWEdited`, " +
-				"`isPayInDateEdited`, `isPayOutPHPEdited`, `isPayOutKRWEdited`, " +
-				"`isPayOutDateEdited`, `isIncomePHPEdited`, `isIncomeKRWEdited`, " +
-				"`isStatusEdited`, `isConfirmationNumberEdited`, `isBreakfastEdited`, " +
-				"`isNoteEdited`) " +
+				"`isNumberOfRoomsEdited`, `isOptionToPayEdited`, `isAmountToPayEdited`," +
+				"`isReservationDateEdited`, `isReservationTypeEdited`, `isCompanyEdited`," +
+				"`isPaymentTypeEdited`, `isReceiptNumberEdited`, `isPayInPHPEdited`," +
+				"`isPayInKRWEdited`, `isPayInDateEdited`, `isPayOutPHPEdited`, " + 
+				"`isPayOutKRWEdited`, `isPayOutDateEdited`, `isIncomePHPEdited`," +
+				"`isIncomeKRWEdited`, `isStatusEdited`, `isConfirmationNumberEdited`, " +
+				"`isBreakfastEdited`, `isNoteEdited`) " +
 				"VALUES(" +
 				old.getId() + ", " +
 				"'" + currentUser.getUsername() + "'," +
@@ -329,6 +333,7 @@ public class RSModel {
                 ((edited = edited || !old.getRoomType().equals(hr.getRoomType())) && !old.getRoomType().equals(hr.getRoomType())) + "," +
                 ((edited = edited || (old.getNumberOfRooms() != hr.getNumberOfRooms())) && (old.getNumberOfRooms() != hr.getNumberOfRooms())) + "," +      
                 ((edited = edited || !old.getOptionToPay().equals(hr.getOptionToPay())) && !old.getOptionToPay().equals(hr.getOptionToPay())) + "," +
+                (((edited = edited || (old.getNumberOfChild() != hr.getAmountToPay())) && (old.getAmountToPay() != hr.getAmountToPay())))+ "," +
                 ((edited = edited || !old.getReservationDate().equals(hr.getReservationDate())) && !old.getReservationDate().equals(hr.getReservationDate())) + "," +
                 ((edited = edited || !old.getReservationType().equals(hr.getReservationType())) && !old.getReservationType().equals(hr.getReservationType())) + "," +
                 ((edited = edited || !old.getCompany().equals(hr.getCompany())) && !old.getCompany().equals(hr.getCompany())) + "," +
@@ -385,6 +390,7 @@ public class RSModel {
 			while(rs.next()){
 				HotelReservation hr = new HotelReservation(
 						rs.getString("created by"),
+						rs.getString("created at"),
 						rs.getString("check in"),
 						rs.getString("check out"),
 						rs.getString("hotel/resort"), 
@@ -397,6 +403,7 @@ public class RSModel {
 						rs.getInt("number of rooms"),
 						rs.getString("breakfast"),
 						rs.getString("option to pay"), 
+						rs.getDouble("amount to pay"),
 						rs.getString("reservation date"), 
 						rs.getString("reservation type"),
 						rs.getString("company"),
@@ -476,6 +483,7 @@ public class RSModel {
 			while(rs.next()){
 				HotelReservation hr = new HotelReservation(
 						rs.getString("created by"),
+						rs.getString("created at"),
 						rs.getString("check in"),
 						rs.getString("check out"),
 						rs.getString("hotel/resort"), 
@@ -488,6 +496,7 @@ public class RSModel {
 						rs.getInt("number of rooms"),
 						rs.getString("breakfast"),
 						rs.getString("option to pay"), 
+						rs.getDouble("amount to pay"),
 						rs.getString("reservation date"), 
 						rs.getString("reservation type"), 
 						rs.getString("company"),
@@ -833,6 +842,9 @@ public class RSModel {
 		Connection connect;
 		Statement stat;
 		
+		boolean edited = false;
+        FlightReservation old = getAllFRs("", "", "id", fr.getId()+"").get(0);
+        
 		String query = "UPDATE `flight reservation` SET " + 
 				"`flight date` = '" + fr.getDeparture() + "'," +
 				"origin = '" + fr.getOrigin() + "'," + 
@@ -854,13 +866,46 @@ public class RSModel {
 				"`income - KRW` = " + fr.getIncomeKRW() + "," +
 				"note = + '" + fr.getNote() + "' WHERE id = " + fr.getId();
 		
+		String query1 = "INSERT INTO `basecamp`.`fr history` " +
+				"(`fr id`, `name`, `date`, `isDepartureEdited`, `isFlightNumberEdited`," +
+				"`isOriginEdited`, `isDestinationEdited`, `isReservationTypeEdited`, " +
+				"`isPaymentTypeEdited`, `isGuestNameEdited`, `isNumberOfAdultEdited`, " +
+				"`isNumberOfChildEdited`, `isGenderEdited`, `isPayInPHPEdited`, `isPayInKRWEdited`," +
+				"`isPayInDateEdited`, `isPayOutPHPEdited`, `isPayOutKRWEdited`, `isPayOutDateEdited`," +
+				"`isIncomePHPEdited`, `isIncomeKRWEdited`, `isNoteEdited`) " +
+				"VALUES (" +
+                old.getId() + ", " +
+                "'" + currentUser.getUsername() + "'," +
+                "'" + DATE_TIME_FORMAT.format(new Date()) + "'," +
+                ((edited = edited || !old.getDeparture().equals(fr.getDeparture())) && !old.getDeparture().equals(fr.getDeparture())) + "," +
+                (((edited = edited || !old.getFlightNo().equals(fr.getFlightNo())) && !old.getFlightNo().equals(fr.getFlightNo()))) + "," +
+                ((edited = edited || !old.getOrigin().equals(fr.getOrigin())) && !old.getOrigin().equals(fr.getOrigin())) + "," +
+                ((edited = edited || !old.getDestination().equals(fr.getDestination())) && !old.getDestination().equals(fr.getDestination())) + "," +
+                ((edited = edited || !old.getReservationType().equals(fr.getReservationType())) && !old.getReservationType().equals(fr.getReservationType())) + "," +
+                ((edited = edited || !old.getPaymentType().equals(fr.getPaymentType())) && !old.getPaymentType().equals(fr.getPaymentType())) + "," +
+                (((edited = edited || !old.getGuestName().equals(fr.getGuestName())) && !old.getGuestName().equals(fr.getGuestName()))) + "," +
+                (((edited = edited || (old.getNumberOfAdult() != fr.getNumberOfAdult())) && (old.getNumberOfAdult() != fr.getNumberOfAdult())))+ "," +
+                (((edited = edited || (old.getNumberOfChild() != fr.getNumberOfChild())) && (old.getNumberOfChild() != fr.getNumberOfChild())))+ "," +
+                ((edited = edited || !old.getGender().equals(fr.getGender())) && !old.getGender().equals(fr.getGender())) + "," +
+                ((edited = edited || (old.getPayInPHP() != fr.getPayInPHP())) && (old.getPayInPHP() != fr.getPayInPHP())) + "," +
+                ((edited = edited || (old.getPayInKRW() != fr.getPayInKRW())) && (old.getPayInKRW() != fr.getPayInKRW())) + "," +
+                ((edited = edited || !old.getPayInDate().equals(fr.getPayInDate())) && !old.getPayInDate().equals(fr.getPayInDate())) + "," +
+                ((edited = edited || (old.getPayOutPHP() != fr.getPayOutPHP())) && (old.getPayOutPHP() != fr.getPayOutPHP())) + "," +
+                ((edited = edited || (old.getPayOutKRW() != fr.getPayOutKRW())) && (old.getPayOutKRW() != fr.getPayOutKRW())) + "," +
+                ((edited = edited || !old.getPayOutDate().equals(fr.getPayOutDate())) && !old.getPayOutDate().equals(fr.getPayOutDate())) + "," +
+                ((edited = edited || (old.getIncomePHP() != fr.getIncomePHP())) && (old.getIncomePHP() != fr.getIncomePHP())) + "," +
+                ((edited = edited || (old.getIncomeKRW() != fr.getIncomeKRW())) && (old.getIncomeKRW() != fr.getIncomeKRW())) + "," +
+                ((edited = edited || !old.getNote().equals(fr.getNote())) && !old.getNote().equals(fr.getNote())) +
+                ")";
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection(connection, dbUser, dbPass);
 			stat = connect.createStatement();  
-
-			stat.execute(query);
-			  
+			
+			if(edited){
+				stat.execute(query);
+				stat.execute(query1);
+			}
 			connect.close();
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -888,6 +933,8 @@ public class RSModel {
 			
 			while(rs.next()){
 				FlightReservation fr = new FlightReservation(
+						rs.getString("created by"),
+						rs.getString("created at"),
 						rs.getString("flight date"),
 						rs.getString("origin"),
 						rs.getString("destination"),
@@ -969,6 +1016,8 @@ public class RSModel {
 			
 			while(rs.next()){
 				FlightReservation fr = new FlightReservation(
+						rs.getString("created by"),
+						rs.getString("created at"),
 						rs.getString("flight date"),
 						rs.getString("origin"),
 						rs.getString("destination"),
@@ -1002,6 +1051,59 @@ public class RSModel {
 		return frs;
 	}
 
+	public ArrayList<FRHistory> getAllFRHistory(int frID){
+		ArrayList<FRHistory> list = new ArrayList<FRHistory>();
+
+		String connection = "jdbc:mysql://" + ip + "/basecamp";
+		Connection connect;
+		Statement stat;
+		
+		String query = "select * from `fr history` where `fr id` = " + frID;
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(connection, dbUser, dbPass);
+			stat = connect.createStatement();  
+
+			ResultSet rs = stat.executeQuery(query);
+			
+			while(rs.next()){
+				FRHistory frh = new FRHistory(
+						rs.getString("name"), 
+						rs.getString("date"), 
+						rs.getBoolean("isDepartureEdited"),
+						rs.getBoolean("isFlightNumberEdited"),
+						rs.getBoolean("isOriginEdited"),
+						rs.getBoolean("isDestinationEdited"),
+						rs.getBoolean("isReservationTypeEdited"),
+						rs.getBoolean("isPaymentTypeEdited"),
+						rs.getBoolean("isGuestNameEdited"),
+						rs.getBoolean("isNumberOfAdultEdited"),
+						rs.getBoolean("isNumberOfChildEdited"),
+						rs.getBoolean("isGenderEdited"),
+						rs.getBoolean("isPayInPHPEdited"),
+						rs.getBoolean("isPayInKRWEdited"),
+						rs.getBoolean("isPayInDateEdited"),
+						rs.getBoolean("isPayOutPHPEdited"),
+						rs.getBoolean("isPayOutKRWEdited"),
+						rs.getBoolean("isPayOutDateEdited"),
+						rs.getBoolean("isIncomePHPEdited"),
+						rs.getBoolean("isIncomeKRWEdited"),
+						rs.getBoolean("isNoteEdited"));
+				list.add(frh);
+			}
+			connect.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+			printError(e.getErrorCode());
+		}catch(ClassNotFoundException cnfe){
+			cnfe.printStackTrace();
+			printError(-1);
+		}
+		
+		return list;
+	}
+	
 	public ArrayList<String> getFlightNo(){
 		ArrayList<String> list = new ArrayList<String>();
 		
@@ -1193,6 +1295,9 @@ public class RSModel {
 		Connection connect;
 		Statement stat;
 		
+		boolean edited = false;
+        PackageReservation old = getAllPRs("", "", "id", pr.getId()+"").get(0);
+        
 		String query = "UPDATE `package reservation` SET " + 
 				"date = '" + pr.getDate() + "'," +
 				"time = '" + pr.getTime() + "'," +
@@ -1214,13 +1319,47 @@ public class RSModel {
 				"note = '" + pr.getNote() + "' " +
 				"WHERE id = " + pr.getId();
 		
+		String query1 = "INSERT INTO `basecamp`.`pr history` " +
+				"(`pr id`, `name`, `date`, `isDateEdited`, `isTimeEdited`," +
+				"`isTypeEdited`, `isCarEdited`, `isPaymentTypeEdited`, " +
+				"`isGuestNameEdited`, `isNumberOfAdultEdited`,  `isNumberOfChildEdited`," +
+				"`isReservationTypeEdited`, `isPayInPHPEdited`, `isPayInKRWEdited`," +
+				"`isPayInDateEdited`, `isPayOutPHPEdited`, `isPayOutKRWEdited`, " +
+				"`isPayOutDateEdited`, `isIncomePHPEdited`, `isIncomeKRWEdited`, " +
+				"`isNoteEdited`) " +
+				"VALUES (" +
+                old.getId() + ", " +
+                "'" + currentUser.getUsername() + "'," +
+                "'" + DATE_TIME_FORMAT.format(new Date()) + "'," +
+                ((edited = edited || !old.getDate().equals(pr.getDate())) && !old.getDate().equals(pr.getDate())) + "," +
+                (((edited = edited || !old.getTime().equals(pr.getTime())) && !old.getTime().equals(pr.getTime()))) + "," +
+                ((edited = edited || !old.getType().equals(pr.getType())) && !old.getType().equals(pr.getType())) + "," +
+                ((edited = edited || !old.getCar().equals(pr.getCar())) && !old.getCar().equals(pr.getCar())) + "," +
+                ((edited = edited || !old.getPaymentType().equals(pr.getPaymentType())) && !old.getPaymentType().equals(pr.getPaymentType())) + "," +
+                (((edited = edited || !old.getGuestName().equals(pr.getGuestName())) && !old.getGuestName().equals(pr.getGuestName()))) + "," +
+                (((edited = edited || (old.getNumberOfAdult() != pr.getNumberOfAdult())) && (old.getNumberOfAdult() != pr.getNumberOfAdult())))+ "," +
+                (((edited = edited || (old.getNumberOfChild() != pr.getNumberOfChild())) && (old.getNumberOfChild() != pr.getNumberOfChild())))+ "," +
+                ((edited = edited || !old.getReservationType().equals(pr.getReservationType())) && !old.getReservationType().equals(pr.getReservationType())) + "," +
+                ((edited = edited || (old.getPayInPHP() != pr.getPayInPHP())) && (old.getPayInPHP() != pr.getPayInPHP())) + "," +
+                ((edited = edited || (old.getPayInKRW() != pr.getPayInKRW())) && (old.getPayInKRW() != pr.getPayInKRW())) + "," +
+                ((edited = edited || !old.getPayInDate().equals(pr.getPayInDate())) && !old.getPayInDate().equals(pr.getPayInDate())) + "," +
+                ((edited = edited || (old.getPayOutPHP() != pr.getPayOutPHP())) && (old.getPayOutPHP() != pr.getPayOutPHP())) + "," +
+                ((edited = edited || (old.getPayOutKRW() != pr.getPayOutKRW())) && (old.getPayOutKRW() != pr.getPayOutKRW())) + "," +
+                ((edited = edited || !old.getPayOutDate().equals(pr.getPayOutDate())) && !old.getPayOutDate().equals(pr.getPayOutDate())) + "," +
+                ((edited = edited || (old.getIncomePHP() != pr.getIncomePHP())) && (old.getIncomePHP() != pr.getIncomePHP())) + "," +
+                ((edited = edited || (old.getIncomeKRW() != pr.getIncomeKRW())) && (old.getIncomeKRW() != pr.getIncomeKRW())) + "," +
+                ((edited = edited || !old.getNote().equals(pr.getNote())) && !old.getNote().equals(pr.getNote())) +
+                ")";
+		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection(connection, dbUser, dbPass);
 			stat = connect.createStatement();  
-
-			stat.execute(query);
-			  
+			
+			if(edited){
+				stat.execute(query);
+				stat.execute(query1);
+			}
 			connect.close();
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -1247,6 +1386,8 @@ public class RSModel {
 			
 			while(rs.next()){
 				PackageReservation pr = new PackageReservation(
+						rs.getString("created by"),
+						rs.getString("created at"),
 						rs.getString("date"),
 						rs.getString("time"),
 						rs.getString("type"),
@@ -1327,6 +1468,8 @@ public class RSModel {
 			
 			while(rs.next()){
 				PackageReservation pr = new PackageReservation(
+						rs.getString("created by"),
+						rs.getString("created at"),
 						rs.getString("date"),
 						rs.getString("time"),
 						rs.getString("type"),
@@ -1357,6 +1500,58 @@ public class RSModel {
 			printError(-1);
 		}
 		return prs;
+	}
+	
+	public ArrayList<PRHistory> getAllPRHistory(int prID){
+		ArrayList<PRHistory> list = new ArrayList<PRHistory>();
+
+		String connection = "jdbc:mysql://" + ip + "/basecamp";
+		Connection connect;
+		Statement stat;
+		
+		String query = "select * from `pr history` where `pr id` = " + prID;
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(connection, dbUser, dbPass);
+			stat = connect.createStatement();  
+
+			ResultSet rs = stat.executeQuery(query);
+			
+			while(rs.next()){
+				PRHistory prh = new PRHistory(
+						rs.getString("name"), 
+						rs.getString("date"), 
+						rs.getBoolean("isDateEdited"),
+						rs.getBoolean("isTimeEdited"),
+						rs.getBoolean("isTypeEdited"),
+						rs.getBoolean("isCarEdited"),
+						rs.getBoolean("isPaymentTypeEdited"),
+						rs.getBoolean("isGuestNameEdited"),
+						rs.getBoolean("isNumberOfAdultEdited"),
+						rs.getBoolean("isNumberOfChildEdited"),
+						rs.getBoolean("isReservationTypeEdited"),
+						rs.getBoolean("isPayInPHPEdited"),
+						rs.getBoolean("isPayInKRWEdited"),
+						rs.getBoolean("isPayInDateEdited"),
+						rs.getBoolean("isPayOutPHPEdited"),
+						rs.getBoolean("isPayOutKRWEdited"),
+						rs.getBoolean("isPayOutDateEdited"),
+						rs.getBoolean("isIncomePHPEdited"),
+						rs.getBoolean("isIncomeKRWEdited"),
+						rs.getBoolean("isNoteEdited"));
+				list.add(prh);
+			}
+			connect.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+			printError(e.getErrorCode());
+		}catch(ClassNotFoundException cnfe){
+			cnfe.printStackTrace();
+			printError(-1);
+		}
+		
+		return list;
 	}
 	
 	public ArrayList<String> getCar(){
@@ -1949,7 +2144,7 @@ public class RSModel {
 		        doc.add(new Paragraph(" "));
 		        
 		        firstColumn = new PdfPCell(new Paragraph("Company"));
-		        secondColumn = new PdfPCell(new Paragraph(hr.getHotelOrResort()));
+		        secondColumn = new PdfPCell(new Paragraph(hr.getCompany()));
 		        table.addCell(firstColumn);
 		        table.addCell(secondColumn);
 		        
@@ -2125,7 +2320,7 @@ public class RSModel {
 		        doc.add(new Paragraph(" "));
 		        
 		        firstColumn = new PdfPCell(new Paragraph("Company"));
-		        secondColumn = new PdfPCell(new Paragraph(hr.getHotelOrResort()));
+		        secondColumn = new PdfPCell(new Paragraph(hr.getCompany()));
 		        table.addCell(firstColumn);
 		        table.addCell(secondColumn);
 		        

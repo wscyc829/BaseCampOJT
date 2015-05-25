@@ -1,5 +1,7 @@
 package fly_reservation;
 
+import hotel_reservation.HRHistory;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import references.AutoCompletion;
 import references.JTextFieldHintUI;
@@ -22,7 +26,8 @@ public class FRFormView extends JFrame{
 	private JLabel lblDeparture, lblFlightNo, lblOrigin, lblDestination, lblReservationType,
 		lblPaymentType, lblGuestName, lblNoOfAdult, lblNoOfChild, lblGender, lblPayIn, lblPayInPHP,
 		lblPayInKRW, lblPayInDate, lblPayOut , lblPayOutPHP, lblPayOutKRW, lblPayOutDate,
-		lblIncome, lblIncomePHP, lblIncomeKRW, lblNote, lblCurrency, lblCurrencyNote;
+		lblIncome, lblIncomePHP, lblIncomeKRW, lblNote, lblCurrency, lblCurrencyNote, 
+		lblHistory;
 	
 	private JTextField tfGuestName;
 	
@@ -31,6 +36,9 @@ public class FRFormView extends JFrame{
 						ftfCurrency, ftfNoOfAdult, ftfNoOfChild, ftfDeparture;
 	
 	private JTextArea taNote;
+	
+	private JList lHistory;
+	
 	private JComboBox  cbFlightNo, cbOrigin, cbDestination, cbReservationType, cbGender,
 		cbPaymentType;
 	
@@ -150,6 +158,10 @@ public class FRFormView extends JFrame{
 		lblNote.setBounds(10, 190, 100, 20);
 		add(lblNote);
 		
+		lblHistory = new JLabel("Edit History");
+		lblHistory.setBounds(480, 190, 100, 20);
+		add(lblHistory);
+		
 		ftfDeparture = new JFormattedTextField(model.DATE_FORMAT);
 		ftfDeparture.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
 		ftfDeparture.setBounds(120,10,140,20);
@@ -261,7 +273,7 @@ public class FRFormView extends JFrame{
 		
 		ftfPayInDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfPayInDate.setName("Pay In - Date");
-		ftfPayInDate.setUI(new JTextFieldHintUI("yyyy-mm-dd", Color.gray));
+		ftfPayInDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
 		ftfPayInDate.setBounds(610, 70, 100, 20);
 		add(ftfPayInDate);
 		
@@ -279,7 +291,7 @@ public class FRFormView extends JFrame{
 		
 		ftfPayOutDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfPayOutDate.setName("Pay Out - Date");
-		ftfPayOutDate.setUI(new JTextFieldHintUI("yyyy-mm-dd", Color.gray));
+		ftfPayOutDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
 		ftfPayOutDate.setBounds(610, 130, 100, 20);
 		add(ftfPayOutDate);
 		
@@ -301,9 +313,15 @@ public class FRFormView extends JFrame{
 		taNote.setName("Note");
 		taNote.setLineWrap(true);
 		taNote.setWrapStyleWord(false);
+		
 		JScrollPane jp = new JScrollPane(taNote);
-		jp.setBounds(120, 190, 740, 100);
+		jp.setBounds(120, 190, 300, 100);
 		add(jp);
+		
+		lHistory = new JList(new DefaultListModel());
+		lHistory.setName("History");
+		lHistory.setBounds(560, 190, 300, 100);
+		add(lHistory);
 		
 		btnSave = new JButton("Save");
 		btnSave.setBounds(335, 300, 90, 20);
@@ -315,7 +333,7 @@ public class FRFormView extends JFrame{
 		
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
-		autoConvert();
+		listeners();
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
 			lblPayOut.setVisible(false);
@@ -435,6 +453,8 @@ public class FRFormView extends JFrame{
 	
 	public FlightReservation getAllData(){
 		FlightReservation fr = new FlightReservation(
+				this.fr.getCreatedBy(),
+				this.fr.getCreatedAt(),
 				ftfDeparture.getText(), 
 				cbOrigin.getSelectedItem().toString(), 
 				cbDestination.getSelectedItem().toString(), 
@@ -482,6 +502,17 @@ public class FRFormView extends JFrame{
 		ftfIncomePHP.setValue(fr.getIncomePHP()); 
 		ftfIncomeKRW.setValue(fr.getIncomeKRW());
 		taNote.setText(fr.getNote());
+		
+		ArrayList<FRHistory> frhs = model.getAllFRHistory(fr.getId());
+		DefaultListModel listmodel = (DefaultListModel) lHistory.getModel();
+		
+		if(fr.getId() > 0){
+			listmodel.addElement(fr.getCreatedAt() + " Created by: " + fr.getCreatedBy());
+		}
+
+		for(FRHistory frh : frhs){
+			listmodel.addElement(frh.getDate() + " Edited by: " + frh.getName());
+		}
 	}
 	
 	public void updateFlight(ArrayList<String> list){
@@ -518,7 +549,7 @@ public class FRFormView extends JFrame{
 		}
 	}
 
-	public void autoConvert(){
+	public void listeners(){
 		setAllEditable(false);
 		
 		ftfCurrency.addFocusListener(new FocusListener() {
@@ -551,6 +582,136 @@ public class FRFormView extends JFrame{
 		
 		setAutoConvertListener(ftfPayInPHP, ftfPayInKRW);
 		setAutoConvertListener(ftfPayOutPHP, ftfPayOutKRW);
+		
+		lHistory.addListSelectionListener(new ListSelectionListener(){
+			Border red = BorderFactory.createLineBorder(Color.red);
+			Border tfBorder = new JTextField().getBorder();
+			Border cbBorder = new JComboBox().getBorder();
+			Border taBorder = new JTextArea().getBorder();
+			
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				int i = lHistory.getSelectedIndex();
+				
+				if(i > 0){
+					FRHistory frh = model.getAllFRHistory(fr.getId()).get(i-1);
+					
+					if(frh.isDepartureEdited()){
+						ftfDeparture.setBorder(red);
+					}
+					else{
+						ftfDeparture.setBorder(tfBorder);
+					}
+					if(frh.isFlightNumberEdited()){
+						cbFlightNo.setBorder(red);
+					}
+					else{
+						cbFlightNo.setBorder(cbBorder);
+					}
+					if(frh.isOriginEdited()){
+						cbOrigin.setBorder(red);
+					}
+					else{
+						cbOrigin.setBorder(cbBorder);
+					}
+					if(frh.isDestinationEdite()){
+						cbDestination.setBorder(red);
+					}
+					else{
+						cbDestination.setBorder(cbBorder);
+					}
+					if(frh.isReservationTypeEdite()){
+						cbReservationType.setBorder(red);
+					}
+					else{
+						cbReservationType.setBorder(cbBorder);
+					}
+					if(frh.isPaymentTypeEdite()){
+						cbPaymentType.setBorder(red);
+					}
+					else{
+						cbPaymentType.setBorder(cbBorder);
+					}
+					if(frh.isGuestNameEdited()){
+						tfGuestName.setBorder(red);
+					}
+					else{
+						tfGuestName.setBorder(tfBorder);
+					}
+					if(frh.isNumberOfAdultEdited()){
+						ftfNoOfAdult.setBorder(red);
+					}
+					else{
+						ftfNoOfAdult.setBorder(tfBorder);
+					}
+					if(frh.isNumberOfChildEdited()){
+						ftfNoOfChild.setBorder(red);
+					}
+					else{
+						ftfNoOfChild.setBorder(tfBorder);
+					}
+					if(frh.isGenderrEdited()){
+						cbGender.setBorder(red);
+					}
+					else{
+						cbGender.setBorder(cbBorder);
+					}
+					if(frh.isPayInPHPEdited()){
+						ftfPayInPHP.setBorder(red);
+					}
+					else{
+						ftfPayInPHP.setBorder(tfBorder);
+					}
+					if(frh.isPayInKRWEdited()){
+						ftfPayInKRW.setBorder(red);
+					}
+					else{
+						ftfPayInKRW.setBorder(tfBorder);
+					}
+					if(frh.isPayInDateEdited()){
+						ftfPayInDate.setBorder(red);
+					}
+					else{
+						ftfPayInDate.setBorder(tfBorder);
+					}
+					if(frh.isPayOutPHPEdited()){
+						ftfPayOutPHP.setBorder(red);
+					}
+					else{
+						ftfPayOutPHP.setBorder(tfBorder);
+					}
+					if(frh.isPayOutKRWEdited()){
+						ftfPayOutKRW.setBorder(red);
+					}
+					else{
+						ftfPayOutKRW.setBorder(tfBorder);
+					}
+					if(frh.isPayOutDateEdited()){
+						ftfPayOutDate.setBorder(red);
+					}
+					else{
+						ftfPayOutDate.setBorder(tfBorder);
+					}
+					if(frh.isIncomePHPEdited()){
+						ftfIncomePHP.setBorder(red);
+					}
+					else{
+						ftfIncomePHP.setBorder(tfBorder);
+					}
+					if(frh.isIncomeKRWEdited()){
+						ftfIncomeKRW.setBorder(red);
+					}
+					else{
+						ftfIncomeKRW.setBorder(tfBorder);
+					}
+					if(frh.isNoteEdited()){
+						taNote.setBorder(red);
+					}
+					else{
+						taNote.setBorder(taBorder);
+					}
+				}
+			}});
 	}
 	
 	public void setAutoConvertListener(final JFormattedTextField ftfphp, final JFormattedTextField ftfkrw){		

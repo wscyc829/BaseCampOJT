@@ -2,7 +2,8 @@ package package_reservation;
 
 public class PackageReservation {
 	private int id;
-	
+	private String createdBy;
+	private String createdAt;
 	private String date;
 	private String time;
 	private String type;
@@ -32,13 +33,16 @@ public class PackageReservation {
 		this.id = -1;
 	}
 
-	public PackageReservation(String date, String time, String type,
-			String car, String paymentType, String guestName,
-			int numberOfAdult, int numberOfChild, String reservationType,
-			double payInPHP, double payInKRW, String payInDate,
-			double payOutPHP, double payOutKRW, String payOutDate,
-			double incomePHP, double incomeKRW, String note) {
+	public PackageReservation(String createdBy, String createdAt,
+			String date, String time, String type, String car,
+			String paymentType, String guestName, int numberOfAdult,
+			int numberOfChild, String reservationType, double payInPHP,
+			double payInKRW, String payInDate, double payOutPHP,
+			double payOutKRW, String payOutDate, double incomePHP,
+			double incomeKRW, String note) {
 		this.id = -1;
+		this.createdBy = createdBy;
+		this.createdAt = createdAt;
 		this.date = date;
 		this.time = time;
 		this.type = type;
@@ -57,6 +61,22 @@ public class PackageReservation {
 		this.incomePHP = incomePHP;
 		this.incomeKRW = incomeKRW;
 		this.note = note;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public int getId() {

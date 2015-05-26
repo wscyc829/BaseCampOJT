@@ -320,8 +320,10 @@ public class FRFormView extends JFrame{
 		
 		lHistory = new JList(new DefaultListModel());
 		lHistory.setName("History");
-		lHistory.setBounds(560, 190, 300, 100);
-		add(lHistory);
+		
+		JScrollPane jp1 = new JScrollPane(lHistory);
+		jp1.setBounds(560, 190, 300, 100);
+		add(jp1);
 		
 		btnSave = new JButton("Save");
 		btnSave.setBounds(335, 300, 90, 20);

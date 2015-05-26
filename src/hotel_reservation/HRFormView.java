@@ -422,9 +422,12 @@ public class HRFormView extends JFrame{
 
 		lHistory = new JList(new DefaultListModel());
 		lHistory.setName("History");
-		lHistory.setBounds(120, 450, 380, 60);
 		add(lHistory);
-
+		
+		JScrollPane jp1 = new JScrollPane(lHistory);
+		jp1.setBounds(120, 450, 380, 60);
+		add(jp1);
+		
 		btnExportV = new JButton("Export - Voucher");
 		btnExportV.setBounds(510, 370, 200, 20);
 		add(btnExportV);

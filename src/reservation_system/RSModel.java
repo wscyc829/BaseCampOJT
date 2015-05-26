@@ -324,16 +324,16 @@ public class RSModel {
 				"'" + currentUser.getUsername() + "'," +
 				"'" + DATE_TIME_FORMAT.format(new Date()) + "'," +
 				((edited = edited || !old.getCheckIn().equals(hr.getCheckIn())) && !old.getCheckIn().equals(hr.getCheckIn())) + "," +
-                (((edited = edited || !old.getCheckOut().equals(hr.getCheckOut())) && !old.getCheckOut().equals(hr.getCheckOut()))) + "," +
-                (((edited = edited || !old.getHotelOrResort().equals(hr.getHotelOrResort())) && !old.getHotelOrResort().equals(hr.getHotelOrResort())))+ "," +
-                (((edited = edited || !old.getGuestName().equals(hr.getGuestName())) && !old.getGuestName().equals(hr.getGuestName()))) + "," +
-                (((edited = edited || (old.getNumberOfAdult() != hr.getNumberOfAdult())) && (old.getNumberOfAdult() != hr.getNumberOfAdult())))+ "," +
-                (((edited = edited || (old.getNumberOfChild() != hr.getNumberOfChild())) && (old.getNumberOfChild() != hr.getNumberOfChild())))+ "," +
+                ((edited = edited || !old.getCheckOut().equals(hr.getCheckOut())) && !old.getCheckOut().equals(hr.getCheckOut())) + "," +
+                ((edited = edited || !old.getHotelOrResort().equals(hr.getHotelOrResort())) && !old.getHotelOrResort().equals(hr.getHotelOrResort()))+ "," +
+                ((edited = edited || !old.getGuestName().equals(hr.getGuestName())) && !old.getGuestName().equals(hr.getGuestName())) + "," +
+                ((edited = edited || (old.getNumberOfAdult() != hr.getNumberOfAdult())) && (old.getNumberOfAdult() != hr.getNumberOfAdult()))+ "," +
+                ((edited = edited || (old.getNumberOfChild() != hr.getNumberOfChild())) && (old.getNumberOfChild() != hr.getNumberOfChild()))+ "," +
                 ((edited = edited || (old.getNumberOfNights() != hr.getNumberOfNights())) && (old.getNumberOfNights() != hr.getNumberOfNights())) + "," +
                 ((edited = edited || !old.getRoomType().equals(hr.getRoomType())) && !old.getRoomType().equals(hr.getRoomType())) + "," +
                 ((edited = edited || (old.getNumberOfRooms() != hr.getNumberOfRooms())) && (old.getNumberOfRooms() != hr.getNumberOfRooms())) + "," +      
                 ((edited = edited || !old.getOptionToPay().equals(hr.getOptionToPay())) && !old.getOptionToPay().equals(hr.getOptionToPay())) + "," +
-                (((edited = edited || (old.getNumberOfChild() != hr.getAmountToPay())) && (old.getAmountToPay() != hr.getAmountToPay())))+ "," +
+                ((edited = edited || (old.getAmountToPay() != hr.getAmountToPay())) && (old.getAmountToPay() != hr.getAmountToPay()))+ "," +
                 ((edited = edited || !old.getReservationDate().equals(hr.getReservationDate())) && !old.getReservationDate().equals(hr.getReservationDate())) + "," +
                 ((edited = edited || !old.getReservationType().equals(hr.getReservationType())) && !old.getReservationType().equals(hr.getReservationType())) + "," +
                 ((edited = edited || !old.getCompany().equals(hr.getCompany())) && !old.getCompany().equals(hr.getCompany())) + "," +
@@ -352,7 +352,7 @@ public class RSModel {
                 ((edited = edited || !old.getBreakfast().equals(hr.getBreakfast())) && !old.getBreakfast().equals(hr.getBreakfast())) + "," +
                 ((edited = edited || !old.getNote().equals(hr.getNote())) && !old.getNote().equals(hr.getNote())) +
 				")";
-		
+		System.out.println("edited?"+edited);
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			connect = DriverManager.getConnection(connection, dbUser, dbPass);
@@ -878,14 +878,14 @@ public class RSModel {
                 "'" + currentUser.getUsername() + "'," +
                 "'" + DATE_TIME_FORMAT.format(new Date()) + "'," +
                 ((edited = edited || !old.getDeparture().equals(fr.getDeparture())) && !old.getDeparture().equals(fr.getDeparture())) + "," +
-                (((edited = edited || !old.getFlightNo().equals(fr.getFlightNo())) && !old.getFlightNo().equals(fr.getFlightNo()))) + "," +
+                ((edited = edited || !old.getFlightNo().equals(fr.getFlightNo())) && !old.getFlightNo().equals(fr.getFlightNo())) + "," +
                 ((edited = edited || !old.getOrigin().equals(fr.getOrigin())) && !old.getOrigin().equals(fr.getOrigin())) + "," +
                 ((edited = edited || !old.getDestination().equals(fr.getDestination())) && !old.getDestination().equals(fr.getDestination())) + "," +
                 ((edited = edited || !old.getReservationType().equals(fr.getReservationType())) && !old.getReservationType().equals(fr.getReservationType())) + "," +
                 ((edited = edited || !old.getPaymentType().equals(fr.getPaymentType())) && !old.getPaymentType().equals(fr.getPaymentType())) + "," +
-                (((edited = edited || !old.getGuestName().equals(fr.getGuestName())) && !old.getGuestName().equals(fr.getGuestName()))) + "," +
-                (((edited = edited || (old.getNumberOfAdult() != fr.getNumberOfAdult())) && (old.getNumberOfAdult() != fr.getNumberOfAdult())))+ "," +
-                (((edited = edited || (old.getNumberOfChild() != fr.getNumberOfChild())) && (old.getNumberOfChild() != fr.getNumberOfChild())))+ "," +
+                ((edited = edited || !old.getGuestName().equals(fr.getGuestName())) && !old.getGuestName().equals(fr.getGuestName())) + "," +
+                ((edited = edited || (old.getNumberOfAdult() != fr.getNumberOfAdult())) && (old.getNumberOfAdult() != fr.getNumberOfAdult()))+ "," +
+                ((edited = edited || (old.getNumberOfChild() != fr.getNumberOfChild())) && (old.getNumberOfChild() != fr.getNumberOfChild()))+ "," +
                 ((edited = edited || !old.getGender().equals(fr.getGender())) && !old.getGender().equals(fr.getGender())) + "," +
                 ((edited = edited || (old.getPayInPHP() != fr.getPayInPHP())) && (old.getPayInPHP() != fr.getPayInPHP())) + "," +
                 ((edited = edited || (old.getPayInKRW() != fr.getPayInKRW())) && (old.getPayInKRW() != fr.getPayInKRW())) + "," +
@@ -1332,13 +1332,13 @@ public class RSModel {
                 "'" + currentUser.getUsername() + "'," +
                 "'" + DATE_TIME_FORMAT.format(new Date()) + "'," +
                 ((edited = edited || !old.getDate().equals(pr.getDate())) && !old.getDate().equals(pr.getDate())) + "," +
-                (((edited = edited || !old.getTime().equals(pr.getTime())) && !old.getTime().equals(pr.getTime()))) + "," +
+                ((edited = edited || !old.getTime().equals(pr.getTime())) && !old.getTime().equals(pr.getTime())) + "," +
                 ((edited = edited || !old.getType().equals(pr.getType())) && !old.getType().equals(pr.getType())) + "," +
                 ((edited = edited || !old.getCar().equals(pr.getCar())) && !old.getCar().equals(pr.getCar())) + "," +
                 ((edited = edited || !old.getPaymentType().equals(pr.getPaymentType())) && !old.getPaymentType().equals(pr.getPaymentType())) + "," +
-                (((edited = edited || !old.getGuestName().equals(pr.getGuestName())) && !old.getGuestName().equals(pr.getGuestName()))) + "," +
-                (((edited = edited || (old.getNumberOfAdult() != pr.getNumberOfAdult())) && (old.getNumberOfAdult() != pr.getNumberOfAdult())))+ "," +
-                (((edited = edited || (old.getNumberOfChild() != pr.getNumberOfChild())) && (old.getNumberOfChild() != pr.getNumberOfChild())))+ "," +
+                ((edited = edited || !old.getGuestName().equals(pr.getGuestName())) && !old.getGuestName().equals(pr.getGuestName())) + "," +
+                ((edited = edited || (old.getNumberOfAdult() != pr.getNumberOfAdult())) && (old.getNumberOfAdult() != pr.getNumberOfAdult()))+ "," +
+                ((edited = edited || (old.getNumberOfChild() != pr.getNumberOfChild())) && (old.getNumberOfChild() != pr.getNumberOfChild()))+ "," +
                 ((edited = edited || !old.getReservationType().equals(pr.getReservationType())) && !old.getReservationType().equals(pr.getReservationType())) + "," +
                 ((edited = edited || (old.getPayInPHP() != pr.getPayInPHP())) && (old.getPayInPHP() != pr.getPayInPHP())) + "," +
                 ((edited = edited || (old.getPayInKRW() != pr.getPayInKRW())) && (old.getPayInKRW() != pr.getPayInKRW())) + "," +
@@ -2090,7 +2090,7 @@ public class RSModel {
 			String userDir = System.getProperty("user.home");
 			JFileChooser fileChooser = new JFileChooser(userDir +"/Desktop");
 			
-			fileChooser.setDialogTitle("Export booking order to");
+			fileChooser.setDialogTitle("Export invoice to");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("pdf", "pdf");
 			fileChooser.setFileFilter(filter);
 			
@@ -2266,7 +2266,7 @@ public class RSModel {
 			String userDir = System.getProperty("user.home");
 			JFileChooser fileChooser = new JFileChooser(userDir +"/Desktop");
 			
-			fileChooser.setDialogTitle("Export booking order to");
+			fileChooser.setDialogTitle("Export invoice to");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("pdf", "pdf");
 			fileChooser.setFileFilter(filter);
 			

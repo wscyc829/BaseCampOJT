@@ -159,7 +159,7 @@ public class PRFormView extends JFrame{
 		add(lblNote);
 		
 		lblHistory = new JLabel("Edit History");
-		lblHistory.setBounds(480, 190, 100, 20);
+		lblHistory.setBounds(410, 190, 100, 20);
 		add(lblHistory);
 		
 		ftfDate = new JFormattedTextField(model.DATE_FORMAT);
@@ -298,8 +298,10 @@ public class PRFormView extends JFrame{
 		
 		lHistory = new JList(new DefaultListModel());
 		lHistory.setName("History");
-		lHistory.setBounds(560, 190, 300, 100);
-		add(lHistory);
+		
+		JScrollPane jp1 = new JScrollPane(lHistory);
+		jp1.setBounds(490, 190, 300, 100);
+		add(jp1);
 		
 		btnSave = new JButton("Save");
 		btnSave.setBounds(300, 300, 90, 20);

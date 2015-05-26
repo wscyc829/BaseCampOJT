@@ -107,7 +107,7 @@ public class FRView extends JFrame{
 		btnRefresh.setBounds(820, 10, 100, 20);
 		add(btnRefresh);
 		
-		String[] columnNames = {"ID", "No.", "Departure Date", "Origin", "Destination", "Flight No",
+		String[] columnNames = {"ID", "No.", "Created By", "Departure Date", "Origin", "Destination", "Flight No",
 								"Payment Type", "Guest Name", "Gender", "Adult No",
 								"Child No", "Pay In - PHP", "Pay Out - PHP", "Income - PHP"};
 		ArrayList<FlightReservation> flights = model.getAllFRs();
@@ -268,6 +268,7 @@ public class FRView extends JFrame{
 			Object[] r = {
 					fr.getId(),
 					(i+1),
+					fr.getCreatedBy(),
 					fr.getDeparture(),
 					fr.getOrigin(),
 					fr.getDestination(),

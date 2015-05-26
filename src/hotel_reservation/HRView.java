@@ -259,7 +259,7 @@ public class HRView extends JFrame{
 			@Override
 			public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
                 Component c = super.prepareRenderer(renderer, row, col);
-                String status = (String)getModel().getValueAt(row, 12);
+                String status = getModel().getValueAt(row, 12).toString();
                 if ("Cancelled".equals(status)) {
                     c.setBackground(Color.decode("#FF7373"));
                     c.setForeground(Color.WHITE);
@@ -321,7 +321,7 @@ public class HRView extends JFrame{
 			};
 			
 			tablemodel.addRow(r);
-			i+=2;
+			i++;
 			
 			if(!hr.getStatus().equals("Cancelled")){
 				totalPayIn += hr.getPayInPHP();

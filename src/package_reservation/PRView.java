@@ -124,9 +124,13 @@ public class PRView extends JFrame{
             	if(getRowCount() > 0){
             		return getValueAt(0, column).getClass();
             	}
-            	else{
-            		return String.class;
+            	else if(column == 0 || column == 1 || column == 10 || column == 11){
+            		return Integer.class;
             	}
+            	else if(column == 12 || column == 13 || column == 14){
+            		return Double.class;
+            	}
+            	return String.class;
             }
 
             @Override

@@ -124,9 +124,13 @@ public class FRView extends JFrame{
             	if(getRowCount() > 0){
             		return getValueAt(0, column).getClass();
             	}
-            	else{
-            		return String.class;
+            	else if(column == 0 || column == 1 || column == 9 || column == 10){
+            		return Integer.class;
             	}
+            	else if(column == 11 || column == 12 || column == 13){
+            		return Double.class;
+            	}
+            	return String.class;
             }
 
             @Override

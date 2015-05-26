@@ -131,9 +131,13 @@ public class HRView extends JFrame{
             	if(getRowCount() > 0){
             		return getValueAt(0, column).getClass();
             	}
-            	else{
-            		return String.class;
+            	else if(column == 0 || column == 1 || column == 9){
+            		return Integer.class;
             	}
+            	else if(column == 13 || column == 15 || column == 16){
+            		return Double.class;
+            	}
+            	return String.class;
             }
 
             @Override

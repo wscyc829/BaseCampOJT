@@ -2088,7 +2088,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        
 		        doc.add(new Phrase(" "));
 		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/guideline.jpg"));
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrGuideline.jpg"));
 				guideline.scalePercent(62f, 42f);
 		        doc.add(guideline);
 		        
@@ -2243,7 +2243,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        
 		        doc.add(new Phrase(" "));
 		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/guidelineWeb.png"));
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrGuidelineWeb.png"));
 				guideline.scalePercent(62f, 45f);
 		        doc.add(guideline);
 		        
@@ -2545,6 +2545,11 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
+	            firstColumn = new PdfPCell(new Paragraph("AMOUNT TO PAY"));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getAmountToPay() + ""));
+	            table.addCell(firstColumn);
+	            table.addCell(secondColumn);
+	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
 	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
 	            table.addCell(firstColumn);
@@ -2573,7 +2578,15 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
           		doc.add(normal);
           		doc.add(bold);
 		        
-		        doc.add(new Phrase(" "));
+		        doc.add(new Phrase("\n"));
+		        
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrInvoiceGuideline.jpg"));
+				guideline.scalePercent(65f, 40f);
+		        doc.add(guideline);
+		        
+		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
+				footer.scalePercent(70f, 38f);
+		        doc.add(footer);
 		        
 				doc.close();
 				pdfFileout.close();
@@ -2721,6 +2734,11 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
+	            firstColumn = new PdfPCell(new Paragraph("AMOUNT TO PAY"));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getAmountToPay() + ""));
+	            table.addCell(firstColumn);
+	            table.addCell(secondColumn);
+	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
 	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
 	            table.addCell(firstColumn);
@@ -2744,7 +2762,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
           		doc.add(normal);
           		doc.add(bold);
 		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/invoiceGuidelineWeb.png"));
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrInvoiceGuidelineWeb.png"));
 				guideline.scalePercent(46.7f, 38f);
 		        doc.add(guideline);
 		        
@@ -3032,7 +3050,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
           		doc.add(normal);
           		doc.add(bold);
 		        
-		        doc.add(new Phrase(" "));
+		        doc.add(new Phrase("\n"));
 		        
 				doc.close();
 				pdfFileout.close();
@@ -3164,10 +3182,6 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        doc.add(table);
 		        
 		        doc.add(new Phrase(" "));
-		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/guideline.jpg"));
-				guideline.scalePercent(62f, 42f);
-		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
 				footer.scalePercent(70f, 38f);
@@ -3303,10 +3317,6 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        doc.add(table);
 		        
 		        doc.add(new Phrase(" "));
-		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/guidelineWeb.png"));
-				guideline.scalePercent(62f, 45f);
-		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
 				footer.scalePercent(70f, 38f);
@@ -3460,7 +3470,15 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
           		doc.add(normal);
           		doc.add(bold);
 		        
-		        doc.add(new Phrase(" "));
+		        doc.add(new Phrase("\n"));
+		        
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/prInvoiceGuideline.png"));
+				guideline.scalePercent(65f, 40f);
+		        doc.add(guideline);
+		        
+		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
+				footer.scalePercent(70f, 38f);
+		        doc.add(footer);
 		        
 				doc.close();
 				pdfFileout.close();
@@ -3605,15 +3623,15 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
           		doc.add(normal);
           		doc.add(bold);
 		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/invoiceGuidelineWeb.png"));
-				guideline.scalePercent(46.7f, 38f);
+		        doc.add(new Phrase("\n"));
+		        
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/prInvoiceGuidelineWeb.png"));
+				guideline.scalePercent(65f, 40f);
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
 				footer.scalePercent(70f, 38f);
 		        doc.add(footer);
-		        
-		        doc.add(new Phrase(" "));
 		        
 				doc.close();
 				pdfFileout.close();

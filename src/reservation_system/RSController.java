@@ -67,7 +67,7 @@ public class RSController {
 
 				    if ((key instanceof String) && (((String) key).endsWith(".font"))) {
 				    	FontUIResource font = (FontUIResource) UIManager.get(key);
-				    	defaults.put (key, new FontUIResource(Font.SANS_SERIF, font.getStyle(), fontSize));
+				        defaults.put (key, new FontUIResource(Font.SANS_SERIF, font.getStyle(), fontSize));
 				    }
 				    	
 				}*/

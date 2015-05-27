@@ -52,7 +52,7 @@ public class HRView extends JFrame{
 	
 	public HRView(RSModel model){
 		super("Hotel Reservation");
-		setSize(1200,600);
+		setSize(1300,600);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -63,7 +63,7 @@ public class HRView extends JFrame{
 		hrs = new ArrayList<HotelReservation>();
 		
 		lblImage = new JLabel(getImageIcon("/Pictures/tableLogo.png", 320, 50));
-		lblImage.setBounds(850, 10, 420, 50);
+		lblImage.setBounds(950, 10, 420, 50);
 		add(lblImage);
 		
 		btnAdd = new JButton("Add");
@@ -163,7 +163,7 @@ public class HRView extends JFrame{
 		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.setAutoCreateRowSorter(true);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 70, 1180, 460);
+		scrollPane.setBounds(10, 70, 1280, 460);
 		add(scrollPane);
 		
 		lblTotalPayIn = new JLabel("Total Pay In:");

@@ -327,6 +327,9 @@ public class HRView extends JFrame{
 			else
 				map.put("value", "");
 		}
+		else if(cbSearch.getSelectedItem().toString().equals("N/A")){
+			map.put("value", "");
+		}
 		else{
 			map.put("value", tfSearch.getText());
 		}

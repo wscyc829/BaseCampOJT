@@ -1905,20 +1905,23 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        table.addCell(fifthColumn);
 		        
 		        for(int i = 0; i < hrs.size(); i++){
-		        	firstColumn = new PdfPCell(new Paragraph(hrs.get(i).getCheckIn() + "-" + 
-		        											 hrs.get(i).getCheckOut()));
-		        	secondColumn = new PdfPCell(new Paragraph(hrs.get(i).getGuestName()));
-		        	thirdColumn = new PdfPCell(new Paragraph(hrs.get(i).getConfirmationNumber()));
-		        	fourthColumn = new PdfPCell(new Paragraph(hrs.get(i).getNumberOfRooms() + " " +
-		        											 hrs.get(i).getRoomType()));
-		        	fifthColumn = new PdfPCell(new Paragraph(hrs.get(i).getAmountToPay() + ""));
-		        	totalPayment += hrs.get(i).getAmountToPay();
-		        	
-		        	table.addCell(firstColumn);
-		        	table.addCell(secondColumn);
-		        	table.addCell(thirdColumn);
-		        	table.addCell(fourthColumn);
-		        	table.addCell(fifthColumn);
+		        	if(!hrs.get(i).getStatus().equals("Cancelled")){
+			        	firstColumn = new PdfPCell(new Paragraph(hrs.get(i).getCheckIn() + "-" + 
+			        											 hrs.get(i).getCheckOut()));
+			        	secondColumn = new PdfPCell(new Paragraph(hrs.get(i).getGuestName()));
+			        	thirdColumn = new PdfPCell(new Paragraph(hrs.get(i).getConfirmationNumber()));
+			        	fourthColumn = new PdfPCell(new Paragraph(hrs.get(i).getNumberOfRooms() + " " +
+			        											 hrs.get(i).getRoomType()));
+			        	fifthColumn = new PdfPCell(new Paragraph(hrs.get(i).getAmountToPay() + ""));
+			        	
+			        	totalPayment += hrs.get(i).getAmountToPay();
+			        	
+			        	table.addCell(firstColumn);
+			        	table.addCell(secondColumn);
+			        	table.addCell(thirdColumn);
+			        	table.addCell(fourthColumn);
+			        	table.addCell(fifthColumn);
+		        	}
 		        }
 	            
 		        firstColumn = new PdfPCell(new Paragraph("TOTAL"));

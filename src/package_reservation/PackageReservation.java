@@ -8,13 +8,17 @@ public class PackageReservation {
 	private String time;
 	private String type;
 	private String car;
-	private String paymentType;
-	private String guestName;
+
+	private String reservationType;
+	private String reservationDate;
+	private String optionToPay;
+	private double amountToPay;
 	
+	private String guestName;
 	private int numberOfAdult;
 	private int numberOfChild;
 	
-	private String reservationType;
+	private String paymentType;
 	
 	private double payInPHP;
 	private double payInKRW;
@@ -28,18 +32,20 @@ public class PackageReservation {
 	private double incomeKRW;
 	
 	private String note;
+	private String remark;
 	
 	public PackageReservation(){
 		this.id = -1;
 	}
 
-	public PackageReservation(String createdBy, String createdAt,
-			String date, String time, String type, String car,
-			String paymentType, String guestName, int numberOfAdult,
-			int numberOfChild, String reservationType, double payInPHP,
-			double payInKRW, String payInDate, double payOutPHP,
-			double payOutKRW, String payOutDate, double incomePHP,
-			double incomeKRW, String note) {
+	public PackageReservation(String createdBy, String createdAt, String date,
+			String time, String type, String car, String reservationType,
+			String reservationDate, String optionToPay, double amountToPay,
+			String guestName, int numberOfAdult, int numberOfChild,
+			String paymentType, double payInPHP, double payInKRW,
+			String payInDate, double payOutPHP, double payOutKRW,
+			String payOutDate, double incomePHP, double incomeKRW, String note,
+			String remark) {
 		this.id = -1;
 		this.createdBy = createdBy;
 		this.createdAt = createdAt;
@@ -47,11 +53,14 @@ public class PackageReservation {
 		this.time = time;
 		this.type = type;
 		this.car = car;
-		this.paymentType = paymentType;
+		this.reservationType = reservationType;
+		this.reservationDate = reservationDate;
+		this.optionToPay = optionToPay;
+		this.amountToPay = amountToPay;
 		this.guestName = guestName;
 		this.numberOfAdult = numberOfAdult;
 		this.numberOfChild = numberOfChild;
-		this.reservationType = reservationType;
+		this.paymentType = paymentType;
 		this.payInPHP = payInPHP;
 		this.payInKRW = payInKRW;
 		this.payInDate = payInDate;
@@ -61,6 +70,15 @@ public class PackageReservation {
 		this.incomePHP = incomePHP;
 		this.incomeKRW = incomeKRW;
 		this.note = note;
+		this.remark = remark;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getCreatedBy() {
@@ -77,14 +95,6 @@ public class PackageReservation {
 
 	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getDate() {
@@ -119,12 +129,36 @@ public class PackageReservation {
 		this.car = car;
 	}
 
-	public String getPaymentType() {
-		return paymentType;
+	public String getReservationType() {
+		return reservationType;
 	}
 
-	public void setPaymentType(String paymentType) {
-		this.paymentType = paymentType;
+	public void setReservationType(String reservationType) {
+		this.reservationType = reservationType;
+	}
+
+	public String getReservationDate() {
+		return reservationDate;
+	}
+
+	public void setReservationDate(String reservationDate) {
+		this.reservationDate = reservationDate;
+	}
+
+	public String getOptionToPay() {
+		return optionToPay;
+	}
+
+	public void setOptionToPay(String optionToPay) {
+		this.optionToPay = optionToPay;
+	}
+
+	public double getAmountToPay() {
+		return amountToPay;
+	}
+
+	public void setAmountToPay(double amountToPay) {
+		this.amountToPay = amountToPay;
 	}
 
 	public String getGuestName() {
@@ -151,12 +185,12 @@ public class PackageReservation {
 		this.numberOfChild = numberOfChild;
 	}
 
-	public String getReservationType() {
-		return reservationType;
+	public String getPaymentType() {
+		return paymentType;
 	}
 
-	public void setReservationType(String reservationType) {
-		this.reservationType = reservationType;
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 
 	public double getPayInPHP() {
@@ -229,5 +263,13 @@ public class PackageReservation {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }

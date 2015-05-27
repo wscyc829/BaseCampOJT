@@ -7,19 +7,25 @@ public class HotelReservation {
 	private String checkIn;
 	private String checkOut;
 	private String hotelOrResort;
+	
 	private String guestName;
-	private String confirmationNumber;
 	private int numberOfAdult;
 	private int numberOfChild;
-	private int numberOfNights;
+	
 	private String roomType;
 	private int numberOfRooms;
+	private int numberOfNights;
+
 	private String breakfast;
+	private String confirmationNumber;
+	private String company;
+	private String status;
+	
+	private String reservationType;
+	private String reservationDate;
 	private String optionToPay;
 	private double amountToPay;
-	private String reservationDate;
-	private String reservationType;
-	private String company;
+	
 	private String paymentType;
 	private String receiptNumber;
 	private double payInPHP;
@@ -30,21 +36,24 @@ public class HotelReservation {
 	private String payOutDate;
 	private double incomePHP;
 	private double incomeKRW;
+	
 	private String note;
-	private String status;
+	private String remark;
 	
 	public HotelReservation(){
 		this.id = -1;
 	}
 
-	public HotelReservation(String createdBy, String createdAt, String checkIn, String checkOut,
-			String hotelOrResort, String guestName, String confirmationNumber,
-			int numberOfAdult, int numberOfChild, int numberOfNights, String roomType,
-			int numberOfRooms, String breakfast, String optionToPay, double amountToPay, 
-			String reservationDate, String reservationType, String company, String paymentType,
-			String receiptNumber, double payInPHP, double payInKRW, String payInDate, 
-			double payOutPHP, double payOutKRW, String payOutDate, double incomePHP,
-			double incomeKRW, String note, String status) {
+	public HotelReservation(String createdBy, String createdAt, String checkIn,
+			String checkOut, String hotelOrResort, String guestName,
+			int numberOfAdult, int numberOfChild, String roomType,
+			int numberOfRooms, int numberOfNights, String breakfast,
+			String confirmationNumber, String company, String status,
+			String reservationType, String reservationDate, String optionToPay,
+			double amountToPay, String paymentType, String receiptNumber,
+			double payInPHP, double payInKRW, String payInDate,
+			double payOutPHP, double payOutKRW, String payOutDate,
+			double incomePHP, double incomeKRW, String note, String remark) {
 		this.id = -1;
 		this.createdBy = createdBy;
 		this.createdAt = createdAt;
@@ -52,18 +61,19 @@ public class HotelReservation {
 		this.checkOut = checkOut;
 		this.hotelOrResort = hotelOrResort;
 		this.guestName = guestName;
-		this.confirmationNumber = confirmationNumber;
 		this.numberOfAdult = numberOfAdult;
 		this.numberOfChild = numberOfChild;
-		this.numberOfNights = numberOfNights;
 		this.roomType = roomType;
 		this.numberOfRooms = numberOfRooms;
+		this.numberOfNights = numberOfNights;
 		this.breakfast = breakfast;
+		this.confirmationNumber = confirmationNumber;
+		this.company = company;
+		this.status = status;
+		this.reservationType = reservationType;
+		this.reservationDate = reservationDate;
 		this.optionToPay = optionToPay;
 		this.amountToPay = amountToPay;
-		this.reservationDate = reservationDate;
-		this.reservationType = reservationType;
-		this.company = company;
 		this.paymentType = paymentType;
 		this.receiptNumber = receiptNumber;
 		this.payInPHP = payInPHP;
@@ -75,23 +85,15 @@ public class HotelReservation {
 		this.incomePHP = incomePHP;
 		this.incomeKRW = incomeKRW;
 		this.note = note;
-		this.status = status;
-	}
-	
-	public double getAmountToPay() {
-		return amountToPay;
+		this.remark = remark;
 	}
 
-	public void setAmountToPay(double amountToPay) {
-		this.amountToPay = amountToPay;
+	public int getId() {
+		return id;
 	}
 
-	public String getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(String createdAt) {
-		this.createdAt = createdAt;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getCreatedBy() {
@@ -102,44 +104,12 @@ public class HotelReservation {
 		this.createdBy = createdBy;
 	}
 
-	public String getCompany() {
-		return company;
+	public String getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
-	public String getReceiptNumber() {
-		return receiptNumber;
-	}
-
-	public void setReceiptNumber(String receiptNumber) {
-		this.receiptNumber = receiptNumber;
-	}
-
-	public int getNumberOfNights() {
-		return numberOfNights;
-	}
-
-	public void setNumberOfNights(int numberOfNights) {
-		this.numberOfNights = numberOfNights;
-	}
-
-	public int getNumberOfRooms() {
-		return numberOfRooms;
-	}
-
-	public void setNumberOfRooms(int numberOfRooms) {
-		this.numberOfRooms = numberOfRooms;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+	public void setCreatedAt(String createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getCheckIn() {
@@ -174,14 +144,6 @@ public class HotelReservation {
 		this.guestName = guestName;
 	}
 
-	public String getConfirmationNumber() {
-		return confirmationNumber;
-	}
-
-	public void setConfirmationNumber(String confirmationNumber) {
-		this.confirmationNumber = confirmationNumber;
-	}
-
 	public int getNumberOfAdult() {
 		return numberOfAdult;
 	}
@@ -206,6 +168,22 @@ public class HotelReservation {
 		this.roomType = roomType;
 	}
 
+	public int getNumberOfRooms() {
+		return numberOfRooms;
+	}
+
+	public void setNumberOfRooms(int numberOfRooms) {
+		this.numberOfRooms = numberOfRooms;
+	}
+
+	public int getNumberOfNights() {
+		return numberOfNights;
+	}
+
+	public void setNumberOfNights(int numberOfNights) {
+		this.numberOfNights = numberOfNights;
+	}
+
 	public String getBreakfast() {
 		return breakfast;
 	}
@@ -214,20 +192,28 @@ public class HotelReservation {
 		this.breakfast = breakfast;
 	}
 
-	public String getOptionToPay() {
-		return optionToPay;
+	public String getConfirmationNumber() {
+		return confirmationNumber;
 	}
 
-	public void setOptionToPay(String optionToPay) {
-		this.optionToPay = optionToPay;
+	public void setConfirmationNumber(String confirmationNumber) {
+		this.confirmationNumber = confirmationNumber;
 	}
 
-	public String getReservationDate() {
-		return reservationDate;
+	public String getCompany() {
+		return company;
 	}
 
-	public void setReservationDate(String reservationDate) {
-		this.reservationDate = reservationDate;
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getReservationType() {
@@ -238,12 +224,44 @@ public class HotelReservation {
 		this.reservationType = reservationType;
 	}
 
+	public String getReservationDate() {
+		return reservationDate;
+	}
+
+	public void setReservationDate(String reservationDate) {
+		this.reservationDate = reservationDate;
+	}
+
+	public String getOptionToPay() {
+		return optionToPay;
+	}
+
+	public void setOptionToPay(String optionToPay) {
+		this.optionToPay = optionToPay;
+	}
+
+	public double getAmountToPay() {
+		return amountToPay;
+	}
+
+	public void setAmountToPay(double amountToPay) {
+		this.amountToPay = amountToPay;
+	}
+
 	public String getPaymentType() {
 		return paymentType;
 	}
 
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
+	}
+
+	public String getReceiptNumber() {
+		return receiptNumber;
+	}
+
+	public void setReceiptNumber(String receiptNumber) {
+		this.receiptNumber = receiptNumber;
 	}
 
 	public double getPayInPHP() {
@@ -318,11 +336,11 @@ public class HotelReservation {
 		this.note = note;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }

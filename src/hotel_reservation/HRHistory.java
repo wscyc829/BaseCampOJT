@@ -9,13 +9,17 @@ public class HRHistory {
 	private boolean isGuestNameEdited;
 	private boolean isNumberOfAdultEdited;
 	private boolean isNumberOfChildEdited;
-	private boolean isNumberOfNightsEdited;
 	private boolean isRoomTypeEdited;
 	private boolean isNumberOfRoomsEdited;
-	private boolean isOptionToPayEdited;
-	private boolean isReservationDateEdited;
-	private boolean isReservationTypeEdited;
+	private boolean isNumberOfNightsEdited;
+	private boolean isBreakfastEdited;
+	private boolean isConfirmationNumberEdited;
 	private boolean isCompanyEdited;
+	private boolean isStatusEdited;
+	private boolean isReservationTypeEdited;
+	private boolean isReservationDateEdited;
+	private boolean isOptionToPayEdited;
+	private boolean isAmountToPayEdited;
 	private boolean isPaymentTypeEdited;
 	private boolean isReceiptNumberEdited;
 	private boolean isPayInPHPEdited;
@@ -26,25 +30,25 @@ public class HRHistory {
 	private boolean isPayOutDateEdited;
 	private boolean isIncomePHPEdited;
 	private boolean isIncomeKRWEdited;
-	private boolean isStatusEdited;
-	private boolean isConfirmationNumberEdited;
-	private boolean isBreakfastEdited;
-	private boolean isNoteEdited;
 	
+	private boolean isNoteEdited;
+	private boolean isRemarkEdited;
 	public HRHistory(String name, String date, boolean isCheckInEdited,
 			boolean isCheckOutEdited, boolean isHotelOrResortEdited,
 			boolean isGuestNameEdited, boolean isNumberOfAdultEdited,
-			boolean isNumberOfChildEdited, boolean isNumberOfNightsEdited,
-			boolean isRoomTypeEdited, boolean isNumberOfRoomsEdited,
-			boolean isOptionToPayEdited, boolean isReservationDateEdited,
-			boolean isReservationTypeEdited, boolean isCompanyEdited,
+			boolean isNumberOfChildEdited, boolean isRoomTypeEdited,
+			boolean isNumberOfRoomsEdited, boolean isNumberOfNightsEdited,
+			boolean isBreakfastEdited, boolean isConfirmationNumberEdited,
+			boolean isCompanyEdited, boolean isStatusEdited,
+			boolean isReservationTypeEdited, boolean isReservationDateEdited,
+			boolean isOptionToPayEdited, boolean isAmountToPayEdited,
 			boolean isPaymentTypeEdited, boolean isReceiptNumberEdited,
 			boolean isPayInPHPEdited, boolean isPayInKRWEdited,
 			boolean isPayInDateEdited, boolean isPayOutPHPEdited,
 			boolean isPayOutKRWEdited, boolean isPayOutDateEdited,
 			boolean isIncomePHPEdited, boolean isIncomeKRWEdited,
-			boolean isStatusEdited, boolean isConfirmationNumberEdited,
-			boolean isBreakfastEdited, boolean isNoteEdited) {
+			boolean isNoteEdited, boolean isRemarkEdited) {
+		super();
 		this.name = name;
 		this.date = date;
 		this.isCheckInEdited = isCheckInEdited;
@@ -53,13 +57,17 @@ public class HRHistory {
 		this.isGuestNameEdited = isGuestNameEdited;
 		this.isNumberOfAdultEdited = isNumberOfAdultEdited;
 		this.isNumberOfChildEdited = isNumberOfChildEdited;
-		this.isNumberOfNightsEdited = isNumberOfNightsEdited;
 		this.isRoomTypeEdited = isRoomTypeEdited;
 		this.isNumberOfRoomsEdited = isNumberOfRoomsEdited;
-		this.isOptionToPayEdited = isOptionToPayEdited;
-		this.isReservationDateEdited = isReservationDateEdited;
-		this.isReservationTypeEdited = isReservationTypeEdited;
+		this.isNumberOfNightsEdited = isNumberOfNightsEdited;
+		this.isBreakfastEdited = isBreakfastEdited;
+		this.isConfirmationNumberEdited = isConfirmationNumberEdited;
 		this.isCompanyEdited = isCompanyEdited;
+		this.isStatusEdited = isStatusEdited;
+		this.isReservationTypeEdited = isReservationTypeEdited;
+		this.isReservationDateEdited = isReservationDateEdited;
+		this.isOptionToPayEdited = isOptionToPayEdited;
+		this.isAmountToPayEdited = isAmountToPayEdited;
 		this.isPaymentTypeEdited = isPaymentTypeEdited;
 		this.isReceiptNumberEdited = isReceiptNumberEdited;
 		this.isPayInPHPEdited = isPayInPHPEdited;
@@ -70,10 +78,8 @@ public class HRHistory {
 		this.isPayOutDateEdited = isPayOutDateEdited;
 		this.isIncomePHPEdited = isIncomePHPEdited;
 		this.isIncomeKRWEdited = isIncomeKRWEdited;
-		this.isStatusEdited = isStatusEdited;
-		this.isConfirmationNumberEdited = isConfirmationNumberEdited;
-		this.isBreakfastEdited = isBreakfastEdited;
 		this.isNoteEdited = isNoteEdited;
+		this.isRemarkEdited = isRemarkEdited;
 	}
 	public String getName() {
 		return name;
@@ -102,7 +108,7 @@ public class HRHistory {
 	public boolean isHotelOrResortEdited() {
 		return isHotelOrResortEdited;
 	}
-	public void setHotel(boolean isHotelOrResortEdited) {
+	public void setHotelOrResortEdited(boolean isHotelOrResortEdited) {
 		this.isHotelOrResortEdited = isHotelOrResortEdited;
 	}
 	public boolean isGuestNameEdited() {
@@ -123,12 +129,6 @@ public class HRHistory {
 	public void setNumberOfChildEdited(boolean isNumberOfChildEdited) {
 		this.isNumberOfChildEdited = isNumberOfChildEdited;
 	}
-	public boolean isNumberOfNightsEdited() {
-		return isNumberOfNightsEdited;
-	}
-	public void setNumberOfNightsEdited(boolean isNumberOfNightsEdited) {
-		this.isNumberOfNightsEdited = isNumberOfNightsEdited;
-	}
 	public boolean isRoomTypeEdited() {
 		return isRoomTypeEdited;
 	}
@@ -141,17 +141,35 @@ public class HRHistory {
 	public void setNumberOfRoomsEdited(boolean isNumberOfRoomsEdited) {
 		this.isNumberOfRoomsEdited = isNumberOfRoomsEdited;
 	}
-	public boolean isOptionToPayEdited() {
-		return isOptionToPayEdited;
+	public boolean isNumberOfNightsEdited() {
+		return isNumberOfNightsEdited;
 	}
-	public void setOptionToPayEdited(boolean isOptionToPayEdited) {
-		this.isOptionToPayEdited = isOptionToPayEdited;
+	public void setNumberOfNightsEdited(boolean isNumberOfNightsEdited) {
+		this.isNumberOfNightsEdited = isNumberOfNightsEdited;
 	}
-	public boolean isReservationDateEdited() {
-		return isReservationDateEdited;
+	public boolean isBreakfastEdited() {
+		return isBreakfastEdited;
 	}
-	public void setReservationDateEdited(boolean isReservationDateEdited) {
-		this.isReservationDateEdited = isReservationDateEdited;
+	public void setBreakfastEdited(boolean isBreakfastEdited) {
+		this.isBreakfastEdited = isBreakfastEdited;
+	}
+	public boolean isConfirmationNumberEdited() {
+		return isConfirmationNumberEdited;
+	}
+	public void setConfirmationNumberEdited(boolean isConfirmationNumberEdited) {
+		this.isConfirmationNumberEdited = isConfirmationNumberEdited;
+	}
+	public boolean isCompanyEdited() {
+		return isCompanyEdited;
+	}
+	public void setCompanyEdited(boolean isCompanyEdited) {
+		this.isCompanyEdited = isCompanyEdited;
+	}
+	public boolean isStatusEdited() {
+		return isStatusEdited;
+	}
+	public void setStatusEdited(boolean isStatusEdited) {
+		this.isStatusEdited = isStatusEdited;
 	}
 	public boolean isReservationTypeEdited() {
 		return isReservationTypeEdited;
@@ -159,11 +177,23 @@ public class HRHistory {
 	public void setReservationTypeEdited(boolean isReservationTypeEdited) {
 		this.isReservationTypeEdited = isReservationTypeEdited;
 	}
-	public boolean isCompanyEdited() {
-		return isCompanyEdited;
+	public boolean isReservationDateEdited() {
+		return isReservationDateEdited;
 	}
-	public void setCompanyEdited(boolean isCompanyEdited) {
-		this.isCompanyEdited = isCompanyEdited;
+	public void setReservationDateEdited(boolean isReservationDateEdited) {
+		this.isReservationDateEdited = isReservationDateEdited;
+	}
+	public boolean isOptionToPayEdited() {
+		return isOptionToPayEdited;
+	}
+	public void setOptionToPayEdited(boolean isOptionToPayEdited) {
+		this.isOptionToPayEdited = isOptionToPayEdited;
+	}
+	public boolean isAmountToPayEdited() {
+		return isAmountToPayEdited;
+	}
+	public void setAmountToPayEdited(boolean isAmountToPayEdited) {
+		this.isAmountToPayEdited = isAmountToPayEdited;
 	}
 	public boolean isPaymentTypeEdited() {
 		return isPaymentTypeEdited;
@@ -225,28 +255,16 @@ public class HRHistory {
 	public void setIncomeKRWEdited(boolean isIncomeKRWEdited) {
 		this.isIncomeKRWEdited = isIncomeKRWEdited;
 	}
-	public boolean isStatusEdited() {
-		return isStatusEdited;
-	}
-	public void setStatusEdited(boolean isStatusEdited) {
-		this.isStatusEdited = isStatusEdited;
-	}
-	public boolean isConfirmationNumberEdited() {
-		return isConfirmationNumberEdited;
-	}
-	public void setConfirmationNumberEdited(boolean isConfirmationNumberEdited) {
-		this.isConfirmationNumberEdited = isConfirmationNumberEdited;
-	}
-	public boolean isBreakfastEdited() {
-		return isBreakfastEdited;
-	}
-	public void setBreakfastEdited(boolean isBreakfastEdited) {
-		this.isBreakfastEdited = isBreakfastEdited;
-	}
 	public boolean isNoteEdited() {
 		return isNoteEdited;
 	}
 	public void setNoteEdited(boolean isNoteEdited) {
 		this.isNoteEdited = isNoteEdited;
+	}
+	public boolean isRemarkEdited() {
+		return isRemarkEdited;
+	}
+	public void setRemarkEdited(boolean isRemarkEdited) {
+		this.isRemarkEdited = isRemarkEdited;
 	}
 }

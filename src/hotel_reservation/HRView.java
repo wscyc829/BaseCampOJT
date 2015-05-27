@@ -26,11 +26,13 @@ import references.JTextFieldHintUI;
 import reservation_system.RSModel;
 
 public class HRView extends JFrame{
-	private JButton btnAddHR;
+	private JButton btnAdd;
+	
 	private JButton btnBack;
 	private JButton btnSearch;
 	private JButton btnRefresh;
-	
+
+	private JButton btnPrint;
 	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn, lblTotalPayOut, lblTotalIncome;
 	
 	private JLabel lblImage;
@@ -42,8 +44,10 @@ public class HRView extends JFrame{
 	private JFormattedTextField ftfFromDate, ftfToDate, ftfTotalPayIn, ftfTotalPayOut,
 		ftfTotalIncome;
 	
-	private JTable table;
 	
+	private JTable table;
+
+	private ArrayList<HotelReservation> hrs;
 	private RSModel model;
 	
 	public HRView(RSModel model){
@@ -56,14 +60,15 @@ public class HRView extends JFrame{
 		setIconImage(new ImageIcon(getClass().getResource("/Pictures/icon.png")).getImage());
 		
 		this.model = model;
+		hrs = new ArrayList<HotelReservation>();
 		
 		lblImage = new JLabel(getImageIcon("/Pictures/tableLogo.png", 320, 50));
 		lblImage.setBounds(850, 10, 420, 50);
 		add(lblImage);
 		
-		btnAddHR = new JButton("Add");
-		btnAddHR.setBounds(10, 10, 100, 20);
-		add(btnAddHR);
+		btnAdd = new JButton("Add");
+		btnAdd.setBounds(10, 10, 100, 20);
+		add(btnAdd);
 		
 		btnBack = new JButton("Back");
 		btnBack.setBounds(120, 10, 100, 20);
@@ -81,7 +86,7 @@ public class HRView extends JFrame{
 		lblDash.setBounds(500, 40, 20, 20);
 		add(lblDash);
 		
-		cbSearch = new JComboBox(new String[]{"Hotel/Resort", "Guest Name", "Status", "Reservation Type", "Reservation Date"});
+		cbSearch = new JComboBox(new String[]{"N/A", "Hotel/Resort", "Guest Name", "Status", "Reservation Type", "Reservation Date"});
 		cbSearch.setBounds(320, 10, 130, 20);
 		add(cbSearch);
 		
@@ -114,6 +119,10 @@ public class HRView extends JFrame{
 		btnRefresh = new JButton("Refresh");
 		btnRefresh.setBounds(820, 10, 100, 20);
 		add(btnRefresh);
+		
+		btnPrint = new JButton("Print");
+		btnPrint.setBounds(700, 40, 100, 20);
+		add(btnPrint);
 		
 		String[] columnNames = {"ID", "No.", "Created By", "Check In", "Check Out", "Reservation Date",
 				"Hotel/Resort", "Guest Name", "Room Type", "No Of Rooms", "Reservation Type", 
@@ -148,7 +157,9 @@ public class HRView extends JFrame{
         
 		table = new JTable(tablemodel);
 		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-		table = colorTable(table, tablemodel);
+		table.setDefaultRenderer(String.class, new OwnTableCellRenderer());
+		table.setDefaultRenderer(Double.class, new OwnTableCellRenderer());
+		table.setDefaultRenderer(Integer.class, new OwnTableCellRenderer());
 		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.setAutoCreateRowSorter(true);
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -197,6 +208,17 @@ public class HRView extends JFrame{
 		listeners();
 	}
 	
+	
+	public ArrayList<HotelReservation> getHrs() {
+		return hrs;
+	}
+
+
+	public void setHrs(ArrayList<HotelReservation> hrs) {
+		this.hrs = hrs;
+	}
+
+
 	public Image getScaledImage(Image srcImg, int w, int h){
 	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D g2 = resizedImg.createGraphics();
@@ -237,7 +259,7 @@ public class HRView extends JFrame{
 	}
 	
 	public void setBtnAddListener(ActionListener listener){
-		btnAddHR.addActionListener(listener);
+		btnAdd.addActionListener(listener);
 	}
 	
 	public void setBtnBackListener(ActionListener listener){
@@ -252,28 +274,44 @@ public class HRView extends JFrame{
 		btnRefresh.addActionListener(listener);
 	}
 	
+	public void setBtnPrintListener(ActionListener listener){
+		btnPrint.addActionListener(listener);
+	}
+	
 	public void setTableSelectListener(ListSelectionListener listener){
 		ListSelectionModel cellSelectionModel = table.getSelectionModel();
 		cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cellSelectionModel.addListSelectionListener(listener);
 	}
-	
-	public JTable colorTable(JTable table, DefaultTableModel model){
-		return new JTable(model){
-			@Override
-			public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
-                Component c = super.prepareRenderer(renderer, row, col);
-                String status = getModel().getValueAt(row, 12).toString();
-                if ("Cancelled".equals(status)) {
-                    c.setBackground(Color.decode("#FF7373"));
-                    c.setForeground(Color.WHITE);
-                } else {
-                    c.setBackground(super.getBackground());
-                    c.setForeground(super.getForeground());
-                }
-                return c;
-            }
-		};
+	public class OwnTableCellRenderer extends DefaultTableCellRenderer {
+
+	    public Component getTableCellRendererComponent(JTable table, 
+	                                                   Object value,
+	                                                   boolean isSelected,
+	                                                   boolean hasFocus, 
+	                                                   int row, 
+	                                                   int column) {
+	        setBackground(Color.white);
+	        setForeground(Color.black);
+	        
+	        TableCellRenderer renderer;
+	        TableModel model = table.getModel();
+	        int modelRow = table.getRowSorter().convertRowIndexToModel(row);
+	        int columnStatusPosition = 12;
+	        String statusColumnValue = (String) model.getValueAt(modelRow, columnStatusPosition);
+	        
+	        if (statusColumnValue.equals("Cancelled")) {
+	        	setOpaque(true);
+	            setBackground(Color.decode("#FF7373"));
+	            setForeground(Color.WHITE);
+	        }
+	        else {
+            setOpaque(false);
+	        }
+
+	        setText(value != null ? value.toString() : "");
+	        return this;
+	    }
 	}
 	
 	public HashMap<String, String> getAllData(){
@@ -369,13 +407,19 @@ public class HRView extends JFrame{
 		cbSearch.addItemListener(new ItemListener() {
 			
 			public void itemStateChanged(ItemEvent arg0) {
-				// TODO Auto-generated method stub
-				if(cbSearch.getSelectedItem().toString().equals("Hotel/Resort")){
+				if(cbSearch.getSelectedItem().toString().equals("N/A")){
+					tfSearch.setVisible(false);
+					cbHotelOrResort.setVisible(false);
+					btnPrint.setVisible(false);
+				}
+				else if(cbSearch.getSelectedItem().toString().equals("Hotel/Resort")){
 					tfSearch.setVisible(false);
 					cbHotelOrResort.setVisible(true);
+					btnPrint.setVisible(true);
 				}
 				else{
 					cbHotelOrResort.setVisible(false);
+					btnPrint.setVisible(false);
 					tfSearch.setVisible(true);
 					tfSearch.setText("");
 				}

@@ -4,16 +4,27 @@ public class FlightReservation {
 	private int id;
 	private String createdBy;
 	private String createdAt;
-	private String departure;
+	
+	private String airline;
+	private String flightNumber;
+	private String departureDate;
+	private String departureTime;
+	private String arrivalTime;
 	private String origin;
 	private String destination;
-	private String flightNo;
+	private String recordLocator;
+	
 	private String reservationType;
+	private String reservationDate;
+	private String optionToPay;
+	private double amountToPay;
+
 	private String guestName;
-	private String paymentType;
 	private String gender;
 	private int numberOfAdult;
 	private int numberOfChild;
+	
+	private String paymentType;
 	private double payInPHP;
 	private double payInKRW;
 	private String payInDate;
@@ -22,32 +33,44 @@ public class FlightReservation {
 	private String payOutDate;
 	private double incomePHP;
 	private double incomeKRW;
+	
 	private String note;
+	private String remark;
 	
 	public FlightReservation(){
 		this.id = -1;
 	}
 
-	public FlightReservation(String createdBy, String createdAt, String departure, String origin,
-			String destination, String flightNo, String reservationType,
-			String guestName, String paymentType, String gender,
-			int numberOfAdult, int numberOfChild, double payInPHP,
+	public FlightReservation(String createdBy, String createdAt,
+			String airline, String flightNumber, String departureDate,
+			String departureTime, String arrivalTime, String origin,
+			String destination, String recordLocator, String reservationType,
+			String reservationDate, String optionToPay, double amountToPay,
+			String guestName, String gender, int numberOfAdult,
+			int numberOfChild, String paymentType, double payInPHP,
 			double payInKRW, String payInDate, double payOutPHP,
 			double payOutKRW, String payOutDate, double incomePHP,
-			double incomeKRW, String note) {
+			double incomeKRW, String note, String remark) {
 		this.id = -1;
 		this.createdBy = createdBy;
 		this.createdAt = createdAt;
-		this.departure = departure;
+		this.airline = airline;
+		this.flightNumber = flightNumber;
+		this.departureDate = departureDate;
+		this.departureTime = departureTime;
+		this.arrivalTime = arrivalTime;
 		this.origin = origin;
 		this.destination = destination;
-		this.flightNo = flightNo;
+		this.recordLocator = recordLocator;
 		this.reservationType = reservationType;
+		this.reservationDate = reservationDate;
+		this.optionToPay = optionToPay;
+		this.amountToPay = amountToPay;
 		this.guestName = guestName;
-		this.paymentType = paymentType;
 		this.gender = gender;
 		this.numberOfAdult = numberOfAdult;
 		this.numberOfChild = numberOfChild;
+		this.paymentType = paymentType;
 		this.payInPHP = payInPHP;
 		this.payInKRW = payInKRW;
 		this.payInDate = payInDate;
@@ -57,8 +80,17 @@ public class FlightReservation {
 		this.incomePHP = incomePHP;
 		this.incomeKRW = incomeKRW;
 		this.note = note;
+		this.remark = remark;
 	}
-	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -75,20 +107,44 @@ public class FlightReservation {
 		this.createdAt = createdAt;
 	}
 
-	public int getId() {
-		return id;
+	public String getAirline() {
+		return airline;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setAirline(String airline) {
+		this.airline = airline;
 	}
 
-	public String getDeparture() {
-		return departure;
+	public String getFlightNumber() {
+		return flightNumber;
 	}
 
-	public void setDeparture(String departure) {
-		this.departure = departure;
+	public void setFlightNumber(String flightNumber) {
+		this.flightNumber = flightNumber;
+	}
+
+	public String getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(String departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public String getDepartureTime() {
+		return departureTime;
+	}
+
+	public void setDepartureTime(String departureTime) {
+		this.departureTime = departureTime;
+	}
+
+	public String getArrivalTime() {
+		return arrivalTime;
+	}
+
+	public void setArrivalTime(String arrivalTime) {
+		this.arrivalTime = arrivalTime;
 	}
 
 	public String getOrigin() {
@@ -107,12 +163,12 @@ public class FlightReservation {
 		this.destination = destination;
 	}
 
-	public String getFlightNo() {
-		return flightNo;
+	public String getRecordLocator() {
+		return recordLocator;
 	}
 
-	public void setFlightNo(String flightNo) {
-		this.flightNo = flightNo;
+	public void setRecordLocator(String recordLocator) {
+		this.recordLocator = recordLocator;
 	}
 
 	public String getReservationType() {
@@ -123,20 +179,36 @@ public class FlightReservation {
 		this.reservationType = reservationType;
 	}
 
+	public String getReservationDate() {
+		return reservationDate;
+	}
+
+	public void setReservationDate(String reservationDate) {
+		this.reservationDate = reservationDate;
+	}
+
+	public String getOptionToPay() {
+		return optionToPay;
+	}
+
+	public void setOptionToPay(String optionToPay) {
+		this.optionToPay = optionToPay;
+	}
+
+	public double getAmountToPay() {
+		return amountToPay;
+	}
+
+	public void setAmountToPay(double amountToPay) {
+		this.amountToPay = amountToPay;
+	}
+
 	public String getGuestName() {
 		return guestName;
 	}
 
 	public void setGuestName(String guestName) {
 		this.guestName = guestName;
-	}
-
-	public String getPaymentType() {
-		return paymentType;
-	}
-
-	public void setPaymentType(String paymentType) {
-		this.paymentType = paymentType;
 	}
 
 	public String getGender() {
@@ -161,6 +233,14 @@ public class FlightReservation {
 
 	public void setNumberOfChild(int numberOfChild) {
 		this.numberOfChild = numberOfChild;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 
 	public double getPayInPHP() {
@@ -233,5 +313,13 @@ public class FlightReservation {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 }

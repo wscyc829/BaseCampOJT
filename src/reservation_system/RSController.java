@@ -149,6 +149,7 @@ public class RSController {
 		hrView.setBtnBackListener(new HRBtnBackListener());
 		hrView.setBtnSearchListener(new HRBtnSearchListener());
 		hrView.setBtnRefreshListener(new HRBtnRefreshListener());
+		hrView.setBtnPrintListener(new HRBtnPrintListener());
 		hrView.setTextFieldFocusListener(new TextFieldFocusListener());
 		hrView.setTextFieldDocumentListener(new TextDocumentListener());
 		hrView.setTableSelectListener(new HRTableSelectListener());
@@ -208,11 +209,14 @@ public class RSController {
 	
 	public void frfScreen(){
 		frfView = new FRFormView(model);
+		frfView.setBtnAddAirlineListener(new FRFBtnAddAirlineListener());
 		frfView.setBtnAddFlightListener(new FRFBtnAddFlightListener());
 		frfView.setBtnAddOriginListener(new FRFBtnAddCityListener());
 		frfView.setBtnAddDestinationListener(new FRFBtnAddCityListener());
 		frfView.setBtnAddRTListener(new FRFBtnAddRTListener());
 		frfView.setBtnAddPTListener(new FRFBtnAddPTListener());
+		frfView.setBtnExportIVListener(new FRBtnExportIVListener());
+		frfView.setBtnExportPOListener(new FRBtnExportPOListener());
 		frfView.setBtnSaveListener(new FRFBtnSaveListener());
 		frfView.setBtnCancelListener(new FRFBtnCancelListener());
 		frfView.setTextFieldFocusListener(new TextFieldFocusListener());
@@ -254,6 +258,12 @@ public class RSController {
 		prfView.setBtnAddPTListener(new PRFBtnAddPTListener());
 		prfView.setBtnSaveListener(new PRFBtnSaveListener());
 		prfView.setBtnCancelListener(new PRFBtnCancelListener());
+		
+		prfView.setBtnExportVListener(new PRBtnExportVListener());
+		prfView.setBtnExportVWListener(new PRBtnExportVWListener());
+		prfView.setBtnExportIVListener(new PRBtnExportIVListener());
+		prfView.setBtnExportIVWListener(new PRBtnExportIVWListener());
+		
 		prfView.setTextFieldFocusListener(new TextFieldFocusListener());
 		prfView.setTextFieldDocumentListener(new TextDocumentListener());
 		prfView.setTextAreaDocumentListener(new TextDocumentListener());
@@ -413,6 +423,7 @@ public class RSController {
 												map.get("column name"), 
 												map.get("value"));
 			hrView.updateView(hrs);
+			hrView.setHrs(hrs);
 		}
 	}
 	
@@ -422,6 +433,29 @@ public class RSController {
 		}
 	}
 	
+	class HRBtnPrintListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			ArrayList<HotelReservation> hrs = hrView.getHrs();
+			
+			if(hrs.size() > 0){
+				int error = model.exportHRS(hrs);
+					
+				if(error == 1)
+					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				else if(error == 3)
+					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
+														  "Save failed", JOptionPane.ERROR_MESSAGE);
+				else if(error == 2){
+						//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+			else{
+				JOptionPane.showMessageDialog(null,"No data to print",
+							 "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
+	}
 	class HRFBtnAddHRListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			JOptionPane jp = new JOptionPane();
@@ -681,6 +715,46 @@ public class RSController {
 		}
 	}
 	
+	class FRFBtnAddAirlineListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane jp = new JOptionPane();
+
+			String input = "";
+			String message = "";
+			
+			do{
+				input = jp.showInputDialog("Add New Airline", input);
+				
+				message = "";
+	    		
+				if(input != null){
+		    		if(input.contains("'")){
+		    			message += "(\') ";
+		    		}
+		    		if(input.contains("\\")){
+		    			message += "(\\)";
+		    		}
+		    		
+		    		if(!message.equals("")){
+			    		JOptionPane.showMessageDialog(null,
+		    					"Invalid Sysmbol " + message,
+		    					"Error", JOptionPane.ERROR_MESSAGE);
+			    		input = input.replaceAll("'", "");
+			    		input = input.replaceAll(Pattern.quote("\\"), "");
+		    		}
+		    		if(input.equals("")){
+						message = " ";
+					}
+				}
+			}while(!message.equals("") && input != null);
+			
+			if(input != null){
+				model.addAirline(input);
+				frfView.updateAirline(model.getAirline());
+			}
+		}
+	}
+	
 	class FRFBtnAddFlightListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			JOptionPane jp = new JOptionPane();
@@ -840,6 +914,41 @@ public class RSController {
 			}
 		}
 	}
+	
+	class FRBtnExportPOListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(frfView.isInputValid()){
+				FlightReservation fr = frfView.getAllData();
+				int error = model.exportFRPurchaseOrder(fr);
+				if(error == 1)
+					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				else if(error == 3)
+					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
+												  "Save failed", JOptionPane.ERROR_MESSAGE);
+				else if(error == 2){
+					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}
+	}
+	
+	class FRBtnExportIVListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(frfView.isInputValid()){
+				FlightReservation fr = frfView.getAllData();
+				int error = model.exportFRInvoice(fr);
+				if(error == 1)
+					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				else if(error == 3)
+					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
+												  "Save failed", JOptionPane.ERROR_MESSAGE);
+				else if(error == 2){
+					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}
+	}
+	
 	class FRFBtnSaveListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			if(frfView.isInputValid()){
@@ -1015,6 +1124,73 @@ public class RSController {
 		}
 	}
 	
+	class PRBtnExportVListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(prfView.isInputValid()){
+				PackageReservation pr = prfView.getAllData();
+				int error = model.exportPRVoucher(pr);
+				if(error == 1)
+					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				else if(error == 3)
+					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
+												  "Save failed", JOptionPane.ERROR_MESSAGE);
+				else if(error == 2){
+					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}
+	}
+	
+	class PRBtnExportVWListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(prfView.isInputValid()){
+				PackageReservation pr = prfView.getAllData();
+				int error = model.exportPRVoucherWeb(pr);
+				if(error == 1)
+					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				else if(error == 3)
+					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
+												  "Save failed", JOptionPane.ERROR_MESSAGE);
+				else if(error == 2){
+					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}
+	}
+	
+	class PRBtnExportIVListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(prfView.isInputValid()){
+				PackageReservation pr = prfView.getAllData();
+				int error = model.exportPRInvoice(pr);
+				if(error == 1)
+					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				else if(error == 3)
+					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
+												  "Save failed", JOptionPane.ERROR_MESSAGE);
+				else if(error == 2){
+					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}
+	}
+
+	class PRBtnExportIVWListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			if(prfView.isInputValid()){
+				PackageReservation pr = prfView.getAllData();
+				int error = model.exportPRInvoiceWeb(pr);
+				if(error == 1)
+					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				else if(error == 3)
+					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
+												  "Save failed", JOptionPane.ERROR_MESSAGE);
+				else if(error == 2){
+					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		}
+	}
 	class PRFBtnSaveListener implements ActionListener{
 		public void actionPerformed(ActionEvent e){
 			

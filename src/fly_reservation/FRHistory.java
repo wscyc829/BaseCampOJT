@@ -3,16 +3,26 @@ package fly_reservation;
 public class FRHistory {
 	private String name;
 	private String date;
-	private boolean isDepartureEdited;
+	private boolean isAirlineEdited;
 	private boolean isFlightNumberEdited;
+	private boolean isDepartureDateEdited;
+	private boolean isDepartureTimeEdited;
+	private boolean isArrivalTimeEdited;
 	private boolean isOriginEdited;
-	private boolean isDestinationEdite;
-	private boolean isReservationTypeEdite;
-	private boolean isPaymentTypeEdite;
+	private boolean isDestinationEdited;
+	private boolean isRecordLocatorEdited;
+	
+	private boolean isReservationTypeEdited;
+	private boolean isReservationDateEdited;
+	private boolean isOptionToPayEdited;
+	private boolean isAmountToPayEdited;
+	
 	private boolean isGuestNameEdited;
+	private boolean isGenderEdited;
 	private boolean isNumberOfAdultEdited;
 	private boolean isNumberOfChildEdited;
-	private boolean isGenderrEdited;
+	
+	private boolean isPaymentTypeEdited;
 	private boolean isPayInPHPEdited;
 	private boolean isPayInKRWEdited;
 	private boolean isPayInDateEdited;
@@ -22,29 +32,42 @@ public class FRHistory {
 	private boolean isIncomePHPEdited;
 	private boolean isIncomeKRWEdited;
 	private boolean isNoteEdited;
+	private boolean isRemarkEdited;
 	
-	public FRHistory(String name, String date, boolean isDepartureEdited,
-			boolean isFlightNumberEdited, boolean isOriginEdited,
-			boolean isDestinationEdite, boolean isReservationTypeEdite,
-			boolean isPaymentTypeEdite, boolean isGuestNameEdited,
-			boolean isNumberOfAdultEdited, boolean isNumberOfChildEdited,
-			boolean isGenderrEdited, boolean isPayInPHPEdited,
-			boolean isPayInKRWEdited, boolean isPayInDateEdited,
-			boolean isPayOutPHPEdited, boolean isPayOutKRWEdited,
-			boolean isPayOutDateEdited, boolean isIncomePHPEdited,
-			boolean isIncomeKRWEdited, boolean isNoteEdited) {
+	public FRHistory(String name, String date, boolean isAirlineEdited,
+			boolean isFlightNumberEdited, boolean isDepartureDateEdited,
+			boolean isDepartureTimeEdited, boolean isArrivalTimeEdited,
+			boolean isOriginEdited, boolean isDestinationEdited,
+			boolean isRecordLocatorEdited, boolean isReservationTypeEdited,
+			boolean isReservationDateEdited, boolean isOptionToPayEdited,
+			boolean isAmountToPayEdited, boolean isGuestNameEdited,
+			boolean isGenderEdited, boolean isNumberOfAdultEdited,
+			boolean isNumberOfChildEdited, boolean isPaymentTypeEdited,
+			boolean isPayInPHPEdited, boolean isPayInKRWEdited,
+			boolean isPayInDateEdited, boolean isPayOutPHPEdited,
+			boolean isPayOutKRWEdited, boolean isPayOutDateEdited,
+			boolean isIncomePHPEdited, boolean isIncomeKRWEdited,
+			boolean isNoteEdited, boolean isRemarkEdited) {
+		super();
 		this.name = name;
 		this.date = date;
-		this.isDepartureEdited = isDepartureEdited;
+		this.isAirlineEdited = isAirlineEdited;
 		this.isFlightNumberEdited = isFlightNumberEdited;
+		this.isDepartureDateEdited = isDepartureDateEdited;
+		this.isDepartureTimeEdited = isDepartureTimeEdited;
+		this.isArrivalTimeEdited = isArrivalTimeEdited;
 		this.isOriginEdited = isOriginEdited;
-		this.isDestinationEdite = isDestinationEdite;
-		this.isReservationTypeEdite = isReservationTypeEdite;
-		this.isPaymentTypeEdite = isPaymentTypeEdite;
+		this.isDestinationEdited = isDestinationEdited;
+		this.isRecordLocatorEdited = isRecordLocatorEdited;
+		this.isReservationTypeEdited = isReservationTypeEdited;
+		this.isReservationDateEdited = isReservationDateEdited;
+		this.isOptionToPayEdited = isOptionToPayEdited;
+		this.isAmountToPayEdited = isAmountToPayEdited;
 		this.isGuestNameEdited = isGuestNameEdited;
+		this.isGenderEdited = isGenderEdited;
 		this.isNumberOfAdultEdited = isNumberOfAdultEdited;
 		this.isNumberOfChildEdited = isNumberOfChildEdited;
-		this.isGenderrEdited = isGenderrEdited;
+		this.isPaymentTypeEdited = isPaymentTypeEdited;
 		this.isPayInPHPEdited = isPayInPHPEdited;
 		this.isPayInKRWEdited = isPayInKRWEdited;
 		this.isPayInDateEdited = isPayInDateEdited;
@@ -54,16 +77,8 @@ public class FRHistory {
 		this.isIncomePHPEdited = isIncomePHPEdited;
 		this.isIncomeKRWEdited = isIncomeKRWEdited;
 		this.isNoteEdited = isNoteEdited;
+		this.isRemarkEdited = isRemarkEdited;
 	}
-	
-	public boolean isNoteEdited() {
-		return isNoteEdited;
-	}
-
-	public void setNoteEdited(boolean isNoteEdited) {
-		this.isNoteEdited = isNoteEdited;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -76,11 +91,11 @@ public class FRHistory {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public boolean isDepartureEdited() {
-		return isDepartureEdited;
+	public boolean isAirlineEdited() {
+		return isAirlineEdited;
 	}
-	public void setDepartureEdited(boolean isDepartureEdited) {
-		this.isDepartureEdited = isDepartureEdited;
+	public void setAirlineEdited(boolean isAirlineEdited) {
+		this.isAirlineEdited = isAirlineEdited;
 	}
 	public boolean isFlightNumberEdited() {
 		return isFlightNumberEdited;
@@ -88,35 +103,77 @@ public class FRHistory {
 	public void setFlightNumberEdited(boolean isFlightNumberEdited) {
 		this.isFlightNumberEdited = isFlightNumberEdited;
 	}
+	public boolean isDepartureDateEdited() {
+		return isDepartureDateEdited;
+	}
+	public void setDepartureDateEdited(boolean isDepartureDateEdited) {
+		this.isDepartureDateEdited = isDepartureDateEdited;
+	}
+	public boolean isDepartureTimeEdited() {
+		return isDepartureTimeEdited;
+	}
+	public void setDepartureTimeEdited(boolean isDepartureTimeEdited) {
+		this.isDepartureTimeEdited = isDepartureTimeEdited;
+	}
+	public boolean isArrivalTimeEdited() {
+		return isArrivalTimeEdited;
+	}
+	public void setArrivalTimeEdited(boolean isArrivalTimeEdited) {
+		this.isArrivalTimeEdited = isArrivalTimeEdited;
+	}
 	public boolean isOriginEdited() {
 		return isOriginEdited;
 	}
 	public void setOriginEdited(boolean isOriginEdited) {
 		this.isOriginEdited = isOriginEdited;
 	}
-	public boolean isDestinationEdite() {
-		return isDestinationEdite;
+	public boolean isDestinationEdited() {
+		return isDestinationEdited;
 	}
-	public void setDestinationEdite(boolean isDestinationEdite) {
-		this.isDestinationEdite = isDestinationEdite;
+	public void setDestinationEdited(boolean isDestinationEdited) {
+		this.isDestinationEdited = isDestinationEdited;
 	}
-	public boolean isReservationTypeEdite() {
-		return isReservationTypeEdite;
+	public boolean isRecordLocatorEdited() {
+		return isRecordLocatorEdited;
 	}
-	public void setReservationTypeEdite(boolean isReservationTypeEdite) {
-		this.isReservationTypeEdite = isReservationTypeEdite;
+	public void setRecordLocatorEdited(boolean isRecordLocatorEdited) {
+		this.isRecordLocatorEdited = isRecordLocatorEdited;
 	}
-	public boolean isPaymentTypeEdite() {
-		return isPaymentTypeEdite;
+	public boolean isReservationTypeEdited() {
+		return isReservationTypeEdited;
 	}
-	public void setPaymentTypeEdite(boolean isPaymentTypeEdite) {
-		this.isPaymentTypeEdite = isPaymentTypeEdite;
+	public void setReservationTypeEdited(boolean isReservationTypeEdited) {
+		this.isReservationTypeEdited = isReservationTypeEdited;
+	}
+	public boolean isReservationDateEdited() {
+		return isReservationDateEdited;
+	}
+	public void setReservationDateEdited(boolean isReservationDateEdited) {
+		this.isReservationDateEdited = isReservationDateEdited;
+	}
+	public boolean isOptionToPayEdited() {
+		return isOptionToPayEdited;
+	}
+	public void setOptionToPayEdited(boolean isOptionToPayEdited) {
+		this.isOptionToPayEdited = isOptionToPayEdited;
+	}
+	public boolean isAmountToPayEdited() {
+		return isAmountToPayEdited;
+	}
+	public void setAmountToPayEdited(boolean isAmountToPayEdited) {
+		this.isAmountToPayEdited = isAmountToPayEdited;
 	}
 	public boolean isGuestNameEdited() {
 		return isGuestNameEdited;
 	}
 	public void setGuestNameEdited(boolean isGuestNameEdited) {
 		this.isGuestNameEdited = isGuestNameEdited;
+	}
+	public boolean isGenderEdited() {
+		return isGenderEdited;
+	}
+	public void setGenderEdited(boolean isGenderEdited) {
+		this.isGenderEdited = isGenderEdited;
 	}
 	public boolean isNumberOfAdultEdited() {
 		return isNumberOfAdultEdited;
@@ -130,11 +187,11 @@ public class FRHistory {
 	public void setNumberOfChildEdited(boolean isNumberOfChildEdited) {
 		this.isNumberOfChildEdited = isNumberOfChildEdited;
 	}
-	public boolean isGenderrEdited() {
-		return isGenderrEdited;
+	public boolean isPaymentTypeEdited() {
+		return isPaymentTypeEdited;
 	}
-	public void setGenderrEdited(boolean isGenderrEdited) {
-		this.isGenderrEdited = isGenderrEdited;
+	public void setPaymentTypeEdited(boolean isPaymentTypeEdited) {
+		this.isPaymentTypeEdited = isPaymentTypeEdited;
 	}
 	public boolean isPayInPHPEdited() {
 		return isPayInPHPEdited;
@@ -183,5 +240,17 @@ public class FRHistory {
 	}
 	public void setIncomeKRWEdited(boolean isIncomeKRWEdited) {
 		this.isIncomeKRWEdited = isIncomeKRWEdited;
+	}
+	public boolean isNoteEdited() {
+		return isNoteEdited;
+	}
+	public void setNoteEdited(boolean isNoteEdited) {
+		this.isNoteEdited = isNoteEdited;
+	}
+	public boolean isRemarkEdited() {
+		return isRemarkEdited;
+	}
+	public void setRemarkEdited(boolean isRemarkEdited) {
+		this.isRemarkEdited = isRemarkEdited;
 	}
 }

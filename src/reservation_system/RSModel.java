@@ -1068,14 +1068,14 @@ public class RSModel {
 			
 			if(!startDate.isEmpty()){
 				isWithStart = true;
-				query += "`flight date` >= '" + startDate + "' ";
+				query += "`departure date` >= '" + startDate + "' ";
 			}
 			if(!endDate.isEmpty()){
 				if(isWithStart){
 					query += " AND ";
 				}
 				isWithEnd = true;
-				query += "`flight date` <= '" + endDate + "' ";
+				query += "`departure date` <= '" + endDate + "' ";
 			}
 			
 			if(!value.isEmpty()){
@@ -1085,7 +1085,7 @@ public class RSModel {
 				if(columnName.equals("id")){
 					query += "`" + columnName + "` = " + Integer.parseInt(value);
 				}
-				else
+				else if(!columnName.equals("N/A"))
 					query += "`" + columnName + "` = '" + value + " ' ";
 			}
 		}
@@ -2069,7 +2069,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNote() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2224,7 +2224,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNote() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2385,7 +2385,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNote() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2543,7 +2543,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNote() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2719,7 +2719,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNote() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2840,10 +2840,10 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("FLIGHT DETAIL"));
-	            secondColumn = new PdfPCell(new Paragraph(fr.getDepartureDate() + " " +
+	            secondColumn = new PdfPCell(new Paragraph(fr.getDepartureDate() + "  " +
 	            										  fr.getOrigin() + " - " +
-	            										  fr.getDestination() + 
-	            										  fr.getFlightNumber() + 
+	            										  fr.getDestination() + "  " +
+	            										  fr.getFlightNumber() + "  " +
 	            										  fr.getDepartureTime()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
@@ -2956,7 +2956,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 				
 		        Font headingFont = new Font(Font.FontFamily.COURIER, 32,
 	                    Font.BOLD);
-		        Paragraph heading = new Paragraph("FLIGHT RESERVATION INVOICE",headingFont);
+		        Paragraph heading = new Paragraph("INVOICE",headingFont);
 		        heading.setAlignment(Paragraph.ALIGN_CENTER);
 		        doc.add(heading);
 		        
@@ -2973,10 +2973,10 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("FLIGHT DETAIL"));
-	            secondColumn = new PdfPCell(new Paragraph(fr.getDepartureDate() + " " +
+	            secondColumn = new PdfPCell(new Paragraph(fr.getDepartureDate() + "  " +
 	            										  fr.getOrigin() + " - " + 
-	            										  fr.getDestination() + " " +
-	            										  fr.getFlightNumber() + " " +
+	            										  fr.getDestination() + "  " +
+	            										  fr.getFlightNumber() + "  " +
 	            										  fr.getDepartureTime()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);

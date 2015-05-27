@@ -393,7 +393,7 @@ public class HRView extends JFrame{
 		        preferredWidth = Math.max(preferredWidth, width);
 
 		        //  We've exceeded the maximum width, no need to check other rows
-
+ 
 		        if (preferredWidth >= maxWidth)
 		        {
 		            preferredWidth = maxWidth;

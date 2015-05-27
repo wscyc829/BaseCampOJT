@@ -8,6 +8,7 @@ import hotel_reservation.HRView;
 import hotel_reservation.HotelReservation;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -15,7 +16,9 @@ import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.regex.Pattern;
 
 import javax.swing.*;
@@ -33,6 +36,7 @@ import sessions.ChangePasswordView;
 import sessions.LoginView;
 import sessions.RegisterView;
 import sessions.SettingView;
+import javax.swing.plaf.FontUIResource;
 
 public class RSController {
 	private RSModel model;
@@ -54,6 +58,19 @@ public class RSController {
 		for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()){
 			try {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+				/*
+				int fontSize = 11;
+				Hashtable defaults = UIManager.getDefaults();
+				Enumeration keys = defaults.keys();
+				while (keys.hasMoreElements()) {
+					Object key = keys.nextElement();
+
+				    if ((key instanceof String) && (((String) key).endsWith(".font"))) {
+				    	FontUIResource font = (FontUIResource) UIManager.get(key);
+				    	defaults.put (key, new FontUIResource(Font.SANS_SERIF, font.getStyle(), fontSize));
+				    }
+				    	
+				}*/
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

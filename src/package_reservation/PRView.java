@@ -20,8 +20,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
-import fly_reservation.FlightReservation;
-
 import references.JTextFieldHintUI;
 import reservation_system.RSModel;
 

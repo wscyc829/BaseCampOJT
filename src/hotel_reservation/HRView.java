@@ -202,12 +202,12 @@ public class HRView extends JFrame{
             ftfTotalPayOut.setVisible(false);
             ftfTotalIncome.setVisible(false);
         }
-
-		updateView(model.getAllHRs());
+		
+		this.hrs = model.getAllHRs();
+		updateView(this.hrs);
 		
 		listeners();
 	}
-	
 	
 	public ArrayList<HotelReservation> getHrs() {
 		return hrs;
@@ -217,7 +217,6 @@ public class HRView extends JFrame{
 	public void setHrs(ArrayList<HotelReservation> hrs) {
 		this.hrs = hrs;
 	}
-
 
 	public Image getScaledImage(Image srcImg, int w, int h){
 	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -236,7 +235,6 @@ public class HRView extends JFrame{
 			temp = getScaledImage(temp, width, height);
 			tempImageIcon = new ImageIcon(temp);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return tempImageIcon;
@@ -305,8 +303,13 @@ public class HRView extends JFrame{
 	            setBackground(Color.decode("#FF7373"));
 	            setForeground(Color.WHITE);
 	        }
+	        else if(statusColumnValue.equals("Paid")){
+	        	setOpaque(true);
+	            setBackground(Color.decode("#2EB82E"));
+	            setForeground(Color.WHITE);
+	        }
 	        else {
-            setOpaque(false);
+	        	setOpaque(false);
 	        }
 
 	        setText(value != null ? value.toString() : "");
@@ -413,16 +416,13 @@ public class HRView extends JFrame{
 				if(cbSearch.getSelectedItem().toString().equals("N/A")){
 					tfSearch.setVisible(false);
 					cbHotelOrResort.setVisible(false);
-					btnPrint.setVisible(false);
 				}
 				else if(cbSearch.getSelectedItem().toString().equals("Hotel/Resort")){
 					tfSearch.setVisible(false);
 					cbHotelOrResort.setVisible(true);
-					btnPrint.setVisible(true);
 				}
 				else{
 					cbHotelOrResort.setVisible(false);
-					btnPrint.setVisible(false);
 					tfSearch.setVisible(true);
 					tfSearch.setText("");
 				}

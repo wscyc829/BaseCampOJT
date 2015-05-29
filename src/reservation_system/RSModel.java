@@ -217,12 +217,14 @@ public class RSModel {
 
 		String query = "INSERT INTO `hotel reservation` " + 
 				"(`created by`, `created at`, `check in`, `check out`, `hotel/resort`, " +
-				"`guest name`, `confirmation number`, `number of adult`, `number of child`," +
-				"`number of nights`, `room type`, `number of rooms`," +
-				"`breakfast`, `option to pay`, `amount to pay`, `reservation date`, " +
-				"`reservation type`, `company`, `payment type`, `receipt number`, " +
-				"`pay in - php`, `pay in - krw`, `pay in - date`, `pay out - php`, `pay out - krw`," + 
-				"`pay out - date`, `income - php`, `income - krw`, `note`, `status`, `remark`)" +
+				"`guest name`, `number of adult`, `number of child`," +
+				"`room type`, `number of rooms`, `number of nights`, " +
+				"`breakfast`, `confirmation number`, `company`, `status`," +
+				"`reservation type`, `reservation date`, `option to pay`, " +
+				"`amount to pay`, `option to final`, `total payment`, " +
+				"`payment type`, `receipt number`, `pay in - php`, `pay in - krw`," +
+				"`pay in - date`, `pay out - php`, `pay out - krw`," + 
+				"`pay out - date`, `income - php`, `income - krw`, `note`, , `remark`)" +
 				"VALUES (" +
 				"'" + currentUser.getUsername() + "'," +
 				"'" + DATE_TIME_FORMAT.format(new Date()) + "'," +
@@ -230,18 +232,25 @@ public class RSModel {
 				"'" + hr.getCheckOut() + "'," +
 				"'" + hr.getHotelOrResort() + "'," +
 				"'" + hr.getGuestName() + "'," +
-				"'" + hr.getConfirmationNumber() + "'," +
 				hr.getNumberOfAdult() + "," +
 				hr.getNumberOfChild() + "," +
-				hr.getNumberOfNights() + "," +
+				
 				"'" + hr.getRoomType() + "'," +
 				hr.getNumberOfRooms() + "," +
+				hr.getNumberOfNights() + "," +
+				
 				"'" + hr.getBreakfast() + "'," +
+				"'" + hr.getConfirmationNumber() + "'," +
+				"'" + hr.getCompany() + "'," +
+				"'" + hr.getStatus() + "'," +
+
+				"'" + hr.getReservationType() + "'," +
+				"'" + hr.getReservationDate() + "'," +
 				"'" + hr.getOptionToPay() + "'," +
 				hr.getAmountToPay() + "," +
-				"'" + hr.getReservationDate() + "'," +
-				"'" + hr.getReservationType() + "'," +
-				"'" + hr.getCompany() + "'," +
+				"'" + hr.getOptionToFinal() + "'," +
+				hr.getTotalPayment() + "," +
+				
 				"'" + hr.getPaymentType() + "'," +
 				"'" + hr.getReceiptNumber() + "'," +
 				hr.getPayInPHP() + "," +
@@ -252,8 +261,8 @@ public class RSModel {
 				"'" + hr.getPayOutDate() + "'," +
 				hr.getIncomePHP() + "," +
 				hr.getIncomeKRW() + "," +
+				
 				"'" + hr.getNote() + "'," +
-				"'" + hr.getStatus() + "'," +
 				"'" + hr.getRemark() + "')";
 		
 		try{
@@ -291,6 +300,7 @@ public class RSModel {
 				"`room type` = '" + hr.getRoomType() + "'," +
 				"`number of rooms` = " + hr.getNumberOfRooms() + "," +
 				"`number of nights` = " + hr.getNumberOfNights() + "," +
+				
 				"`breakfast` = '" + hr.getBreakfast() + "'," +
 				"`confirmation number` = '" + hr.getConfirmationNumber() + "'," +
 				"`company` = '" + hr.getCompany() + "'," +
@@ -300,6 +310,8 @@ public class RSModel {
 				"`reservation date` = '" + hr.getReservationDate() + "'," +
 				"`option to pay` = '" + hr.getOptionToPay() + "'," +
 				"`amount to pay` = " + hr.getAmountToPay() + "," +
+				"`option to final` = '" + hr.getOptionToFinal() + "'," +
+				"`total payment` = " + hr.getTotalPayment() + "," +
 				
 				"`payment type` = '" + hr.getPaymentType() + "'," +
 				"`receipt number` = '" + hr.getReceiptNumber() + "'," +
@@ -323,6 +335,7 @@ public class RSModel {
 				"`isNumberOfNightsEdited`, `isBreakfastEdited`, `isConfirmationNumberEdited`," +
 				"`isCompanyEdited`,`isStatusEdited`,`isReservationTypeEdited`, " +
 				"`isReservationDateEdited`, `isOptionToPayEdited`, `isAmountToPayEdited`," +
+				"`isOptionToFinalEdited`, `isTotalPaymentEdited`, " +
 				"`isPaymentTypeEdited`, `isReceiptNumberEdited`, `isPayInPHPEdited`," +
 				"`isPayInKRWEdited`, `isPayInDateEdited`, `isPayOutPHPEdited`, " + 
 				"`isPayOutKRWEdited`, `isPayOutDateEdited`, `isIncomePHPEdited`," +
@@ -351,6 +364,8 @@ public class RSModel {
                 ((edited = edited || !old.getReservationDate().equals(hr.getReservationDate())) && !old.getReservationDate().equals(hr.getReservationDate())) + "," +
                 ((edited = edited || !old.getOptionToPay().equals(hr.getOptionToPay())) && !old.getOptionToPay().equals(hr.getOptionToPay())) + "," +
                 ((edited = edited || (old.getAmountToPay() != hr.getAmountToPay())) && (old.getAmountToPay() != hr.getAmountToPay()))+ "," +
+                ((edited = edited || !old.getOptionToFinal().equals(hr.getOptionToFinal())) && !old.getOptionToFinal().equals(hr.getOptionToFinal())) + "," +
+                ((edited = edited || (old.getTotalPayment() != hr.getTotalPayment())) && (old.getTotalPayment() != hr.getTotalPayment()))+ "," +
                 
                 ((edited = edited || !old.getPaymentType().equals(hr.getPaymentType())) && !old.getPaymentType().equals(hr.getPaymentType())) + "," +
                 ((edited = edited || !old.getReceiptNumber().equals(hr.getReceiptNumber())) && !old.getReceiptNumber().equals(hr.getReceiptNumber())) + "," +
@@ -408,20 +423,27 @@ public class RSModel {
 						rs.getString("check in"),
 						rs.getString("check out"),
 						rs.getString("hotel/resort"), 
+						
 						rs.getString("guest name"),
 						rs.getInt("number of adult"), 
 						rs.getInt("number of child"), 
+						
 						rs.getString("room type"), 
 						rs.getInt("number of rooms"),
 						rs.getInt("number of nights"),
+						
 						rs.getString("breakfast"),
 						rs.getString("confirmation number"),
 						rs.getString("company"),
 						rs.getString("status"),
+						
 						rs.getString("reservation type"),
 						rs.getString("reservation date"), 
 						rs.getString("option to pay"), 
 						rs.getDouble("amount to pay"),
+						rs.getString("option to final"),
+						rs.getDouble("total payment"),
+						
 						rs.getString("payment type"),
 						rs.getString("receipt number"),
 						rs.getDouble("pay in - PHP"), 
@@ -432,6 +454,7 @@ public class RSModel {
 						rs.getString("pay out - date"), 
 						rs.getDouble("income - PHP"), 
 						rs.getDouble("income - KRW"), 
+						
 						rs.getString("note"), 
 						rs.getString("remark"));
 				hr.setId(rs.getInt("id"));
@@ -502,6 +525,7 @@ public class RSModel {
 						rs.getString("check in"),
 						rs.getString("check out"),
 						rs.getString("hotel/resort"), 
+						
 						rs.getString("guest name"),
 						rs.getInt("number of adult"), 
 						rs.getInt("number of child"), 
@@ -509,6 +533,7 @@ public class RSModel {
 						rs.getString("room type"), 
 						rs.getInt("number of rooms"),
 						rs.getInt("number of nights"),
+						
 						rs.getString("breakfast"),
 						rs.getString("confirmation number"),
 						rs.getString("company"),
@@ -518,6 +543,8 @@ public class RSModel {
 						rs.getString("reservation date"), 
 						rs.getString("option to pay"), 
 						rs.getDouble("amount to pay"), 
+						rs.getString("option to final"), 
+						rs.getDouble("total payment"),
 						
 						rs.getString("payment type"), 
 						rs.getString("receipt number"),
@@ -570,9 +597,11 @@ public class RSModel {
 						rs.getBoolean("isCheckInEdited"),
 						rs.getBoolean("isCheckOutEdited"),
 						rs.getBoolean("isHotel/ResortEdited"),
+						
 						rs.getBoolean("isGuestNameEdited"),
 						rs.getBoolean("isNumberOfAdultEdited"),
 						rs.getBoolean("isNumberOfChildEdited"),
+						
 						rs.getBoolean("isRoomTypeEdited"),
 						rs.getBoolean("isNumberOfRoomsEdited"),
 						rs.getBoolean("isNumberOfNightsEdited"),
@@ -586,6 +615,8 @@ public class RSModel {
 						rs.getBoolean("isReservationTypeEdited"),
 						rs.getBoolean("isOptionToPayEdited"),
 						rs.getBoolean("isAmountToPayEdited"),
+						rs.getBoolean("isOptionToFinalEdited"),
+						rs.getBoolean("isTotalPaymentEdited"),
 						
 						rs.getBoolean("isPaymentTypeEdited"),
 						rs.getBoolean("isReceiptNumberEdited"),
@@ -1829,7 +1860,18 @@ public class RSModel {
 public int exportHRS(ArrayList<HotelReservation> hrs){
 		File file = null;
 		double totalPayment = 0;
-		String name = hrs.get(0).getHotelOrResort();
+		boolean isSame = true;
+		String name = "";
+		
+		for(HotelReservation h : hrs){
+			if(name.equals("")){
+				name = h.getHotelOrResort();
+			}
+			else if(!name.equals(h.getHotelOrResort())){
+				isSame = false;
+				break;
+			}
+		}
 		
 		try {
 			
@@ -1867,7 +1909,7 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 				FileOutputStream pdfFileout = new FileOutputStream(file);
 				Document doc = new Document(PageSize.A4_LANDSCAPE.rotate(),20f,20f,20f,20f);
 				
-				PdfPCell firstColumn, secondColumn, thirdColumn, fourthColumn, fifthColumn;
+				PdfPCell firstColumn, secondColumn, thirdColumn, fourthColumn, fifthColumn, sixthColumn;
 				
 				PdfWriter.getInstance(doc, pdfFileout);
 
@@ -1875,9 +1917,14 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 				doc.addTitle("HOTEL RESERVATIONS");
 				doc.open();
 				
-				PdfPTable table = new PdfPTable(5);
+				PdfPTable table;
+				if(isSame){
+					table = new PdfPTable(5);
+				}
+				else{
+					table = new PdfPTable(6);
+				}
 	            table.setWidthPercentage(100);
-		        //cell.setColspan(2);
 	            
 				Image logo = Image.getInstance(this.getClass().getResource("/Pictures/logo.jpg"));
 				logo.scalePercent(107f);
@@ -1885,12 +1932,14 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        
 		        Font headingFont = new Font(Font.FontFamily.COURIER, 16,
 	                    Font.BOLD);
-		        Paragraph heading = new Paragraph("To " + name, headingFont);
-		        doc.add(heading);
-		     
-		        heading = new Paragraph("From basecamp",headingFont);
-		        doc.add(heading);
 		        
+		        if(isSame){
+			        Paragraph heading = new Paragraph("To " + name, headingFont);
+			        doc.add(heading);
+			     
+			        heading = new Paragraph("From basecamp",headingFont);
+			        doc.add(heading);
+		        }
 		        doc.add(new Paragraph("\n"));
 		        
 		        firstColumn = new PdfPCell(new Paragraph("DATE"));
@@ -1900,6 +1949,12 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        fifthColumn = new PdfPCell(new Paragraph("PAYMENT"));
 		        table.addCell(firstColumn);
 		        table.addCell(secondColumn);
+		        
+		        if(!isSame){
+		        	sixthColumn = new PdfPCell(new Paragraph("Hotel/Resort"));
+		        	table.addCell(sixthColumn);
+		        }
+		        
 		        table.addCell(thirdColumn);
 		        table.addCell(fourthColumn);
 		        table.addCell(fifthColumn);
@@ -1918,6 +1973,12 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 			        	
 			        	table.addCell(firstColumn);
 			        	table.addCell(secondColumn);
+			        	
+			        	if(!isSame){
+				        	sixthColumn = new PdfPCell(new Paragraph(hrs.get(i).getHotelOrResort()));
+				        	table.addCell(sixthColumn);
+				        }
+			        	
 			        	table.addCell(thirdColumn);
 			        	table.addCell(fourthColumn);
 			        	table.addCell(fifthColumn);
@@ -1925,7 +1986,13 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        }
 	            
 		        firstColumn = new PdfPCell(new Paragraph("TOTAL"));
-		        firstColumn.setColspan(2);
+		        
+		        if(isSame){
+		        	firstColumn.setColspan(2);
+		        }
+		        else{
+		        	firstColumn.setColspan(3);
+		        }
 		        firstColumn.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		        table.addCell(firstColumn);
 		        
@@ -1934,7 +2001,14 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        secondColumn.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		        table.addCell(secondColumn);
 		        
-	            float[] width = new float[] {20f,20f,20f,20f,20f};
+	            float[] width;
+	            
+	            if(isSame){
+	            	width = new float[] {20f,20f,20f,20f,20f};
+	            }
+	            else{
+	            	width = new float[] {16.66f,16.66f,16.66f,16.66f,16.66f,16.66f};
+	            }
 	            table.setWidths(width);
 	            
 		        doc.add(table);

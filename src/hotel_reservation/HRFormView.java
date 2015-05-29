@@ -2,22 +2,15 @@ package hotel_reservation;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
-
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -34,16 +27,16 @@ public class HRFormView extends JFrame{
 		lblRoomType, lblNoOfRooms, lblNoOfNights, lblBreakfast,
 		lblConfirmationNumber, lblCompany, lblStatus, 
 		lblReservationType, lblReservationDate, lblOptionToPay, 
-		lblAmountToPay, lblPaymentType, lblReceiptNo, lblCurrency, 
+		lblAmountToPay, lblOptionToFinal, lblTotalPayment, lblPaymentType, lblReceiptNo, lblCurrency, 
 		lblCurrencyNote, lblPayIn, lblPayInPHP, lblPayInKRW, lblPayInDate, 
 		lblPayOut, lblPayOutPHP, lblPayOutKRW, lblPayOutDate, 
 		lblIncome, lblIncomePHP, lblIncomeKRW, 
 		lblNote, lblRemark, lblHistory ;
 	
 	private JFormattedTextField ftfCheckIn, ftfCheckOut, ftfNoOfAdult, ftfNoOfChild,
-		ftfNoOfNights, ftfNoOfRooms, ftfOptionToPay, ftfAmountToPay, ftfReservationDate,
-		ftfCurrency, ftfPayInPHP, ftfPayInKRW, ftfPayInDate, ftfPayOutPHP, ftfPayOutKRW,
-		ftfPayOutDate, ftfIncomePHP, ftfIncomeKRW;
+		ftfNoOfNights, ftfNoOfRooms, ftfReservationDate, ftfOptionToPay, ftfAmountToPay,
+		ftfOptionToFinal, ftfTotalPayment, ftfCurrency, ftfPayInPHP, ftfPayInKRW, 
+		ftfPayInDate, ftfPayOutPHP, ftfPayOutKRW, ftfPayOutDate, ftfIncomePHP, ftfIncomeKRW;
 	
 	private JTextField tfGuestName, tfRoomType, tfCompany, tfReceiptNo, tfConfirmationNumber;
 	
@@ -159,65 +152,72 @@ public class HRFormView extends JFrame{
 		lblAmountToPay.setBounds(360, 100, 100, 20);
 		add(lblAmountToPay);
 		
+		lblOptionToFinal = new JLabel("Option To Final");
+		lblOptionToFinal.setBounds(360, 130, 100, 20);
+		add(lblOptionToFinal);
+		
+		lblTotalPayment = new JLabel("Total Payment");
+		lblTotalPayment.setBounds(360, 160, 100, 20);
+		add(lblTotalPayment);
 		
 		lblPaymentType = new JLabel("Payment Type");
-		lblPaymentType.setBounds(360, 130, 100, 20);
+		lblPaymentType.setBounds(360, 190, 100, 20);
 		add(lblPaymentType);
 		
 		lblReceiptNo = new JLabel("Receipt No.");
-		lblReceiptNo.setBounds(360, 160, 100, 20);
+		lblReceiptNo.setBounds(360, 220, 100, 20);
 		add(lblReceiptNo);
 		
 		lblCurrency = new JLabel("Currency");
-		lblCurrency.setBounds(360, 190, 100, 20);
+		lblCurrency.setBounds(360, 250, 100, 20);
 		add(lblCurrency);
 		
 		lblCurrencyNote = new JLabel("(PHP To KRW)");
-		lblCurrencyNote.setBounds(560, 190, 100, 20);
+		lblCurrencyNote.setBounds(560, 250, 100, 20);
 		add(lblCurrencyNote);
 		
 		lblPayIn = new JLabel("Pay In");
-		lblPayIn.setBounds(360, 220, 100, 20);
+		lblPayIn.setBounds(360, 280, 100, 20);
 		add(lblPayIn);
 		
 		lblPayInPHP = new JLabel("PHP");
-		lblPayInPHP.setBounds(430, 220, 50, 20);
+		lblPayInPHP.setBounds(430, 280, 50, 20);
 		add(lblPayInPHP);
 
 		lblPayInKRW = new JLabel("KRW");
-		lblPayInKRW.setBounds(580, 220, 50, 20);
+		lblPayInKRW.setBounds(580, 280, 50, 20);
 		add(lblPayInKRW);
 		
 		lblPayInDate = new JLabel("Date");
-		lblPayInDate.setBounds(430, 250, 100, 20);
+		lblPayInDate.setBounds(430, 310, 100, 20);
 		add(lblPayInDate);
 		
 		lblPayOut = new JLabel("Pay Out");
-		lblPayOut.setBounds(360, 280, 100, 20);
+		lblPayOut.setBounds(360, 340, 100, 20);
 		add(lblPayOut);
 		
 		lblPayOutPHP = new JLabel("PHP");
-		lblPayOutPHP.setBounds(430, 280, 50, 20);
+		lblPayOutPHP.setBounds(430, 360, 50, 20);
 		add(lblPayOutPHP);
 		
 		lblPayOutKRW = new JLabel("KRW");
-		lblPayOutKRW.setBounds(580, 280, 30, 20);
+		lblPayOutKRW.setBounds(580, 360, 30, 20);
 		add(lblPayOutKRW);
 		
 		lblPayOutDate = new JLabel("Date");
-		lblPayOutDate.setBounds(430, 310, 50, 20);
+		lblPayOutDate.setBounds(430, 370, 50, 20);
 		add(lblPayOutDate);
 		
 		lblIncome = new JLabel("Income");
-		lblIncome.setBounds(360, 340, 100, 20);
+		lblIncome.setBounds(360, 400, 100, 20);
 		add(lblIncome);
 		
 		lblIncomePHP = new JLabel("PHP");
-		lblIncomePHP.setBounds(430, 340, 50, 20);
+		lblIncomePHP.setBounds(430, 400, 50, 20);
 		add(lblIncomePHP);
 
 		lblIncomeKRW = new JLabel("KRW");
-		lblIncomeKRW.setBounds(580, 340, 50, 20);
+		lblIncomeKRW.setBounds(580, 400, 50, 20);
 		add(lblIncomeKRW);
 		
 		lblNote = new JLabel("Note");
@@ -307,7 +307,7 @@ public class HRFormView extends JFrame{
 		tfCompany.setBounds(120, 310, 120, 20);
 		add(tfCompany);
 		
-		cbStatus = new JComboBox(new String[]{"Not Confirm", "Confirmed", "Final", "Cancelled"});
+		cbStatus = new JComboBox(new String[]{"Not Confirm", "Confirmed", "Paid", "Final", "Cancelled"});
 		cbStatus.setName("Status");
 		cbStatus.setEditable(true);
 		new AutoCompletion(cbStatus);
@@ -332,7 +332,6 @@ public class HRFormView extends JFrame{
 		ftfReservationDate.setBounds(460, 40, 100, 20);
 		add(ftfReservationDate);
 		
-		
 		ftfOptionToPay = new JFormattedTextField(model.DATE_FORMAT);
 		ftfOptionToPay.setName("Option To Pay");
 		ftfOptionToPay.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
@@ -345,79 +344,90 @@ public class HRFormView extends JFrame{
 		ftfAmountToPay.setBounds(460, 100, 100, 20);
 		add(ftfAmountToPay);
 		
+		ftfOptionToFinal = new JFormattedTextField(model.DATE_FORMAT);
+		ftfOptionToFinal.setName("Option To Final");
+		ftfOptionToFinal.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
+		ftfOptionToFinal.setBounds(460, 130, 100, 20);
+		add(ftfOptionToFinal);
+		
+		ftfTotalPayment = new JFormattedTextField(model.NUMBER_FORMAT);
+		ftfTotalPayment.setValue(new Double(0));
+		ftfTotalPayment.setName("Payment Total");
+		ftfTotalPayment.setBounds(460, 160, 100, 20);
+		add(ftfTotalPayment);
+		
 		cbPaymentType = new JComboBox(model.getPaymentType().toArray());
 		cbPaymentType.setName("Payment Type");
 		cbPaymentType.setEditable(true);
 		new AutoCompletion(cbPaymentType);
-		cbPaymentType.setBounds(460, 130, 80, 20);
+		cbPaymentType.setBounds(460, 190, 80, 20);
 		add(cbPaymentType);
 		
 		btnAddPT = new JButton("+");
 		btnAddPT.setMargin(new Insets(0,0,0,0));
-		btnAddPT.setBounds(540, 130, 20, 20);
+		btnAddPT.setBounds(540, 190, 20, 20);
 		add(btnAddPT);
 		
 		tfReceiptNo = new JTextField("");
 		tfReceiptNo.setName("Receipt No");
-		tfReceiptNo.setBounds(460, 160, 100, 20);
+		tfReceiptNo.setBounds(460, 220, 100, 20);
 		add(tfReceiptNo);
 		
 		ftfCurrency = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfCurrency.setValue(new Integer(0));
 		ftfCurrency.setName("Currency");
-		ftfCurrency.setBounds(460, 190, 100, 20);
+		ftfCurrency.setBounds(460, 250, 100, 20);
 		add(ftfCurrency);
 		
 		ftfPayInPHP = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfPayInPHP.setValue(new Double(0));
 		ftfPayInPHP.setName("Pay In - PHP");
-		ftfPayInPHP.setBounds(460, 220, 100, 20);
+		ftfPayInPHP.setBounds(460, 280, 100, 20);
 		add(ftfPayInPHP);
 		
 		ftfPayInKRW = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfPayInKRW.setValue(new Double(0));
 		ftfPayInKRW.setName("Pay In - KRW");
-		ftfPayInKRW.setBounds(610, 220, 100, 20);
+		ftfPayInKRW.setBounds(610, 280, 100, 20);
 		add(ftfPayInKRW);
 		
 		ftfPayInDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfPayInDate.setName("Pay In - Date");
 		ftfPayInDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
-		ftfPayInDate.setBounds(460, 250, 100, 20);
+		ftfPayInDate.setBounds(460, 310, 100, 20);
 		add(ftfPayInDate);
 		
 		ftfPayOutPHP = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfPayOutPHP.setValue(new Double(0));
 		ftfPayOutPHP.setName("Pay Out - PHP");
-		ftfPayOutPHP.setBounds(460, 280, 100, 20);
+		ftfPayOutPHP.setBounds(460, 360, 100, 20);
 		add(ftfPayOutPHP);
 		
 		ftfPayOutKRW = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfPayOutKRW.setValue(new Double(0));
 		ftfPayOutKRW.setName("Pay Out - KRW");
-		ftfPayOutKRW.setBounds(610, 280, 100, 20);
+		ftfPayOutKRW.setBounds(610, 360, 100, 20);
 		add(ftfPayOutKRW);
 		
 		ftfPayOutDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfPayOutDate.setName("Pay Out - Date");
 		ftfPayOutDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
-		ftfPayOutDate.setBounds(460, 310, 100, 20);
+		ftfPayOutDate.setBounds(460, 370, 100, 20);
 		add(ftfPayOutDate);
 		
 		ftfIncomePHP = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfIncomePHP.setEditable(false);
 		ftfIncomePHP.setValue(new Double(0));
 		ftfIncomePHP.setName("Income - PHP");
-		ftfIncomePHP.setBounds(460, 340, 100, 20);
+		ftfIncomePHP.setBounds(460, 400, 100, 20);
 		add(ftfIncomePHP);
 		
 		ftfIncomeKRW = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfIncomeKRW.setEditable(false);
 		ftfIncomeKRW.setValue(new Double(0));
 		ftfIncomeKRW.setName("Income - KRW");
-		ftfIncomeKRW.setBounds(610, 340, 100, 20);
+		ftfIncomeKRW.setBounds(610, 400, 100, 20);
 		add(ftfIncomeKRW);
-		
 		
 		taNote = new JTextArea("");
 		taNote.setName("Note");
@@ -426,7 +436,7 @@ public class HRFormView extends JFrame{
 		add(taNote);
 		
 		JScrollPane jp = new JScrollPane(taNote);
-		jp.setBounds(120, 370, 380, 60);
+		jp.setBounds(120, 370, 240, 60);
 		add(jp);
 		
 		taRemark = new JTextArea("");
@@ -436,7 +446,7 @@ public class HRFormView extends JFrame{
 		add(taRemark);
 		
 		JScrollPane jp1 = new JScrollPane(taRemark);
-		jp1.setBounds(120, 440, 380, 60);
+		jp1.setBounds(120, 440, 240, 60);
 		add(jp1);
 		
 		lHistory = new JList(new DefaultListModel());
@@ -444,7 +454,7 @@ public class HRFormView extends JFrame{
 		add(lHistory);
 		
 		JScrollPane jp2 = new JScrollPane(lHistory);
-		jp2.setBounds(120, 510, 380, 60);
+		jp2.setBounds(120, 510, 240, 60);
 		add(jp2);
 		
 		btnExportV = new JButton("Export - Voucher");
@@ -570,7 +580,8 @@ public class HRFormView extends JFrame{
 				JTextField tf = (JTextField)c;
 				
 				if(!tf.getName().equals("Currency") && !tf.getName().equals("Receipt No") &&
-						!tf.getName().equals("Option To Pay") && !tf.getName().equals("Amount To Pay") &&
+						!tf.getName().equals("Option To Pay") && 
+						!tf.getName().equals("Option To Final") &&
 						!tf.getName().equals("Company") &&
 						!tf.getName().equals("Pay In - PHP") && !tf.getName().equals("Pay In - KRW") &&
 						!tf.getName().equals("Pay In - Date") &&
@@ -633,6 +644,8 @@ public class HRFormView extends JFrame{
 				ftfReservationDate.getText(), 
 				ftfOptionToPay.getText(),
 				Double.parseDouble(ftfAmountToPay.getValue().toString()),
+				ftfOptionToFinal.getText(),
+				Double.parseDouble(ftfTotalPayment.getValue().toString()),
 				cbPaymentType.getSelectedItem().toString(),
 				tfReceiptNo.getText(),
 				Double.parseDouble(ftfPayInPHP.getValue().toString()),

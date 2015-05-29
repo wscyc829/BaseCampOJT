@@ -20,6 +20,9 @@ public class HRHistory {
 	private boolean isReservationDateEdited;
 	private boolean isOptionToPayEdited;
 	private boolean isAmountToPayEdited;
+	private boolean isOptionToFinalEdited;
+	private boolean isTotalPaymentEdited;
+	
 	private boolean isPaymentTypeEdited;
 	private boolean isReceiptNumberEdited;
 	private boolean isPayInPHPEdited;
@@ -42,6 +45,7 @@ public class HRHistory {
 			boolean isCompanyEdited, boolean isStatusEdited,
 			boolean isReservationTypeEdited, boolean isReservationDateEdited,
 			boolean isOptionToPayEdited, boolean isAmountToPayEdited,
+			boolean isOptionToFinalEdited, boolean isTotalPaymentEdited,
 			boolean isPaymentTypeEdited, boolean isReceiptNumberEdited,
 			boolean isPayInPHPEdited, boolean isPayInKRWEdited,
 			boolean isPayInDateEdited, boolean isPayOutPHPEdited,
@@ -68,6 +72,8 @@ public class HRHistory {
 		this.isReservationDateEdited = isReservationDateEdited;
 		this.isOptionToPayEdited = isOptionToPayEdited;
 		this.isAmountToPayEdited = isAmountToPayEdited;
+		this.isOptionToFinalEdited = isOptionToFinalEdited;
+		this.isTotalPaymentEdited = isTotalPaymentEdited;
 		this.isPaymentTypeEdited = isPaymentTypeEdited;
 		this.isReceiptNumberEdited = isReceiptNumberEdited;
 		this.isPayInPHPEdited = isPayInPHPEdited;
@@ -194,6 +200,18 @@ public class HRHistory {
 	}
 	public void setAmountToPayEdited(boolean isAmountToPayEdited) {
 		this.isAmountToPayEdited = isAmountToPayEdited;
+	}
+	public boolean isOptionToFinalEdited() {
+		return isOptionToFinalEdited;
+	}
+	public void setOptionToFinalEdited(boolean isOptionToFinalEdited) {
+		this.isOptionToFinalEdited = isOptionToFinalEdited;
+	}
+	public boolean isTotalPaymentEdited() {
+		return isTotalPaymentEdited;
+	}
+	public void setTotalPaymentEdited(boolean isTotalPaymentEdited) {
+		this.isTotalPaymentEdited = isTotalPaymentEdited;
 	}
 	public boolean isPaymentTypeEdited() {
 		return isPaymentTypeEdited;

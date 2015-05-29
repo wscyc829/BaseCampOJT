@@ -1,7 +1,5 @@
 package fly_reservation;
 
-import hotel_reservation.HRHistory;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;

@@ -1,18 +1,11 @@
 package package_reservation;
 
-import fly_reservation.FRHistory;
-import hotel_reservation.HotelReservation;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;

@@ -25,7 +25,8 @@ public class HotelReservation {
 	private String reservationDate;
 	private String optionToPay;
 	private double amountToPay;
-	
+	private String optionToFinal;
+	private double totalPayment;
 	private String paymentType;
 	private String receiptNumber;
 	private double payInPHP;
@@ -50,10 +51,11 @@ public class HotelReservation {
 			int numberOfRooms, int numberOfNights, String breakfast,
 			String confirmationNumber, String company, String status,
 			String reservationType, String reservationDate, String optionToPay,
-			double amountToPay, String paymentType, String receiptNumber,
-			double payInPHP, double payInKRW, String payInDate,
-			double payOutPHP, double payOutKRW, String payOutDate,
-			double incomePHP, double incomeKRW, String note, String remark) {
+			double amountToPay, String optionToFinal, double totalPayment,
+			String paymentType, String receiptNumber, double payInPHP,
+			double payInKRW, String payInDate, double payOutPHP,
+			double payOutKRW, String payOutDate, double incomePHP,
+			double incomeKRW, String note, String remark) {
 		this.id = -1;
 		this.createdBy = createdBy;
 		this.createdAt = createdAt;
@@ -74,6 +76,8 @@ public class HotelReservation {
 		this.reservationDate = reservationDate;
 		this.optionToPay = optionToPay;
 		this.amountToPay = amountToPay;
+		this.optionToFinal = optionToFinal;
+		this.totalPayment = totalPayment;
 		this.paymentType = paymentType;
 		this.receiptNumber = receiptNumber;
 		this.payInPHP = payInPHP;
@@ -248,6 +252,22 @@ public class HotelReservation {
 		this.amountToPay = amountToPay;
 	}
 
+	public String getOptionToFinal() {
+		return optionToFinal;
+	}
+
+	public void setOptionToFinal(String optionToFinal) {
+		this.optionToFinal = optionToFinal;
+	}
+
+	public double getTotalPayment() {
+		return totalPayment;
+	}
+
+	public void setTotalPayment(double totalPayment) {
+		this.totalPayment = totalPayment;
+	}
+
 	public String getPaymentType() {
 		return paymentType;
 	}
@@ -343,4 +363,5 @@ public class HotelReservation {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
 }

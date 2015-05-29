@@ -13,6 +13,8 @@ public class PackageReservation {
 	private String reservationDate;
 	private String optionToPay;
 	private double amountToPay;
+	private String optionToFinal;
+	private double totalPayment;
 	
 	private String guestName;
 	private int numberOfAdult;
@@ -41,11 +43,11 @@ public class PackageReservation {
 	public PackageReservation(String createdBy, String createdAt, String date,
 			String time, String type, String car, String reservationType,
 			String reservationDate, String optionToPay, double amountToPay,
-			String guestName, int numberOfAdult, int numberOfChild,
-			String paymentType, double payInPHP, double payInKRW,
-			String payInDate, double payOutPHP, double payOutKRW,
-			String payOutDate, double incomePHP, double incomeKRW, String note,
-			String remark) {
+			String optionToFinal, double totalPayment, String guestName,
+			int numberOfAdult, int numberOfChild, String paymentType,
+			double payInPHP, double payInKRW, String payInDate,
+			double payOutPHP, double payOutKRW, String payOutDate,
+			double incomePHP, double incomeKRW, String note, String remark) {
 		this.id = -1;
 		this.createdBy = createdBy;
 		this.createdAt = createdAt;
@@ -57,6 +59,8 @@ public class PackageReservation {
 		this.reservationDate = reservationDate;
 		this.optionToPay = optionToPay;
 		this.amountToPay = amountToPay;
+		this.optionToFinal = optionToFinal;
+		this.totalPayment = totalPayment;
 		this.guestName = guestName;
 		this.numberOfAdult = numberOfAdult;
 		this.numberOfChild = numberOfChild;
@@ -159,6 +163,22 @@ public class PackageReservation {
 
 	public void setAmountToPay(double amountToPay) {
 		this.amountToPay = amountToPay;
+	}
+
+	public String getOptionToFinal() {
+		return optionToFinal;
+	}
+
+	public void setOptionToFinal(String optionToFinal) {
+		this.optionToFinal = optionToFinal;
+	}
+
+	public double getTotalPayment() {
+		return totalPayment;
+	}
+
+	public void setTotalPayment(double totalPayment) {
+		this.totalPayment = totalPayment;
 	}
 
 	public String getGuestName() {

@@ -18,9 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
+import javax.swing.table.*;
 
 import references.JTextFieldHintUI;
 import reservation_system.RSModel;
@@ -109,7 +107,8 @@ public class FRView extends JFrame{
 		
 		String[] columnNames = {"ID", "No.", "Created By", "Departure Date", "Origin", "Destination", "Flight No",
 								"Payment Type", "Guest Name", "Gender", "Adult No",
-								"Child No", "Pay In - PHP", "Pay Out - PHP", "Income - PHP"};
+								"Child No", "Option To Final", "Pay In - PHP", 
+								"Option To Pay", "Pay Out - PHP", "Income - PHP"};
 		ArrayList<FlightReservation> flights = model.getAllFRs();
 		
 		String[][] data = new String[flights.size()][columnNames.length];
@@ -139,12 +138,24 @@ public class FRView extends JFrame{
             }
         };
 
-        table = new JTable(tablemodel);
+        table = new JTable(tablemodel){
+            DefaultTableCellRenderer renderRight = new DefaultTableCellRenderer();
+
+            { // initializer block
+                renderRight.setHorizontalAlignment(SwingConstants.RIGHT);
+            }
+
+            @Override
+            public TableCellRenderer getCellRenderer (int arg0, int arg1) {
+                return renderRight;
+            }
+        };
 		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.setAutoCreateRowSorter(true);
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 70, 1180, 460);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setBounds(10, 70, 1175, 460);
 		add(scrollPane);
 		
 		lblTotalPayIn = new JLabel("Total Pay In:");
@@ -282,7 +293,9 @@ public class FRView extends JFrame{
 					fr.getGender(),
 					fr.getNumberOfAdult(),
 					fr.getNumberOfChild(),
+					fr.getOptionToFinal(),
 					fr.getPayInPHP(),
+					fr.getOptionToPay(),
 					fr.getPayOutPHP(),
 					fr.getPayOutPHP()
 			};
@@ -301,8 +314,7 @@ public class FRView extends JFrame{
 		for (int column = 0; column < table.getColumnCount(); column++)
 		{
 		    TableColumn tableColumn = table.getColumnModel().getColumn(column);
-		    
-		    int preferredWidth = 980/table.getColumnCount();
+		    int preferredWidth = 74;
 		    int maxWidth = tableColumn.getMaxWidth();
 
 		    for (int row = 0; row < table.getRowCount(); row++)

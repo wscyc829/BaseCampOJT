@@ -58,7 +58,7 @@ public class RSController {
 		for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()){
 			try {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-				/*
+				
 				int fontSize = 11;
 				Hashtable defaults = UIManager.getDefaults();
 				Enumeration keys = defaults.keys();
@@ -70,7 +70,7 @@ public class RSController {
 				        defaults.put (key, new FontUIResource(Font.SANS_SERIF, font.getStyle(), fontSize));
 				    }
 				    	
-				}*/
+				}
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -167,6 +167,7 @@ public class RSController {
 		hrView.setBtnSearchListener(new HRBtnSearchListener());
 		hrView.setBtnRefreshListener(new HRBtnRefreshListener());
 		hrView.setBtnPrintListener(new HRBtnPrintListener());
+		hrView.setBtnPrintBillingListener(new HRBtnPrintBillingListener());
 		hrView.setTextFieldFocusListener(new TextFieldFocusListener());
 		hrView.setTextFieldDocumentListener(new TextDocumentListener());
 		hrView.setTableSelectListener(new HRTableSelectListener());
@@ -450,12 +451,37 @@ public class RSController {
 		}
 	}
 	
-	class HRBtnPrintListener implements ActionListener{
+
+class HRBtnPrintListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			ArrayList<HotelReservation> hrs = hrView.getHrs();
 			
 			if(hrs.size() > 0){
 				int error = model.exportHRS(hrs);
+					
+				if(error == 1)
+					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				else if(error == 3)
+					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
+														  "Save failed", JOptionPane.ERROR_MESSAGE);
+				else if(error == 2){
+						//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+			else{
+				JOptionPane.showMessageDialog(null,"No data to print",
+							 "Error", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
+	}
+	
+	class HRBtnPrintBillingListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			ArrayList<HotelReservation> hrs = hrView.getHrs();
+			
+			if(hrs.size() > 0){
+				int error = model.exportBillingHRS(hrs);
 					
 				if(error == 1)
 					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);

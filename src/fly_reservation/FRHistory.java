@@ -16,6 +16,8 @@ public class FRHistory {
 	private boolean isReservationDateEdited;
 	private boolean isOptionToPayEdited;
 	private boolean isAmountToPayEdited;
+	private boolean isOptionToFinalEdited;
+	private boolean isTotalPaymentEdited;
 	
 	private boolean isGuestNameEdited;
 	private boolean isGenderEdited;
@@ -33,14 +35,14 @@ public class FRHistory {
 	private boolean isIncomeKRWEdited;
 	private boolean isNoteEdited;
 	private boolean isRemarkEdited;
-	
 	public FRHistory(String name, String date, boolean isAirlineEdited,
 			boolean isFlightNumberEdited, boolean isDepartureDateEdited,
 			boolean isDepartureTimeEdited, boolean isArrivalTimeEdited,
 			boolean isOriginEdited, boolean isDestinationEdited,
 			boolean isRecordLocatorEdited, boolean isReservationTypeEdited,
 			boolean isReservationDateEdited, boolean isOptionToPayEdited,
-			boolean isAmountToPayEdited, boolean isGuestNameEdited,
+			boolean isAmountToPayEdited, boolean isOptionToFinalEdited,
+			boolean isTotalPaymentEdited, boolean isGuestNameEdited,
 			boolean isGenderEdited, boolean isNumberOfAdultEdited,
 			boolean isNumberOfChildEdited, boolean isPaymentTypeEdited,
 			boolean isPayInPHPEdited, boolean isPayInKRWEdited,
@@ -63,6 +65,8 @@ public class FRHistory {
 		this.isReservationDateEdited = isReservationDateEdited;
 		this.isOptionToPayEdited = isOptionToPayEdited;
 		this.isAmountToPayEdited = isAmountToPayEdited;
+		this.isOptionToFinalEdited = isOptionToFinalEdited;
+		this.isTotalPaymentEdited = isTotalPaymentEdited;
 		this.isGuestNameEdited = isGuestNameEdited;
 		this.isGenderEdited = isGenderEdited;
 		this.isNumberOfAdultEdited = isNumberOfAdultEdited;
@@ -162,6 +166,18 @@ public class FRHistory {
 	}
 	public void setAmountToPayEdited(boolean isAmountToPayEdited) {
 		this.isAmountToPayEdited = isAmountToPayEdited;
+	}
+	public boolean isOptionToFinalEdited() {
+		return isOptionToFinalEdited;
+	}
+	public void setOptionToFinalEdited(boolean isOptionToFinalEdited) {
+		this.isOptionToFinalEdited = isOptionToFinalEdited;
+	}
+	public boolean isTotalPaymentEdited() {
+		return isTotalPaymentEdited;
+	}
+	public void setTotalPaymentEdited(boolean isTotalPaymentEdited) {
+		this.isTotalPaymentEdited = isTotalPaymentEdited;
 	}
 	public boolean isGuestNameEdited() {
 		return isGuestNameEdited;

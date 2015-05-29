@@ -27,6 +27,7 @@ public class HotelReservation {
 	private double amountToPay;
 	private String optionToFinal;
 	private double totalPayment;
+	
 	private String paymentType;
 	private String receiptNumber;
 	private double payInPHP;

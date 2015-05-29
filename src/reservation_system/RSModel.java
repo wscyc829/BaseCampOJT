@@ -224,7 +224,7 @@ public class RSModel {
 				"`amount to pay`, `option to final`, `total payment`, " +
 				"`payment type`, `receipt number`, `pay in - php`, `pay in - krw`," +
 				"`pay in - date`, `pay out - php`, `pay out - krw`," + 
-				"`pay out - date`, `income - php`, `income - krw`, `note`, , `remark`)" +
+				"`pay out - date`, `income - php`, `income - krw`, `note`, `remark`)" +
 				"VALUES (" +
 				"'" + currentUser.getUsername() + "'," +
 				"'" + DATE_TIME_FORMAT.format(new Date()) + "'," +
@@ -862,6 +862,8 @@ public class RSModel {
 				"'" + fr.getReservationDate() + "'," +
 				"'" + fr.getOptionToPay() + "'," +
 				fr.getAmountToPay() + "," +
+				"'" + fr.getOptionToFinal() + "'," +
+				fr.getTotalPayment() + "," +
 				
 				"'" + fr.getGuestName() + "'," +
 				"'" + fr.getGender() + "'," +
@@ -885,6 +887,7 @@ public class RSModel {
 				"`departure date`, `departure time`, `arrival time`," +
 				"origin, destination, `record locator`, `reservation type`," +
 				"`reservation date`, `option to pay`, `amount to pay`, " +
+				"`option to final`, `total payment`, " +
 				"`guest name`, gender, `number of adult`, `number of child`," +
 				"`payment type`, `pay in - PHP`, `pay in - KRW`, `pay in - date`," +
 				"`pay out - PHP`, `pay out - KRW`, `pay out - date`, `income - PHP`," +
@@ -929,7 +932,8 @@ public class RSModel {
 				"`reservation date` = '" + fr.getReservationDate() + "'," +
 				"`option to pay` = '" + fr.getOptionToPay() + "'," +
 				"`amount to pay` = " + fr.getAmountToPay() + "," +
-				
+				"`option to final` = '" +fr.getOptionToFinal() + "'," +
+				"`total payment` = " + fr.getTotalPayment() + "," +
 				
 				"`guest name` = '" + fr.getGuestName() + "'," +
 				"gender = '" + fr.getGender() + "'," +
@@ -956,7 +960,8 @@ public class RSModel {
 				"`isOriginEdited`, `isDestinationEdited`, " +
 				"`isRecordLocatorEdited`, `isReservationTypeEdited`," +
 				"`isReservationDateEdited`, `isOptionToPayEdited`," +
-				"`isAmountToPayEdited`, `isGuestNameEdited`, `isGenderEdited`," +
+				"`isAmountToPayEdited`, `isOptionToFinalEdited`, " +
+				"`isTotalPaymentEdited`, `isGuestNameEdited`, `isGenderEdited`," +
 				"`isNumberOfAdultEdited`, `isNumberOfChildEdited`," +
 				"`isPaymentTypeEdited`, `isPayInPHPEdited`, `isPayInKRWEdited`," +
 				"`isPayInDateEdited`, `isPayOutPHPEdited`, `isPayOutKRWEdited`," +
@@ -979,6 +984,8 @@ public class RSModel {
                 ((edited = edited || !old.getReservationDate().equals(fr.getReservationDate())) && !old.getReservationDate().equals(fr.getReservationDate())) + "," +
                 ((edited = edited || !old.getOptionToPay().equals(fr.getOptionToPay())) && !old.getOptionToPay().equals(fr.getOptionToPay())) + "," +
                 ((edited = edited || (old.getAmountToPay() != fr.getAmountToPay())) && (old.getAmountToPay() != fr.getAmountToPay())) + "," +
+                ((edited = edited || !old.getOptionToFinal().equals(fr.getOptionToFinal())) && !old.getOptionToFinal().equals(fr.getOptionToFinal())) + "," +
+                ((edited = edited || (old.getTotalPayment() != fr.getTotalPayment())) && (old.getTotalPayment() != fr.getTotalPayment())) + "," +
                 
                 ((edited = edited || !old.getGuestName().equals(fr.getGuestName())) && !old.getGuestName().equals(fr.getGuestName())) + "," +
                 ((edited = edited || !old.getGender().equals(fr.getGender())) && !old.getGender().equals(fr.getGender())) + "," +
@@ -1051,6 +1058,8 @@ public class RSModel {
 						rs.getString("reservation date"),
 						rs.getString("option to pay"),
 						rs.getDouble("amount to pay"),
+						rs.getString("option to final"),
+						rs.getDouble("total payment"),
 						
 						rs.getString("guest name"),
 						rs.getString("gender"),
@@ -1145,6 +1154,8 @@ public class RSModel {
 						rs.getString("reservation date"),
 						rs.getString("option to pay"),
 						rs.getDouble("amount to pay"),
+						rs.getString("option to final"),
+						rs.getDouble("total payment"),
 						
 						rs.getString("guest name"),
 						rs.getString("gender"),
@@ -1209,6 +1220,8 @@ public class RSModel {
 						rs.getBoolean("isReservationDateEdited"),
 						rs.getBoolean("isOptionToPayEdited"),
 						rs.getBoolean("isAmountToPayEdited"),
+						rs.getBoolean("isOptionToFinalEdited"),
+						rs.getBoolean("isTotalPaymentEdited"),
 						
 						rs.getBoolean("isGuestNameEdited"),
 						rs.getBoolean("isGenderEdited"),
@@ -1454,13 +1467,18 @@ public class RSModel {
 				"'" + pr.getTime() + "'," +
 				"'" + pr.getType() + "'," +
 				"'" + pr.getCar() + "'," +
+				
 				"'" + pr.getReservationType() + "'," +
 				"'" + pr.getReservationDate() + "'," +
 				"'" + pr.getOptionToPay() + "'," +
 				pr.getAmountToPay() + "," +
+				"'" + pr.getOptionToFinal() + "'," +
+				pr.getTotalPayment() + "," +
+				
 				"'" + pr.getGuestName() + "'," +
 				pr.getNumberOfAdult() + "," +
 				pr.getNumberOfChild() + "," +
+				
 				"'" + pr.getPaymentType() + "'," +
 				pr.getPayInPHP() + "," +
 				pr.getPayInKRW() + "," +
@@ -1470,13 +1488,15 @@ public class RSModel {
 				"'" + pr.getPayOutDate() + "'," +
 				pr.getIncomePHP() + "," +
 				pr.getIncomeKRW() + "," +
+				
 				"'" + pr.getNote() + "'," +
 				"'" + pr.getRemark() + "')";
 		
 		String defaultQuery = "INSERT INTO `package reservation`(" +
 				"`created by`, `created at`, date, time, type, car," +
 				"`reservation type`, `reservation date`, `option to pay`," +
-				"`amount to pay`, `guest name`, `number of adult`, " +
+				"`amount to pay`, `option to final`, `total payment`, " +
+				"`guest name`, `number of adult`, " +
 				"`number of child`, `payment type`, `pay in - PHP`, " +
 				"`pay in - KRW`, `pay in - date`, `pay out - PHP`," +
 				"`pay out - KRW`, `pay out - date`, `income - PHP`, `income - KRW`," +
@@ -1512,13 +1532,18 @@ public class RSModel {
 				"time = '" + pr.getTime() + "'," +
 				"type = '" + pr.getType() + "'," +
 				"car = '" + pr.getCar() + "'," +
+				
 				"`reservation type` = '" + pr.getReservationType() + "'," +
 				"`reservation date` = '" + pr.getReservationDate() + "'," +
 				"`option to pay` = '" + pr.getOptionToPay() + "'," +
 				"`amount to pay` = " + pr.getAmountToPay() + "," +
+				"`option to final` = '" + pr.getOptionToFinal() + "'," +
+				"`total payment` = " + pr.getTotalPayment() + "," +
+				
 				"`guest name` = '" + pr.getGuestName() + "'," +
 				"`number of adult` = " + pr.getNumberOfAdult() + "," +
 				"`number of child` = " + pr.getNumberOfChild() + "," +
+				
 				"`payment type` = '" + pr.getPaymentType() + "'," +
 				"`pay in - PHP` = " + pr.getPayInPHP() + "," +
 				"`pay in - KRW` = " + pr.getPayInKRW() + "," +
@@ -1528,6 +1553,7 @@ public class RSModel {
 				"`pay out - date` = '" + pr.getPayOutDate() + "'," +
 				"`income - PHP` = " + pr.getIncomePHP() + "," +
 				"`income - KRW` = " + pr.getIncomeKRW() + "," +
+				
 				"note = '" + pr.getNote() + "'," +
 				"remark = '" + pr.getRemark() + "'" +
 				"WHERE id = " + pr.getId();
@@ -1536,6 +1562,7 @@ public class RSModel {
 				"(`pr id`, `name`, `date`, `isDateEdited`, `isTimeEdited`," +
 				"`isTypeEdited`, `isCarEdited`, `isReservationTypeEdited`, " +
 				"`isReservationDateEdited`, `isOptionToPayEdited`, `isAmountToPayEdited`," +
+				"`isOptionToFinalEdited`, `isTotalPaymentEdited`, " +
 				"`isGuestNameEdited`, `isNumberOfAdultEdited`, `isNumberOfChildEdited`," +
 				"`isPaymentTypeEdited`, `isPayInPHPEdited`, `isPayInKRWEdited`," +
 				"`isPayInDateEdited`, `isPayOutPHPEdited`, `isPayOutKRWEdited`, " +
@@ -1554,6 +1581,8 @@ public class RSModel {
 				((edited = edited || !old.getReservationDate().equals(pr.getReservationDate())) && !old.getReservationDate().equals(pr.getReservationDate())) + "," +
 				((edited = edited || !old.getOptionToPay().equals(pr.getOptionToPay())) && !old.getOptionToPay().equals(pr.getOptionToPay())) + "," +
 				((edited = edited || (old.getAmountToPay() != pr.getAmountToPay())) && (old.getAmountToPay() != pr.getAmountToPay()))+ "," +
+				((edited = edited || !old.getOptionToFinal().equals(pr.getOptionToFinal())) && !old.getOptionToFinal().equals(pr.getOptionToFinal())) + "," +
+				((edited = edited || (old.getTotalPayment() != pr.getTotalPayment())) && (old.getTotalPayment() != pr.getTotalPayment()))+ "," +
 				
                 ((edited = edited || !old.getGuestName().equals(pr.getGuestName())) && !old.getGuestName().equals(pr.getGuestName())) + "," +
                 ((edited = edited || (old.getNumberOfAdult() != pr.getNumberOfAdult())) && (old.getNumberOfAdult() != pr.getNumberOfAdult()))+ "," +
@@ -1614,13 +1643,18 @@ public class RSModel {
 						rs.getString("time"),
 						rs.getString("type"),
 						rs.getString("car"),
+						
 						rs.getString("reservation type"),
 						rs.getString("reservation date"),
 						rs.getString("option to pay"),
 						rs.getDouble("amount to pay"),
+						rs.getString("option to final"),
+						rs.getDouble("total payment"),
+						
 						rs.getString("guest name"),
 						rs.getInt("number of adult"),
 						rs.getInt("number of child"),
+						
 						rs.getString("payment type"),
 						rs.getDouble("pay in - PHP"),
 						rs.getDouble("pay in - KRW"),
@@ -1630,6 +1664,7 @@ public class RSModel {
 						rs.getString("pay out - date"),
 						rs.getDouble("income - PHP"),
 						rs.getDouble("income - KRW"),
+						
 						rs.getString("note"),
 						rs.getString("remark"));
 				pr.setId(rs.getInt("id"));
@@ -1700,13 +1735,18 @@ public class RSModel {
 						rs.getString("time"),
 						rs.getString("type"),
 						rs.getString("car"),
+						
 						rs.getString("reservation type"),
 						rs.getString("reservation date"),
 						rs.getString("option to pay"),
 						rs.getDouble("amount to pay"),
+						rs.getString("option to final"),
+						rs.getDouble("total payment"),
+						
 						rs.getString("guest name"),
 						rs.getInt("number of adult"),
 						rs.getInt("number of child"),
+						
 						rs.getString("payment type"),
 						rs.getDouble("pay in - PHP"),
 						rs.getDouble("pay in - KRW"),
@@ -1716,6 +1756,7 @@ public class RSModel {
 						rs.getString("pay out - date"),
 						rs.getDouble("income - PHP"),
 						rs.getDouble("income - KRW"),
+						
 						rs.getString("note"),
 						rs.getString("remark"));
 				pr.setId(rs.getInt("id"));
@@ -1756,13 +1797,18 @@ public class RSModel {
 						rs.getBoolean("isTimeEdited"),
 						rs.getBoolean("isTypeEdited"),
 						rs.getBoolean("isCarEdited"),
+						
 						rs.getBoolean("isReservationTypeEdited"),
 						rs.getBoolean("isReservationDateEdited"),
 						rs.getBoolean("isOptionToPayEdited"),
 						rs.getBoolean("isAmountToPayEdited"),
+						rs.getBoolean("isOptionToFinalEdited"),
+						rs.getBoolean("isTotalPaymentEdited"),
+						
 						rs.getBoolean("isGuestNameEdited"),
 						rs.getBoolean("isNumberOfAdultEdited"),
 						rs.getBoolean("isNumberOfChildEdited"),
+						
 						rs.getBoolean("isPaymentTypeEdited"),
 						rs.getBoolean("isPayInPHPEdited"),
 						rs.getBoolean("isPayInKRWEdited"),
@@ -1772,6 +1818,7 @@ public class RSModel {
 						rs.getBoolean("isPayOutDateEdited"),
 						rs.getBoolean("isIncomePHPEdited"),
 						rs.getBoolean("isIncomeKRWEdited"),
+						
 						rs.getBoolean("isNoteEdited"),
 						rs.getBoolean("isRemarkEdited"));
 				list.add(prh);
@@ -1855,9 +1902,7 @@ public class RSModel {
 			printError(-1);
 		}
 	}
-	
-
-public int exportHRS(ArrayList<HotelReservation> hrs){
+	public int exportHRS(ArrayList<HotelReservation> hrs){
 		File file = null;
 		double totalPayment = 0;
 		boolean isSame = true;
@@ -1909,7 +1954,8 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 				FileOutputStream pdfFileout = new FileOutputStream(file);
 				Document doc = new Document(PageSize.A4_LANDSCAPE.rotate(),20f,20f,20f,20f);
 				
-				PdfPCell firstColumn, secondColumn, thirdColumn, fourthColumn, fifthColumn, sixthColumn;
+				PdfPCell firstColumn, secondColumn, thirdColumn, fourthColumn, 
+						 fifthColumn, sixthColumn;
 				
 				PdfWriter.getInstance(doc, pdfFileout);
 
@@ -1918,12 +1964,133 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 				doc.open();
 				
 				PdfPTable table;
-				if(isSame){
-					table = new PdfPTable(5);
-				}
-				else{
-					table = new PdfPTable(6);
-				}
+				
+				table = new PdfPTable(6);
+
+	            table.setWidthPercentage(100);
+	            
+		        firstColumn = new PdfPCell(new Paragraph("DATE"));
+		        secondColumn = new PdfPCell(new Paragraph("HOTEL/RESORT"));
+		        thirdColumn = new PdfPCell(new Paragraph("GUEST NAME"));
+		        fourthColumn = new PdfPCell(new Paragraph("ROOM TYPE"));
+		        fifthColumn = new PdfPCell(new Paragraph("NO. OF ROOMS"));
+		        sixthColumn = new PdfPCell(new Paragraph("CREATED BY"));
+		        
+		        table.addCell(firstColumn);
+		        table.addCell(secondColumn);
+		        table.addCell(thirdColumn);
+		        table.addCell(fourthColumn);
+		        table.addCell(fifthColumn);
+		        table.addCell(sixthColumn);
+		        
+		        for(int i = 0; i < hrs.size(); i++){
+		        	if(!hrs.get(i).getStatus().equals("Cancelled")){
+			        	firstColumn = new PdfPCell(new Paragraph(hrs.get(i).getCheckIn() + "-" + 
+			        											 hrs.get(i).getCheckOut()));
+			        	secondColumn = new PdfPCell(new Paragraph(hrs.get(i).getHotelOrResort()));
+			        	thirdColumn = new PdfPCell(new Paragraph(hrs.get(i).getGuestName()));
+			        	fourthColumn = new PdfPCell(new Paragraph(hrs.get(i).getRoomType()));
+			        	fifthColumn = new PdfPCell(new Paragraph(hrs.get(i).getNumberOfRooms() + ""));
+			        	sixthColumn = new PdfPCell(new Paragraph(hrs.get(i).getCreatedBy()));
+			        	totalPayment += hrs.get(i).getAmountToPay();
+			        	
+			        	table.addCell(firstColumn);
+			        	table.addCell(secondColumn);
+			        	table.addCell(thirdColumn);
+			        	table.addCell(fourthColumn);
+			        	table.addCell(fifthColumn);
+			        	table.addCell(sixthColumn);
+		        	}
+		        }
+	            
+	            float[] width;
+
+	            width = new float[] {16.66f,16.66f,16.66f,16.66f,16.66f,16.66f};
+	            table.setWidths(width);
+	            
+		        doc.add(table);
+		        
+		        doc.add(new Phrase(" "));
+		        
+				doc.close();
+				pdfFileout.close();
+				return 1;
+			}else if(userSelection == JFileChooser.CANCEL_OPTION){
+				return 2;
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return 3;
+		}
+		return 1;
+	}
+	
+	public int exportBillingHRS(ArrayList<HotelReservation> hrs){
+		File file = null;
+		double totalPayment = 0;
+		boolean isSame = true;
+		String name = "";
+		
+		for(HotelReservation h : hrs){
+			if(name.equals("")){
+				name = h.getHotelOrResort();
+			}
+			else if(!name.equals(h.getHotelOrResort())){
+				isSame = false;
+				break;
+			}
+		}
+		
+		try {
+			
+			JFrame parentFrame = new JFrame();
+			
+			String userDir = System.getProperty("user.home");
+			JFileChooser fileChooser = new JFileChooser(userDir +"/Desktop");
+			
+			fileChooser.setDialogTitle("Export Billing Hotel Reservation to");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("pdf", "pdf");
+			fileChooser.setFileFilter(filter);
+			
+			int userSelection = fileChooser.showSaveDialog(parentFrame);
+			
+			if (userSelection == JFileChooser.APPROVE_OPTION) {
+			    file = fileChooser.getSelectedFile();
+			    
+			    if(file.exists()){
+			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
+			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
+		            	return 2;
+		            }
+			    	else if(existing == JOptionPane.YES_OPTION){
+			    		if(!file.getAbsolutePath().contains(".pdf"))
+			    			throw new Exception();
+			    	}
+		            file = new File(file.getAbsolutePath());
+			    }
+			    else
+			    {
+			    	if(!file.getAbsolutePath().contains(".pdf"))
+			    		file = new File(file.getAbsolutePath()+".pdf");
+			    }
+				FileOutputStream pdfFileout = new FileOutputStream(file);
+				Document doc = new Document(PageSize.A4_LANDSCAPE.rotate(),20f,20f,20f,20f);
+				
+				PdfPCell firstColumn, secondColumn, thirdColumn, fourthColumn, 
+						 fifthColumn, sixthColumn, seventhColumn;
+				
+				PdfWriter.getInstance(doc, pdfFileout);
+	
+				doc.addAuthor("BASECAMP TOUR");
+				doc.addTitle("HOTEL RESERVATIONS");
+				doc.open();
+				
+				PdfPTable table;
+				
+				table = new PdfPTable(6);
+				
 	            table.setWidthPercentage(100);
 	            
 				Image logo = Image.getInstance(this.getClass().getResource("/Pictures/logo.jpg"));
@@ -1933,31 +2100,27 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        Font headingFont = new Font(Font.FontFamily.COURIER, 16,
 	                    Font.BOLD);
 		        
-		        if(isSame){
-			        Paragraph heading = new Paragraph("To " + name, headingFont);
-			        doc.add(heading);
+			    Paragraph heading = new Paragraph("To " + name, headingFont);
+			    doc.add(heading);
 			     
-			        heading = new Paragraph("From basecamp",headingFont);
-			        doc.add(heading);
-		        }
+			    heading = new Paragraph("From basecamp",headingFont);
+			    doc.add(heading);
+		        
 		        doc.add(new Paragraph("\n"));
 		        
 		        firstColumn = new PdfPCell(new Paragraph("DATE"));
 		        secondColumn = new PdfPCell(new Paragraph("NAME"));
 		        thirdColumn = new PdfPCell(new Paragraph("CC#"));
 		        fourthColumn = new PdfPCell(new Paragraph("ROOM TYPE"));
-		        fifthColumn = new PdfPCell(new Paragraph("PAYMENT"));
+		        fifthColumn = new PdfPCell(new Paragraph("NO. OF ROOMS"));
+		        sixthColumn = new PdfPCell(new Paragraph("PAYMENT"));
+		        
 		        table.addCell(firstColumn);
 		        table.addCell(secondColumn);
-		        
-		        if(!isSame){
-		        	sixthColumn = new PdfPCell(new Paragraph("Hotel/Resort"));
-		        	table.addCell(sixthColumn);
-		        }
-		        
 		        table.addCell(thirdColumn);
 		        table.addCell(fourthColumn);
 		        table.addCell(fifthColumn);
+		        table.addCell(sixthColumn);
 		        
 		        for(int i = 0; i < hrs.size(); i++){
 		        	if(!hrs.get(i).getStatus().equals("Cancelled")){
@@ -1965,50 +2128,37 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 			        											 hrs.get(i).getCheckOut()));
 			        	secondColumn = new PdfPCell(new Paragraph(hrs.get(i).getGuestName()));
 			        	thirdColumn = new PdfPCell(new Paragraph(hrs.get(i).getConfirmationNumber()));
-			        	fourthColumn = new PdfPCell(new Paragraph(hrs.get(i).getNumberOfRooms() + " " +
-			        											 hrs.get(i).getRoomType()));
-			        	fifthColumn = new PdfPCell(new Paragraph(hrs.get(i).getAmountToPay() + ""));
+			        	fourthColumn = new PdfPCell(new Paragraph(hrs.get(i).getRoomType()));
+			        	fifthColumn = new PdfPCell(new Paragraph(hrs.get(i).getNumberOfRooms() + ""));
+			        	sixthColumn = new PdfPCell(new Paragraph(hrs.get(i).getAmountToPay() + ""));
 			        	
 			        	totalPayment += hrs.get(i).getAmountToPay();
 			        	
 			        	table.addCell(firstColumn);
 			        	table.addCell(secondColumn);
-			        	
-			        	if(!isSame){
-				        	sixthColumn = new PdfPCell(new Paragraph(hrs.get(i).getHotelOrResort()));
-				        	table.addCell(sixthColumn);
-				        }
-			        	
 			        	table.addCell(thirdColumn);
 			        	table.addCell(fourthColumn);
 			        	table.addCell(fifthColumn);
+			        	table.addCell(sixthColumn);
 		        	}
 		        }
 	            
 		        firstColumn = new PdfPCell(new Paragraph("TOTAL"));
 		        
-		        if(isSame){
-		        	firstColumn.setColspan(2);
-		        }
-		        else{
-		        	firstColumn.setColspan(3);
-		        }
+		        firstColumn.setColspan(2);
+
 		        firstColumn.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		        table.addCell(firstColumn);
 		        
 		        secondColumn = new PdfPCell(new Paragraph(totalPayment + ""));
-		        secondColumn.setColspan(3);
+		        secondColumn.setColspan(4);
 		        secondColumn.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		        table.addCell(secondColumn);
 		        
 	            float[] width;
 	            
-	            if(isSame){
-	            	width = new float[] {20f,20f,20f,20f,20f};
-	            }
-	            else{
-	            	width = new float[] {16.66f,16.66f,16.66f,16.66f,16.66f,16.66f};
-	            }
+	            width = new float[] {16.66f,16.66f,16.66f,16.66f,16.66f,16.66f};
+	            
 	            table.setWidths(width);
 	            
 		        doc.add(table);
@@ -2614,13 +2764,13 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
-	            firstColumn = new PdfPCell(new Paragraph("OPTION TO PAY"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getOptionToPay()));
+	            firstColumn = new PdfPCell(new Paragraph("OPTION TO FINAL"));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getOptionToFinal()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
-	            firstColumn = new PdfPCell(new Paragraph("AMOUNT TO PAY"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getAmountToPay() + ""));
+	            firstColumn = new PdfPCell(new Paragraph("TOTAL AMOUNT"));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getTotalPayment() + ""));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2654,8 +2804,8 @@ public int exportHRS(ArrayList<HotelReservation> hrs){
 		        
 		        doc.add(new Phrase("\n"));
 		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrInvoiceGuideline.jpg"));
-				guideline.scalePercent(65f, 40f);
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrInvoiceGuideline.png"));
+				guideline.scalePercent(46.5f, 35f);
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));

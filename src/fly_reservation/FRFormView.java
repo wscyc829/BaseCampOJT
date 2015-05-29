@@ -24,7 +24,7 @@ public class FRFormView extends JFrame{
 	private JLabel lblAirline, lblFlightNo, lblDepartureDate, lblDepartureTime, 
 		lblArrivalTime, lblOrigin, lblDestination, lblRecordLocator,
 		lblReservationType, lblReservationDate, lblOptionToPay, lblAmountToPay,
-		lblGuestName, lblGender, lblNoOfAdult, lblNoOfChild,  lblPaymentType, 
+		lblOptionToFinal, lblTotalPayment, lblGuestName, lblGender, lblNoOfAdult, lblNoOfChild,  lblPaymentType, 
 		lblCurrency, lblCurrencyNote,
 		lblPayIn, lblPayInPHP, lblPayInKRW, lblPayInDate, 
 		lblPayOut , lblPayOutPHP, lblPayOutKRW, lblPayOutDate,
@@ -34,9 +34,10 @@ public class FRFormView extends JFrame{
 	private JTextField tfRecordLocator, tfGuestName;
 	
 	JFormattedTextField ftfDepartureDate, ftfDepartureTime, ftfArrivalTime, 
-		ftfReservationDate, ftfOptionToPay, ftfAmountToPay, ftfNoOfAdult, ftfNoOfChild,
-		ftfCurrency, ftfPayInPHP, ftfPayInKRW, ftfPayInDate, ftfPayOutPHP, ftfPayOutKRW,
-		ftfPayOutDate, ftfIncomePHP, ftfIncomeKRW;
+		ftfReservationDate, ftfOptionToPay, ftfAmountToPay, ftfOptionToFinal,
+		ftfTotalPayment, ftfNoOfAdult, ftfNoOfChild, ftfCurrency, ftfPayInPHP,
+		ftfPayInKRW, ftfPayInDate, ftfPayOutPHP, ftfPayOutKRW, ftfPayOutDate,
+		ftfIncomePHP, ftfIncomeKRW;
 	
 	private JTextArea taNote, taRemark;
 	
@@ -64,10 +65,12 @@ public class FRFormView extends JFrame{
 	
 	public FRFormView(RSModel model){
 		super("Flight Reservation Form");
-		setSize(845, 450);
+		setSize(845, 480);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setResizable(false);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		
 		setIconImage(new ImageIcon(getClass().getResource("/Pictures/icon.png")).getImage());
 		
 		this.model = model;
@@ -121,20 +124,28 @@ public class FRFormView extends JFrame{
 		lblAmountToPay.setBounds(250, 100, 100, 20);
 		add(lblAmountToPay);
 		
+		lblOptionToFinal = new JLabel("Option To Final");
+		lblOptionToFinal.setBounds(250, 130, 100, 20);
+		add(lblOptionToFinal);
+		
+		lblTotalPayment = new JLabel("Total Payment");
+		lblTotalPayment.setBounds(250, 160, 100, 20);
+		add(lblTotalPayment);
+		
 		lblGuestName = new JLabel("Guest Name");
-		lblGuestName.setBounds(250, 130, 100, 20);
+		lblGuestName.setBounds(250, 190, 100, 20);
 		add(lblGuestName);
 		
 		lblGender = new JLabel("Gender");
-		lblGender.setBounds(250, 160, 100, 20);
+		lblGender.setBounds(250, 220, 100, 20);
 		add(lblGender);
 		
 		lblNoOfAdult = new JLabel("Adult");
-		lblNoOfAdult.setBounds(250, 190, 50, 20);
+		lblNoOfAdult.setBounds(250, 250, 50, 20);
 		add(lblNoOfAdult);
 		
 		lblNoOfChild = new JLabel("Child");
-		lblNoOfChild.setBounds(370, 190, 50, 20);
+		lblNoOfChild.setBounds(370, 250, 50, 20);
 		add(lblNoOfChild);
 		
 		lblPaymentType = new JLabel("Payment Type");
@@ -194,15 +205,15 @@ public class FRFormView extends JFrame{
 		add(lblIncomeKRW);
 		
 		lblNote = new JLabel("Note");
-		lblNote.setBounds(10, 250, 100, 20);
+		lblNote.setBounds(10, 280, 100, 20);
 		add(lblNote);
 		
 		lblRemark = new JLabel("Remark");
-		lblRemark.setBounds(10, 320, 100, 20);
+		lblRemark.setBounds(10, 350, 100, 20);
 		add(lblRemark);
 		
 		lblHistory = new JLabel("Edit History");
-		lblHistory.setBounds(440, 250, 100, 20);
+		lblHistory.setBounds(440, 280, 100, 20);
 		add(lblHistory);
 		
 		cbAirline = new JComboBox(model.getAirline().toArray());
@@ -306,27 +317,39 @@ public class FRFormView extends JFrame{
 		ftfAmountToPay.setBounds(340, 100, 120, 20);
 		add(ftfAmountToPay);
 		
+		ftfOptionToFinal = new JFormattedTextField(model.DATE_FORMAT);
+		ftfOptionToFinal.setName("Option To Final");
+		ftfOptionToFinal.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
+		ftfOptionToFinal.setBounds(340, 130, 120, 20);
+		add(ftfOptionToFinal);
+		
+		ftfTotalPayment = new JFormattedTextField(model.NUMBER_FORMAT);
+		ftfTotalPayment.setName("Total Payment");
+		ftfTotalPayment.setValue(new Double(0));
+		ftfTotalPayment.setBounds(340, 160, 120, 20);
+		add(ftfTotalPayment);
+		
 		tfGuestName = new JTextField();
 		tfGuestName.setName("Guest Name");
-		tfGuestName.setBounds(340, 130, 120, 20);
+		tfGuestName.setBounds(340, 190, 120, 20);
 		add(tfGuestName);
 		
 		cbGender = new JComboBox(new String[]{"Male","Female"});
 		cbGender.setEditable(true);
 		new AutoCompletion(cbGender);
-		cbGender.setBounds(340, 160, 120, 20);
+		cbGender.setBounds(340, 220, 120, 20);
 		cbGender.setName("Gender");
 		add(cbGender);
 		
 		ftfNoOfAdult = new JFormattedTextField(model.INTEGER_FORMAT);
 		ftfNoOfAdult.setValue(new Integer(0));
-		ftfNoOfAdult.setBounds(290, 190, 50, 20);
+		ftfNoOfAdult.setBounds(290, 250, 50, 20);
 		ftfNoOfAdult.setName("Number of Adult");
 		add(ftfNoOfAdult);
 		
 		ftfNoOfChild = new JFormattedTextField(model.INTEGER_FORMAT);
 		ftfNoOfChild.setValue(new Integer(0));
-		ftfNoOfChild.setBounds(410, 190, 50, 20);
+		ftfNoOfChild.setBounds(410, 250, 50, 20);
 		ftfNoOfChild.setName("Number of Child");
 		add(ftfNoOfChild);
 		
@@ -405,7 +428,7 @@ public class FRFormView extends JFrame{
 		taNote.setWrapStyleWord(false);
 		
 		JScrollPane jp = new JScrollPane(taNote);
-		jp.setBounds(90, 250, 310, 60);
+		jp.setBounds(90, 280, 310, 60);
 		add(jp);
 		
 		taRemark = new JTextArea("");
@@ -414,33 +437,32 @@ public class FRFormView extends JFrame{
 		taRemark.setWrapStyleWord(false);
 		
 		JScrollPane jp1 = new JScrollPane(taRemark);
-		jp1.setBounds(90, 320, 310, 60);
+		jp1.setBounds(90, 350, 310, 60);
 		add(jp1);
 		
 		lHistory = new JList(new DefaultListModel());
 		lHistory.setName("History");
 		
 		JScrollPane jp2 = new JScrollPane(lHistory);
-		jp2.setBounds(520, 250, 310, 60);
+		jp2.setBounds(520, 280, 310, 60);
 		add(jp2);
 		
 		btnExportPO = new JButton("Export - Purchase Order");
-		btnExportPO.setBounds(575, 320, 200, 20);
+		btnExportPO.setBounds(575, 350, 200, 20);
 		add(btnExportPO);
 		
 		btnExportIV = new JButton("Export - Invoice");
-		btnExportIV.setBounds(575, 350, 200, 20);
+		btnExportIV.setBounds(575, 380, 200, 20);
 		add(btnExportIV);
 		
 		btnSave = new JButton("Save");
-		btnSave.setBounds(335, 390, 90, 20);
+		btnSave.setBounds(335, 420, 90, 20);
 		add(btnSave);
 		
 		btnCancel = new JButton("Cancel");
-		btnCancel.setBounds(440, 390, 90, 20);
+		btnCancel.setBounds(440, 420, 90, 20);
 		add(btnCancel);
 		
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
 		listeners();
 		
@@ -535,6 +557,7 @@ public class FRFormView extends JFrame{
 				
 				JTextField tf = (JTextField)c;
 				if(!tf.getName().equals("Record Locator") && !tf.getName().equals("Option To Pay") &&
+						!tf.getName().equals("Option To Final") && 
 						!tf.getName().equals("Currency") && 
 						!tf.getName().equals("Pay In - PHP") && !tf.getName().equals("Pay In - KRW") &&
 						!tf.getName().equals("Pay In - Date") &&
@@ -591,6 +614,8 @@ public class FRFormView extends JFrame{
 				ftfReservationDate.getText(),
 				ftfOptionToPay.getText(),
 				Double.parseDouble(ftfAmountToPay.getValue().toString()),
+				ftfOptionToFinal.getText(),
+				Double.parseDouble(ftfTotalPayment.getValue().toString()),
 				
 				tfGuestName.getText(),
 				cbGender.getSelectedItem().toString(), 
@@ -630,6 +655,8 @@ public class FRFormView extends JFrame{
 		ftfReservationDate.setText(fr.getReservationDate());
 		ftfOptionToPay.setText(fr.getOptionToPay());
 		ftfAmountToPay.setValue(fr.getAmountToPay());
+		ftfOptionToFinal.setText(fr.getOptionToFinal());
+		ftfTotalPayment.setValue(fr.getTotalPayment());
 		
 		tfGuestName.setText(fr.getGuestName());
 		cbGender.setSelectedItem(fr.getGender());
@@ -645,6 +672,7 @@ public class FRFormView extends JFrame{
 		ftfPayOutDate.setText(fr.getPayOutDate());
 		ftfIncomePHP.setValue(fr.getIncomePHP()); 
 		ftfIncomeKRW.setValue(fr.getIncomeKRW());
+		
 		taNote.setText(fr.getNote());
 		taRemark.setText(fr.getRemark());
 		
@@ -831,6 +859,20 @@ public class FRFormView extends JFrame{
 					}
 					else{
 						ftfAmountToPay.setBorder(tfBorder);
+					}
+					
+					if(frh.isOptionToFinalEdited()){
+						ftfOptionToFinal.setBorder(red);
+					}
+					else{
+						ftfOptionToFinal.setBorder(tfBorder);
+					}
+					
+					if(frh.isTotalPaymentEdited()){
+						ftfTotalPayment.setBorder(red);
+					}
+					else{
+						ftfTotalPayment.setBorder(tfBorder);
 					}
 					
 					if(frh.isGuestNameEdited()){

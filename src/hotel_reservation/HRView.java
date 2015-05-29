@@ -33,6 +33,8 @@ public class HRView extends JFrame{
 	private JButton btnRefresh;
 
 	private JButton btnPrint;
+	private JButton btnPrintBilling;
+	
 	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn, lblTotalPayOut, lblTotalIncome;
 	
 	private JLabel lblImage;
@@ -52,7 +54,7 @@ public class HRView extends JFrame{
 	
 	public HRView(RSModel model){
 		super("Hotel Reservation");
-		setSize(1300,600);
+		setSize(1200,600);
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -63,7 +65,7 @@ public class HRView extends JFrame{
 		hrs = new ArrayList<HotelReservation>();
 		
 		lblImage = new JLabel(getImageIcon("/Pictures/tableLogo.png", 320, 50));
-		lblImage.setBounds(950, 10, 420, 50);
+		lblImage.setBounds(850, 10, 420, 50);
 		add(lblImage);
 		
 		btnAdd = new JButton("Add");
@@ -124,9 +126,14 @@ public class HRView extends JFrame{
 		btnPrint.setBounds(700, 40, 100, 20);
 		add(btnPrint);
 		
+
+		btnPrintBilling = new JButton("Print Billing");
+		btnPrintBilling.setBounds(820, 40, 100, 20);
+		add(btnPrintBilling);
+		
 		String[] columnNames = {"ID", "No.", "Created By", "Check In", "Check Out", "Reservation Date",
 				"Hotel/Resort", "Guest Name", "Room Type", "No Of Rooms", "Reservation Type", 
-				"Payment Type", "Status", "Pay In - PHP", "Opt To Pay", "Pay Out - PHP", "Income - PHP"};
+				"Payment Type", "Option To Final", "Status", "Pay In - PHP", "Opt To Pay", "Pay Out - PHP", "Income - PHP"};
 		
 		ArrayList<HotelReservation> list = model.getAllHRs();
 		String[][] data = new String[list.size()][columnNames.length];
@@ -155,15 +162,27 @@ public class HRView extends JFrame{
             }
         };
         
-		table = new JTable(tablemodel);
+		table = new JTable(tablemodel){
+		    DefaultTableCellRenderer renderRight = new DefaultTableCellRenderer();
+
+		    { // initializer block
+		        renderRight.setHorizontalAlignment(SwingConstants.RIGHT);
+		    }
+
+		    @Override
+		    public TableCellRenderer getCellRenderer (int arg0, int arg1) {
+		        return renderRight;
+		    }
+		};
 		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultRenderer(String.class, new OwnTableCellRenderer());
 		table.setDefaultRenderer(Double.class, new OwnTableCellRenderer());
 		table.setDefaultRenderer(Integer.class, new OwnTableCellRenderer());
 		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.setAutoCreateRowSorter(true);
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(10, 70, 1280, 460);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setBounds(10, 70, 1175, 460);
 		add(scrollPane);
 		
 		lblTotalPayIn = new JLabel("Total Pay In:");
@@ -275,6 +294,9 @@ public class HRView extends JFrame{
 	public void setBtnPrintListener(ActionListener listener){
 		btnPrint.addActionListener(listener);
 	}
+	public void setBtnPrintBillingListener(ActionListener listener){
+		btnPrintBilling.addActionListener(listener);
+	}
 	
 	public void setTableSelectListener(ListSelectionListener listener){
 		ListSelectionModel cellSelectionModel = table.getSelectionModel();
@@ -295,7 +317,7 @@ public class HRView extends JFrame{
 	        TableCellRenderer renderer;
 	        TableModel model = table.getModel();
 	        int modelRow = table.getRowSorter().convertRowIndexToModel(row);
-	        int columnStatusPosition = 12;
+	        int columnStatusPosition = 14;
 	        String statusColumnValue = (String) model.getValueAt(modelRow, columnStatusPosition);
 	        
 	        if (statusColumnValue.equals("Cancelled")) {
@@ -361,6 +383,7 @@ public class HRView extends JFrame{
 					hr.getNumberOfRooms(),
 					hr.getReservationType(),
 					hr.getPaymentType(),
+					hr.getOptionToFinal(),
 					hr.getStatus(),
 					hr.getPayInPHP(),
 					hr.getOptionToPay(),
@@ -381,11 +404,12 @@ public class HRView extends JFrame{
 		ftfTotalPayOut.setValue(totalPayOut);
 		ftfTotalIncome.setValue(totalIncome);
 		
+
 		for (int column = 0; column < table.getColumnCount(); column++)
 		{
 		    TableColumn tableColumn = table.getColumnModel().getColumn(column);
-		    
-		    int preferredWidth = 980/table.getColumnCount();
+		    //int preferredWidth = tableColumn.getMinWidth();
+		    int preferredWidth = 70;
 		    int maxWidth = tableColumn.getMaxWidth();
 
 		    for (int row = 0; row < table.getRowCount(); row++)
@@ -396,7 +420,7 @@ public class HRView extends JFrame{
 		        preferredWidth = Math.max(preferredWidth, width);
 
 		        //  We've exceeded the maximum width, no need to check other rows
- 
+
 		        if (preferredWidth >= maxWidth)
 		        {
 		            preferredWidth = maxWidth;
@@ -414,14 +438,17 @@ public class HRView extends JFrame{
 			
 			public void itemStateChanged(ItemEvent arg0) {
 				if(cbSearch.getSelectedItem().toString().equals("N/A")){
+					btnPrintBilling.setVisible(false);
 					tfSearch.setVisible(false);
 					cbHotelOrResort.setVisible(false);
 				}
 				else if(cbSearch.getSelectedItem().toString().equals("Hotel/Resort")){
+					btnPrintBilling.setVisible(true);
 					tfSearch.setVisible(false);
 					cbHotelOrResort.setVisible(true);
 				}
 				else{
+					btnPrintBilling.setVisible(false);
 					cbHotelOrResort.setVisible(false);
 					tfSearch.setVisible(true);
 					tfSearch.setText("");

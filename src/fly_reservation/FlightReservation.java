@@ -20,6 +20,7 @@ public class FlightReservation {
 	private double amountToPay;
 	private String optionToFinal;
 	private double totalPayment;
+	private String totalPaymentType;
 	
 	private String guestName;
 	private String gender;
@@ -48,12 +49,12 @@ public class FlightReservation {
 			String departureTime, String arrivalTime, String origin,
 			String destination, String recordLocator, String reservationType,
 			String reservationDate, String optionToPay, double amountToPay,
-			String optionToFinal, double totalPayment, String guestName,
-			String gender, int numberOfAdult, int numberOfChild,
-			String paymentType, double payInPHP, double payInKRW,
-			String payInDate, double payOutPHP, double payOutKRW,
-			String payOutDate, double incomePHP, double incomeKRW, String note,
-			String remark) {
+			String optionToFinal, double totalPayment, String totalPaymentType,
+			String guestName, String gender, int numberOfAdult,
+			int numberOfChild, String paymentType, double payInPHP,
+			double payInKRW, String payInDate, double payOutPHP,
+			double payOutKRW, String payOutDate, double incomePHP,
+			double incomeKRW, String note, String remark) {
 		this.id = -1;
 		this.createdBy = createdBy;
 		this.createdAt = createdAt;
@@ -71,6 +72,7 @@ public class FlightReservation {
 		this.amountToPay = amountToPay;
 		this.optionToFinal = optionToFinal;
 		this.totalPayment = totalPayment;
+		this.totalPaymentType = totalPaymentType;
 		this.guestName = guestName;
 		this.gender = gender;
 		this.numberOfAdult = numberOfAdult;
@@ -222,6 +224,14 @@ public class FlightReservation {
 
 	public void setTotalPayment(double totalPayment) {
 		this.totalPayment = totalPayment;
+	}
+
+	public String getTotalPaymentType() {
+		return totalPaymentType;
+	}
+
+	public void setTotalPaymentType(String totalPaymentType) {
+		this.totalPaymentType = totalPaymentType;
 	}
 
 	public String getGuestName() {

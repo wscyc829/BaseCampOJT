@@ -124,7 +124,7 @@ public class PRView extends JFrame{
             	else if(column == 0 || column == 1 || column == 10 || column == 11){
             		return Integer.class;
             	}
-            	else if(column == 12 || column == 13 || column == 14){
+            	else if(column == 13 || column == 15 || column == 16){
             		return Double.class;
             	}
             	return String.class;
@@ -137,17 +137,15 @@ public class PRView extends JFrame{
         };
 		
         table = new JTable(tablemodel){
-            DefaultTableCellRenderer renderRight = new DefaultTableCellRenderer();
-
-            { // initializer block
-                renderRight.setHorizontalAlignment(SwingConstants.RIGHT);
-            }
-
-            @Override
-            public TableCellRenderer getCellRenderer (int arg0, int arg1) {
-                return renderRight;
-            }
-        };
+			@Override
+		    public Component prepareRenderer(TableCellRenderer renderer,
+		                                       int row, int col)
+		    {
+		    	Component comp = super.prepareRenderer(renderer, row, col);
+		        ((JLabel) comp).setHorizontalAlignment(JLabel.RIGHT);
+		    	return comp;
+			}
+		};
 		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.setAutoCreateRowSorter(true);

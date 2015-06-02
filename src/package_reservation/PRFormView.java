@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,6 +17,7 @@ import javax.swing.event.ListSelectionListener;
 
 import references.AutoCompletion;
 import references.JTextFieldHintUI;
+import references.MyOwnFocusTraversalPolicy;
 import reservation_system.RSModel;
 
 public class PRFormView extends JFrame{
@@ -40,7 +42,8 @@ public class PRFormView extends JFrame{
 	
 	private JList lHistory;
 	
-	private JComboBox cbCar, cbFlightNo, cbPaymentType, cbReservationType;
+	private JComboBox cbCar, cbFlightNo, cbTotalPaymentType, 
+		cbPaymentType, cbReservationType;
 	
 	private JButton btnAddCar;
 	private JButton btnAddRT;
@@ -278,6 +281,13 @@ public class PRFormView extends JFrame{
 		ftfTotalPayment.setName("Total Payment");
 		add(ftfTotalPayment);
 		
+		cbTotalPaymentType = new JComboBox(new String[]{"Pesos","Won"});
+		cbTotalPaymentType.setName("Total Payment Type");
+		cbTotalPaymentType.setBounds(440, 160, 60, 20);
+		cbTotalPaymentType.setEditable(true);
+		new AutoCompletion(cbTotalPaymentType);
+		add(cbTotalPaymentType);
+		
 		cbPaymentType = new JComboBox(model.getPaymentType().toArray());
 		cbPaymentType.setEditable(true);
 		new AutoCompletion(cbPaymentType);
@@ -414,6 +424,36 @@ public class PRFormView extends JFrame{
 			ftfIncomePHP.setVisible(false);
 			ftfIncomeKRW.setVisible(false);
 		}
+		
+		Vector<Component> order = new Vector<Component>(20);
+	    order.add(ftfDate);
+	    order.add(ftfTime);
+	    order.add(tfType);
+	    order.add(cbCar.getEditor().getEditorComponent());
+	    order.add(tfGuestName);
+	    order.add(ftfNoOfAdult);
+	    order.add(ftfNoOfChild);
+	    order.add(cbReservationType.getEditor().getEditorComponent());
+	    order.add(ftfReservationDate);
+	    order.add(ftfOptionToPay);
+	    order.add(ftfAmountToPay);
+	    order.add(ftfOptionToFinal);
+	    order.add(ftfTotalPayment);
+	    order.add(cbTotalPaymentType.getEditor().getEditorComponent());
+	    order.add(cbPaymentType.getEditor().getEditorComponent());
+	    order.add(ftfCurrency);
+	    order.add(ftfPayInPHP);
+	    order.add(ftfPayInKRW);
+	    order.add(ftfPayInDate);
+	    order.add(ftfPayOutPHP);
+	    order.add(ftfPayOutKRW);
+	    order.add(ftfPayOutDate);
+	    order.add(ftfIncomePHP);
+	    order.add(ftfIncomeKRW);
+	    
+	    MyOwnFocusTraversalPolicy newPolicy = new MyOwnFocusTraversalPolicy(order);
+		
+	    this.setFocusTraversalPolicy(newPolicy);
 	}
 	
 	public void setTextFieldFocusListener(FocusListener listener){
@@ -539,6 +579,7 @@ public class PRFormView extends JFrame{
 				Double.parseDouble(ftfAmountToPay.getValue().toString()),
 				ftfOptionToFinal.getText(),
 				Double.parseDouble(ftfTotalPayment.getValue().toString()),
+				cbTotalPaymentType.getSelectedItem().toString(),
 				
 				tfGuestName.getText(),
 				Integer.parseInt(ftfNoOfAdult.getValue().toString()), 
@@ -574,10 +615,12 @@ public class PRFormView extends JFrame{
 		ftfAmountToPay.setValue(pr.getAmountToPay());
 		ftfOptionToFinal.setText(pr.getOptionToFinal());
 		ftfTotalPayment.setValue(pr.getTotalPayment());
+		cbTotalPaymentType.setSelectedItem(pr.getTotalPaymentType());
 		
 		tfGuestName.setText(pr.getGuestName());
 		ftfNoOfAdult.setValue(pr.getNumberOfAdult()); 
-		ftfNoOfChild.setValue(pr.getNumberOfChild());;	
+		ftfNoOfChild.setValue(pr.getNumberOfChild());
+		
 		cbPaymentType.setSelectedItem(pr.getPaymentType());
 		ftfPayInPHP.setValue(pr.getPayInPHP());
 		ftfPayInKRW.setValue(pr.getPayInKRW()); 
@@ -587,6 +630,7 @@ public class PRFormView extends JFrame{
 		ftfPayOutDate.setText(pr.getPayOutDate());
 		ftfIncomePHP.setValue(pr.getIncomePHP());
 		ftfIncomeKRW.setValue(pr.getIncomeKRW()); 
+		
 		taNote.setText(pr.getNote());
 		taRemark.setText(pr.getRemark());
 		
@@ -741,6 +785,13 @@ public class PRFormView extends JFrame{
 					}
 					else{
 						ftfTotalPayment.setBorder(tfBorder);
+					}
+					
+					if(prh.isTotalPaymentTypeEdited()){
+						cbTotalPaymentType.setBorder(red);
+					}
+					else{
+						cbTotalPaymentType.setBorder(cbBorder);
 					}
 					
 					if(prh.isGuestNameEdited()){

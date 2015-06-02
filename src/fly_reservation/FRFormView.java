@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -16,6 +17,7 @@ import javax.swing.event.ListSelectionListener;
 
 import references.AutoCompletion;
 import references.JTextFieldHintUI;
+import references.MyOwnFocusTraversalPolicy;
 import reservation_system.RSModel;
 
 public class FRFormView extends JFrame{
@@ -43,8 +45,8 @@ public class FRFormView extends JFrame{
 	
 	private JList lHistory;
 	
-	private JComboBox  cbAirline, cbFlightNumber, cbOrigin, cbDestination, cbReservationType, cbGender,
-		cbPaymentType;
+	private JComboBox  cbAirline, cbFlightNumber, cbOrigin, cbDestination,
+		cbTotalPaymentType, cbReservationType, cbGender, cbPaymentType;
 	
 	private JButton btnAddAirline;
 	private JButton btnAddFlight;
@@ -329,6 +331,13 @@ public class FRFormView extends JFrame{
 		ftfTotalPayment.setBounds(340, 160, 120, 20);
 		add(ftfTotalPayment);
 		
+		cbTotalPaymentType = new JComboBox(new String[]{"Pesos", "Won"});
+		cbTotalPaymentType.setName("Total Payment Type");
+		cbTotalPaymentType.setBounds(460, 160, 60, 20);
+		cbTotalPaymentType.setEditable(true);
+		new AutoCompletion(cbTotalPaymentType);
+		add(cbTotalPaymentType);
+		
 		tfGuestName = new JTextField();
 		tfGuestName.setName("Guest Name");
 		tfGuestName.setBounds(340, 190, 120, 20);
@@ -483,6 +492,41 @@ public class FRFormView extends JFrame{
 			ftfIncomePHP.setVisible(false);
 			ftfIncomeKRW.setVisible(false);
 		}
+		
+		Vector<Component> order = new Vector<Component>(20);
+	    order.add(cbAirline.getEditor().getEditorComponent());
+	    order.add(cbFlightNumber.getEditor().getEditorComponent());
+	    order.add(ftfDepartureDate);
+	    order.add(ftfDepartureTime);
+	    order.add(ftfArrivalTime);
+	    order.add(cbOrigin.getEditor().getEditorComponent());
+	    order.add(cbDestination.getEditor().getEditorComponent());
+	    order.add(tfRecordLocator);
+	    order.add(cbReservationType.getEditor().getEditorComponent());
+	    order.add(ftfReservationDate);
+	    order.add(ftfOptionToPay);
+	    order.add(ftfAmountToPay);
+	    order.add(ftfOptionToFinal);
+	    order.add(ftfTotalPayment);
+	    order.add(cbTotalPaymentType.getEditor().getEditorComponent());
+	    order.add(tfGuestName);
+	    order.add(cbGender.getEditor().getEditorComponent());
+	    order.add(ftfNoOfAdult);
+	    order.add(ftfNoOfChild);
+	    order.add(cbPaymentType.getEditor().getEditorComponent());
+	    order.add(ftfCurrency);
+	    order.add(ftfPayInPHP);
+	    order.add(ftfPayInKRW);
+	    order.add(ftfPayInDate);
+	    order.add(ftfPayOutPHP);
+	    order.add(ftfPayOutKRW);
+	    order.add(ftfPayOutDate);
+	    order.add(ftfIncomePHP);
+	    order.add(ftfIncomeKRW);
+	    
+	    MyOwnFocusTraversalPolicy newPolicy = new MyOwnFocusTraversalPolicy(order);
+		
+	    this.setFocusTraversalPolicy(newPolicy);
 	}
 	
 	public void setTextFieldFocusListener(FocusListener listener){
@@ -616,6 +660,7 @@ public class FRFormView extends JFrame{
 				Double.parseDouble(ftfAmountToPay.getValue().toString()),
 				ftfOptionToFinal.getText(),
 				Double.parseDouble(ftfTotalPayment.getValue().toString()),
+				cbTotalPaymentType.getSelectedItem().toString(),
 				
 				tfGuestName.getText(),
 				cbGender.getSelectedItem().toString(), 
@@ -657,6 +702,7 @@ public class FRFormView extends JFrame{
 		ftfAmountToPay.setValue(fr.getAmountToPay());
 		ftfOptionToFinal.setText(fr.getOptionToFinal());
 		ftfTotalPayment.setValue(fr.getTotalPayment());
+		cbTotalPaymentType.setSelectedItem(fr.getTotalPaymentType());
 		
 		tfGuestName.setText(fr.getGuestName());
 		cbGender.setSelectedItem(fr.getGender());
@@ -873,6 +919,13 @@ public class FRFormView extends JFrame{
 					}
 					else{
 						ftfTotalPayment.setBorder(tfBorder);
+					}
+					
+					if(frh.isTotalPaymentTypeEdited()){
+						cbTotalPaymentType.setBorder(red);
+					}
+					else{
+						cbTotalPaymentType.setBorder(cbBorder);
 					}
 					
 					if(frh.isGuestNameEdited()){

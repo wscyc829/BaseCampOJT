@@ -27,6 +27,7 @@ public class HotelReservation {
 	private double amountToPay;
 	private String optionToFinal;
 	private double totalPayment;
+	private String totalPaymentType;
 	
 	private String paymentType;
 	private String receiptNumber;
@@ -53,10 +54,10 @@ public class HotelReservation {
 			String confirmationNumber, String company, String status,
 			String reservationType, String reservationDate, String optionToPay,
 			double amountToPay, String optionToFinal, double totalPayment,
-			String paymentType, String receiptNumber, double payInPHP,
-			double payInKRW, String payInDate, double payOutPHP,
-			double payOutKRW, String payOutDate, double incomePHP,
-			double incomeKRW, String note, String remark) {
+			String totalPaymentType, String paymentType, String receiptNumber,
+			double payInPHP, double payInKRW, String payInDate,
+			double payOutPHP, double payOutKRW, String payOutDate,
+			double incomePHP, double incomeKRW, String note, String remark) {
 		this.id = -1;
 		this.createdBy = createdBy;
 		this.createdAt = createdAt;
@@ -79,6 +80,7 @@ public class HotelReservation {
 		this.amountToPay = amountToPay;
 		this.optionToFinal = optionToFinal;
 		this.totalPayment = totalPayment;
+		this.totalPaymentType = totalPaymentType;
 		this.paymentType = paymentType;
 		this.receiptNumber = receiptNumber;
 		this.payInPHP = payInPHP;
@@ -269,6 +271,14 @@ public class HotelReservation {
 		this.totalPayment = totalPayment;
 	}
 
+	public String getTotalPaymentType() {
+		return totalPaymentType;
+	}
+
+	public void setTotalPaymentType(String totalPaymentType) {
+		this.totalPaymentType = totalPaymentType;
+	}
+
 	public String getPaymentType() {
 		return paymentType;
 	}
@@ -364,5 +374,4 @@ public class HotelReservation {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-
 }

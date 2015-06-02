@@ -222,9 +222,10 @@ public class RSModel {
 				"`breakfast`, `confirmation number`, `company`, `status`," +
 				"`reservation type`, `reservation date`, `option to pay`, " +
 				"`amount to pay`, `option to final`, `total payment`, " +
-				"`payment type`, `receipt number`, `pay in - php`, `pay in - krw`," +
-				"`pay in - date`, `pay out - php`, `pay out - krw`," + 
-				"`pay out - date`, `income - php`, `income - krw`, `note`, `remark`)" +
+				"`total payment type`, `payment type`, `receipt number`," +
+				"`pay in - php`, `pay in - krw`, `pay in - date`, " +
+				"`pay out - php`, `pay out - krw`, `pay out - date`," +
+				"`income - php`, `income - krw`, `note`, `remark`)" +
 				"VALUES (" +
 				"'" + currentUser.getUsername() + "'," +
 				"'" + DATE_TIME_FORMAT.format(new Date()) + "'," +
@@ -250,6 +251,7 @@ public class RSModel {
 				hr.getAmountToPay() + "," +
 				"'" + hr.getOptionToFinal() + "'," +
 				hr.getTotalPayment() + "," +
+				"'" + hr.getTotalPaymentType() + "'," +
 				
 				"'" + hr.getPaymentType() + "'," +
 				"'" + hr.getReceiptNumber() + "'," +
@@ -312,6 +314,7 @@ public class RSModel {
 				"`amount to pay` = " + hr.getAmountToPay() + "," +
 				"`option to final` = '" + hr.getOptionToFinal() + "'," +
 				"`total payment` = " + hr.getTotalPayment() + "," +
+				"`total payment type` = '" + hr.getTotalPaymentType() + "'," +
 				
 				"`payment type` = '" + hr.getPaymentType() + "'," +
 				"`receipt number` = '" + hr.getReceiptNumber() + "'," +
@@ -335,7 +338,7 @@ public class RSModel {
 				"`isNumberOfNightsEdited`, `isBreakfastEdited`, `isConfirmationNumberEdited`," +
 				"`isCompanyEdited`,`isStatusEdited`,`isReservationTypeEdited`, " +
 				"`isReservationDateEdited`, `isOptionToPayEdited`, `isAmountToPayEdited`," +
-				"`isOptionToFinalEdited`, `isTotalPaymentEdited`, " +
+				"`isOptionToFinalEdited`, `isTotalPaymentEdited`, `isTotalPaymentTypeEdited`, " +
 				"`isPaymentTypeEdited`, `isReceiptNumberEdited`, `isPayInPHPEdited`," +
 				"`isPayInKRWEdited`, `isPayInDateEdited`, `isPayOutPHPEdited`, " + 
 				"`isPayOutKRWEdited`, `isPayOutDateEdited`, `isIncomePHPEdited`," +
@@ -366,6 +369,7 @@ public class RSModel {
                 ((edited = edited || (old.getAmountToPay() != hr.getAmountToPay())) && (old.getAmountToPay() != hr.getAmountToPay()))+ "," +
                 ((edited = edited || !old.getOptionToFinal().equals(hr.getOptionToFinal())) && !old.getOptionToFinal().equals(hr.getOptionToFinal())) + "," +
                 ((edited = edited || (old.getTotalPayment() != hr.getTotalPayment())) && (old.getTotalPayment() != hr.getTotalPayment()))+ "," +
+                ((edited = edited || !old.getTotalPaymentType().equals(hr.getTotalPaymentType())) && !old.getTotalPaymentType().equals(hr.getTotalPaymentType())) + "," +
                 
                 ((edited = edited || !old.getPaymentType().equals(hr.getPaymentType())) && !old.getPaymentType().equals(hr.getPaymentType())) + "," +
                 ((edited = edited || !old.getReceiptNumber().equals(hr.getReceiptNumber())) && !old.getReceiptNumber().equals(hr.getReceiptNumber())) + "," +
@@ -443,6 +447,7 @@ public class RSModel {
 						rs.getDouble("amount to pay"),
 						rs.getString("option to final"),
 						rs.getDouble("total payment"),
+						rs.getString("total payment type"),
 						
 						rs.getString("payment type"),
 						rs.getString("receipt number"),
@@ -545,6 +550,7 @@ public class RSModel {
 						rs.getDouble("amount to pay"), 
 						rs.getString("option to final"), 
 						rs.getDouble("total payment"),
+						rs.getString("total payment type"),
 						
 						rs.getString("payment type"), 
 						rs.getString("receipt number"),
@@ -617,6 +623,7 @@ public class RSModel {
 						rs.getBoolean("isAmountToPayEdited"),
 						rs.getBoolean("isOptionToFinalEdited"),
 						rs.getBoolean("isTotalPaymentEdited"),
+						rs.getBoolean("isTotalPaymentTypeEdited"),
 						
 						rs.getBoolean("isPaymentTypeEdited"),
 						rs.getBoolean("isReceiptNumberEdited"),
@@ -864,6 +871,7 @@ public class RSModel {
 				fr.getAmountToPay() + "," +
 				"'" + fr.getOptionToFinal() + "'," +
 				fr.getTotalPayment() + "," +
+				"'" + fr.getTotalPaymentType() + "'," +
 				
 				"'" + fr.getGuestName() + "'," +
 				"'" + fr.getGender() + "'," +
@@ -887,7 +895,7 @@ public class RSModel {
 				"`departure date`, `departure time`, `arrival time`," +
 				"origin, destination, `record locator`, `reservation type`," +
 				"`reservation date`, `option to pay`, `amount to pay`, " +
-				"`option to final`, `total payment`, " +
+				"`option to final`, `total payment`, `total payment type`," +
 				"`guest name`, gender, `number of adult`, `number of child`," +
 				"`payment type`, `pay in - PHP`, `pay in - KRW`, `pay in - date`," +
 				"`pay out - PHP`, `pay out - KRW`, `pay out - date`, `income - PHP`," +
@@ -934,6 +942,7 @@ public class RSModel {
 				"`amount to pay` = " + fr.getAmountToPay() + "," +
 				"`option to final` = '" +fr.getOptionToFinal() + "'," +
 				"`total payment` = " + fr.getTotalPayment() + "," +
+				"`total payment type` = '" + fr.getTotalPaymentType() + "'," +
 				
 				"`guest name` = '" + fr.getGuestName() + "'," +
 				"gender = '" + fr.getGender() + "'," +
@@ -961,7 +970,8 @@ public class RSModel {
 				"`isRecordLocatorEdited`, `isReservationTypeEdited`," +
 				"`isReservationDateEdited`, `isOptionToPayEdited`," +
 				"`isAmountToPayEdited`, `isOptionToFinalEdited`, " +
-				"`isTotalPaymentEdited`, `isGuestNameEdited`, `isGenderEdited`," +
+				"`isTotalPaymentEdited`, `isTotalPaymentTypeEdited`, " +
+				"`isGuestNameEdited`, `isGenderEdited`," +
 				"`isNumberOfAdultEdited`, `isNumberOfChildEdited`," +
 				"`isPaymentTypeEdited`, `isPayInPHPEdited`, `isPayInKRWEdited`," +
 				"`isPayInDateEdited`, `isPayOutPHPEdited`, `isPayOutKRWEdited`," +
@@ -986,6 +996,7 @@ public class RSModel {
                 ((edited = edited || (old.getAmountToPay() != fr.getAmountToPay())) && (old.getAmountToPay() != fr.getAmountToPay())) + "," +
                 ((edited = edited || !old.getOptionToFinal().equals(fr.getOptionToFinal())) && !old.getOptionToFinal().equals(fr.getOptionToFinal())) + "," +
                 ((edited = edited || (old.getTotalPayment() != fr.getTotalPayment())) && (old.getTotalPayment() != fr.getTotalPayment())) + "," +
+                ((edited = edited || !old.getTotalPaymentType().equals(fr.getTotalPaymentType())) && !old.getTotalPaymentType().equals(fr.getTotalPaymentType())) + "," +
                 
                 ((edited = edited || !old.getGuestName().equals(fr.getGuestName())) && !old.getGuestName().equals(fr.getGuestName())) + "," +
                 ((edited = edited || !old.getGender().equals(fr.getGender())) && !old.getGender().equals(fr.getGender())) + "," +
@@ -1060,6 +1071,7 @@ public class RSModel {
 						rs.getDouble("amount to pay"),
 						rs.getString("option to final"),
 						rs.getDouble("total payment"),
+						rs.getString("total payment type"),
 						
 						rs.getString("guest name"),
 						rs.getString("gender"),
@@ -1156,6 +1168,7 @@ public class RSModel {
 						rs.getDouble("amount to pay"),
 						rs.getString("option to final"),
 						rs.getDouble("total payment"),
+						rs.getString("total payment type"),
 						
 						rs.getString("guest name"),
 						rs.getString("gender"),
@@ -1222,6 +1235,7 @@ public class RSModel {
 						rs.getBoolean("isAmountToPayEdited"),
 						rs.getBoolean("isOptionToFinalEdited"),
 						rs.getBoolean("isTotalPaymentEdited"),
+						rs.getBoolean("isTotalPaymentTypeEdited"),
 						
 						rs.getBoolean("isGuestNameEdited"),
 						rs.getBoolean("isGenderEdited"),
@@ -1474,6 +1488,7 @@ public class RSModel {
 				pr.getAmountToPay() + "," +
 				"'" + pr.getOptionToFinal() + "'," +
 				pr.getTotalPayment() + "," +
+				"'" + pr.getTotalPaymentType() + "'," +
 				
 				"'" + pr.getGuestName() + "'," +
 				pr.getNumberOfAdult() + "," +
@@ -1496,7 +1511,7 @@ public class RSModel {
 				"`created by`, `created at`, date, time, type, car," +
 				"`reservation type`, `reservation date`, `option to pay`," +
 				"`amount to pay`, `option to final`, `total payment`, " +
-				"`guest name`, `number of adult`, " +
+				"`total payment type`, `guest name`, `number of adult`, " +
 				"`number of child`, `payment type`, `pay in - PHP`, " +
 				"`pay in - KRW`, `pay in - date`, `pay out - PHP`," +
 				"`pay out - KRW`, `pay out - date`, `income - PHP`, `income - KRW`," +
@@ -1539,6 +1554,7 @@ public class RSModel {
 				"`amount to pay` = " + pr.getAmountToPay() + "," +
 				"`option to final` = '" + pr.getOptionToFinal() + "'," +
 				"`total payment` = " + pr.getTotalPayment() + "," +
+				"`total payment type` = '" + pr.getTotalPaymentType() + "'," +
 				
 				"`guest name` = '" + pr.getGuestName() + "'," +
 				"`number of adult` = " + pr.getNumberOfAdult() + "," +
@@ -1562,7 +1578,7 @@ public class RSModel {
 				"(`pr id`, `name`, `date`, `isDateEdited`, `isTimeEdited`," +
 				"`isTypeEdited`, `isCarEdited`, `isReservationTypeEdited`, " +
 				"`isReservationDateEdited`, `isOptionToPayEdited`, `isAmountToPayEdited`," +
-				"`isOptionToFinalEdited`, `isTotalPaymentEdited`, " +
+				"`isOptionToFinalEdited`, `isTotalPaymentEdited`, `isTotalPaymentTypeEdited`," +
 				"`isGuestNameEdited`, `isNumberOfAdultEdited`, `isNumberOfChildEdited`," +
 				"`isPaymentTypeEdited`, `isPayInPHPEdited`, `isPayInKRWEdited`," +
 				"`isPayInDateEdited`, `isPayOutPHPEdited`, `isPayOutKRWEdited`, " +
@@ -1583,11 +1599,11 @@ public class RSModel {
 				((edited = edited || (old.getAmountToPay() != pr.getAmountToPay())) && (old.getAmountToPay() != pr.getAmountToPay()))+ "," +
 				((edited = edited || !old.getOptionToFinal().equals(pr.getOptionToFinal())) && !old.getOptionToFinal().equals(pr.getOptionToFinal())) + "," +
 				((edited = edited || (old.getTotalPayment() != pr.getTotalPayment())) && (old.getTotalPayment() != pr.getTotalPayment()))+ "," +
+				((edited = edited || !old.getTotalPaymentType().equals(pr.getTotalPaymentType())) && !old.getTotalPaymentType().equals(pr.getTotalPaymentType())) + "," +
 				
                 ((edited = edited || !old.getGuestName().equals(pr.getGuestName())) && !old.getGuestName().equals(pr.getGuestName())) + "," +
                 ((edited = edited || (old.getNumberOfAdult() != pr.getNumberOfAdult())) && (old.getNumberOfAdult() != pr.getNumberOfAdult()))+ "," +
                 ((edited = edited || (old.getNumberOfChild() != pr.getNumberOfChild())) && (old.getNumberOfChild() != pr.getNumberOfChild()))+ "," +
-                
                 
 				((edited = edited || !old.getPaymentType().equals(pr.getPaymentType())) && !old.getPaymentType().equals(pr.getPaymentType())) + "," +
                 ((edited = edited || (old.getPayInPHP() != pr.getPayInPHP())) && (old.getPayInPHP() != pr.getPayInPHP())) + "," +
@@ -1650,6 +1666,7 @@ public class RSModel {
 						rs.getDouble("amount to pay"),
 						rs.getString("option to final"),
 						rs.getDouble("total payment"),
+						rs.getString("total payment type"),
 						
 						rs.getString("guest name"),
 						rs.getInt("number of adult"),
@@ -1742,6 +1759,7 @@ public class RSModel {
 						rs.getDouble("amount to pay"),
 						rs.getString("option to final"),
 						rs.getDouble("total payment"),
+						rs.getString("total payment type"),
 						
 						rs.getString("guest name"),
 						rs.getInt("number of adult"),
@@ -1804,6 +1822,7 @@ public class RSModel {
 						rs.getBoolean("isAmountToPayEdited"),
 						rs.getBoolean("isOptionToFinalEdited"),
 						rs.getBoolean("isTotalPaymentEdited"),
+						rs.getBoolean("isTotalPaymentTypeEdited"),
 						
 						rs.getBoolean("isGuestNameEdited"),
 						rs.getBoolean("isNumberOfAdultEdited"),
@@ -1990,7 +2009,7 @@ public class RSModel {
 			        	secondColumn = new PdfPCell(new Paragraph(hrs.get(i).getHotelOrResort()));
 			        	thirdColumn = new PdfPCell(new Paragraph(hrs.get(i).getGuestName()));
 			        	fourthColumn = new PdfPCell(new Paragraph(hrs.get(i).getRoomType()));
-			        	fifthColumn = new PdfPCell(new Paragraph(hrs.get(i).getNumberOfRooms() + ""));
+			        	fifthColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hrs.get(i).getNumberOfRooms())));
 			        	sixthColumn = new PdfPCell(new Paragraph(hrs.get(i).getCreatedBy()));
 			        	totalPayment += hrs.get(i).getAmountToPay();
 			        	
@@ -2113,7 +2132,7 @@ public class RSModel {
 		        thirdColumn = new PdfPCell(new Paragraph("CC#"));
 		        fourthColumn = new PdfPCell(new Paragraph("ROOM TYPE"));
 		        fifthColumn = new PdfPCell(new Paragraph("NO. OF ROOMS"));
-		        sixthColumn = new PdfPCell(new Paragraph("PAYMENT"));
+		        sixthColumn = new PdfPCell(new Paragraph("PAYMENT(PHP)"));
 		        
 		        table.addCell(firstColumn);
 		        table.addCell(secondColumn);
@@ -2129,8 +2148,8 @@ public class RSModel {
 			        	secondColumn = new PdfPCell(new Paragraph(hrs.get(i).getGuestName()));
 			        	thirdColumn = new PdfPCell(new Paragraph(hrs.get(i).getConfirmationNumber()));
 			        	fourthColumn = new PdfPCell(new Paragraph(hrs.get(i).getRoomType()));
-			        	fifthColumn = new PdfPCell(new Paragraph(hrs.get(i).getNumberOfRooms() + ""));
-			        	sixthColumn = new PdfPCell(new Paragraph(hrs.get(i).getAmountToPay() + ""));
+			        	fifthColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hrs.get(i).getNumberOfRooms())));
+			        	sixthColumn = new PdfPCell(new Paragraph(NUMBER_FORMAT.format(hrs.get(i).getAmountToPay())));
 			        	
 			        	totalPayment += hrs.get(i).getAmountToPay();
 			        	
@@ -2150,7 +2169,7 @@ public class RSModel {
 		        firstColumn.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		        table.addCell(firstColumn);
 		        
-		        secondColumn = new PdfPCell(new Paragraph(totalPayment + ""));
+		        secondColumn = new PdfPCell(new Paragraph("P"+NUMBER_FORMAT.format(totalPayment)));
 		        secondColumn.setColspan(4);
 		        secondColumn.setHorizontalAlignment(Element.ALIGN_RIGHT);
 		        table.addCell(secondColumn);
@@ -2264,12 +2283,12 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO. OF NIGHTS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfNights() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfNights())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO. OF ROOMS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfRooms() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfRooms())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2296,7 +2315,7 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2312,12 +2331,12 @@ public class RSModel {
 		        
 		        doc.add(new Phrase(" "));
 		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrGuideline.jpg"));
-				guideline.scalePercent(62f, 42f);
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrVoucherGuideline.png"));
+				guideline.scalePercent(74.5f, 42f);
 		        doc.add(guideline);
 		        
-		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
-				footer.scalePercent(70f, 38f);
+		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer2.png"));
+				footer.scalePercent(90f, 42f);
 		        doc.add(footer);
 		        
 				doc.close();
@@ -2419,12 +2438,12 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO. OF NIGHTS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfNights() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfNights())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO. OF ROOMS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfRooms() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfRooms())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2451,7 +2470,7 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2467,7 +2486,7 @@ public class RSModel {
 		        
 		        doc.add(new Phrase(" "));
 		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrGuidelineWeb.png"));
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrVoucherGuidelineWeb.png"));
 				guideline.scalePercent(62f, 45f);
 		        doc.add(guideline);
 		        
@@ -2580,12 +2599,12 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO OF NIGHTS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfNights() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfNights())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO OF ROOMS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfRooms() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfRooms())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2612,7 +2631,7 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2689,7 +2708,7 @@ public class RSModel {
 		        //cell.setColspan(2);
 	            
 				Image logo = Image.getInstance(this.getClass().getResource("/Pictures/logo.jpg"));
-				logo.scalePercent(70f);
+				logo.scalePercent(70f, 60f);
 		        doc.add(logo);
 				
 		        Font headingFont = new Font(Font.FontFamily.COURIER, 32,
@@ -2733,12 +2752,12 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO OF NIGHTS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfNights() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfNights())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO OF ROOMS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfRooms() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfRooms())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2769,13 +2788,14 @@ public class RSModel {
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
-	            firstColumn = new PdfPCell(new Paragraph("TOTAL AMOUNT"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getTotalPayment() + ""));
+	            firstColumn = new PdfPCell(new Paragraph("TOTAL PAYMENT"));
+	            secondColumn = new PdfPCell(new Paragraph(NUMBER_FORMAT.format(hr.getTotalPayment()) + 
+	            		" " + hr.getTotalPaymentType()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2788,11 +2808,11 @@ public class RSModel {
 		        Font boldFont = new Font(FontFamily.HELVETICA, 14, Font.BOLD);
 		        
 		        Chunk normal = new Chunk("BDO ACCOUNT: # ", normalFont);
-          		Chunk bold = new Chunk("003530216725\n", boldFont);
+          		Chunk bold = new Chunk("003530216725 ", boldFont);
           		doc.add(normal);
           		doc.add(bold);
 		        
-          		normal = new Chunk("BPI ACCOUNT: # ", normalFont);
+          		normal = new Chunk("/ BPI ACCOUNT: # ", normalFont);
           		bold = new Chunk("1603100243\n", boldFont);
           		doc.add(normal);
           		doc.add(bold);
@@ -2808,8 +2828,8 @@ public class RSModel {
 				guideline.scalePercent(46.5f, 35f);
 		        doc.add(guideline);
 		        
-		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
-				footer.scalePercent(70f, 38f);
+		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer2.png"));
+				footer.scalePercent(90f, 42f);
 		        doc.add(footer);
 		        
 				doc.close();
@@ -2878,7 +2898,7 @@ public class RSModel {
 		        //cell.setColspan(2);
 	            
 				Image logo = Image.getInstance(this.getClass().getResource("/Pictures/logo.jpg"));
-				logo.scalePercent(70f);
+				logo.scalePercent(70f, 60f);
 		        doc.add(logo);
 				
 		        Font headingFont = new Font(Font.FontFamily.COURIER, 32,
@@ -2922,12 +2942,12 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO OF NIGHTS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfNights() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfNights())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("NO OF ROOMS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getNumberOfRooms() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(INTEGER_FORMAT.format(hr.getNumberOfRooms())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2953,18 +2973,19 @@ public class RSModel {
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
-	            firstColumn = new PdfPCell(new Paragraph("OPTION TO PAY"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getOptionToPay()));
+	            firstColumn = new PdfPCell(new Paragraph("OPTION TO FINAL"));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getOptionToFinal()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
-	            firstColumn = new PdfPCell(new Paragraph("AMOUNT TO PAY"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getAmountToPay() + ""));
+	            firstColumn = new PdfPCell(new Paragraph("TOTAL PAYMENT"));
+	            secondColumn = new PdfPCell(new Paragraph(NUMBER_FORMAT.format(hr.getTotalPayment()) +
+	            		" " + hr.getTotalPaymentType()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(hr.getRemark()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -2976,18 +2997,8 @@ public class RSModel {
 		        Font normalFont = new Font(FontFamily.HELVETICA, 14, Font.NORMAL);
 		        Font boldFont = new Font(FontFamily.HELVETICA, 14, Font.BOLD);
 		        
-		        Chunk normal = new Chunk("KEB(Korean Exchange Bank): #", normalFont);
-          		Chunk bold = new Chunk("253-18-34174-8\n", boldFont);
-          		doc.add(normal);
-          		doc.add(bold);
-          		
-          		normal = new Chunk("ACCOUNT NAME: ", normalFont);
-          		bold = new Chunk("BASECAMP INTERNATIOONAL TOUR INC.\n", boldFont);
-          		doc.add(normal);
-          		doc.add(bold);
-		        
 		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrInvoiceGuidelineWeb.png"));
-				guideline.scalePercent(46.7f, 38f);
+				guideline.scalePercent(46.7f, 36f);
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
@@ -3109,7 +3120,7 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("AMOUNT TO PAY"));
-	            secondColumn = new PdfPCell(new Paragraph(fr.getAmountToPay() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(NUMBER_FORMAT.format(fr.getAmountToPay())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3196,7 +3207,7 @@ public class RSModel {
 		        //cell.setColspan(2);
 	            
 				Image logo = Image.getInstance(this.getClass().getResource("/Pictures/logo.jpg"));
-				logo.scalePercent(70f);
+				logo.scalePercent(70f, 60f);
 		        doc.add(logo);
 				
 		        Font headingFont = new Font(Font.FontFamily.COURIER, 32,
@@ -3231,13 +3242,13 @@ public class RSModel {
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
-	            firstColumn = new PdfPCell(new Paragraph("OPTION TO PAY"));
-	            secondColumn = new PdfPCell(new Paragraph(fr.getOptionToPay()));
+	            firstColumn = new PdfPCell(new Paragraph("OPTION TO FINAL"));
+	            secondColumn = new PdfPCell(new Paragraph(fr.getOptionToFinal()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
-	            firstColumn = new PdfPCell(new Paragraph("AMOUNT TO PAY"));
-	            secondColumn = new PdfPCell(new Paragraph(fr.getAmountToPay() + ""));
+	            firstColumn = new PdfPCell(new Paragraph("TOTAL PAYMENT"));
+	            secondColumn = new PdfPCell(new Paragraph(NUMBER_FORMAT.format(fr.getTotalPayment())));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3260,11 +3271,11 @@ public class RSModel {
 		        Font boldFont = new Font(FontFamily.HELVETICA, 14, Font.BOLD);
 		        
 		        Chunk normal = new Chunk("BDO ACCOUNT: # ", normalFont);
-          		Chunk bold = new Chunk("003530216725\n", boldFont);
+          		Chunk bold = new Chunk("003530216725 ", boldFont);
           		doc.add(normal);
           		doc.add(bold);
 		        
-          		normal = new Chunk("BPI ACCOUNT: # ", normalFont);
+          		normal = new Chunk("/ BPI ACCOUNT: # ", normalFont);
           		bold = new Chunk("1603100243\n", boldFont);
           		doc.add(normal);
           		doc.add(bold);
@@ -3275,6 +3286,10 @@ public class RSModel {
           		doc.add(bold);
 		        
 		        doc.add(new Phrase("\n"));
+		        
+		        Image bank = Image.getInstance(this.getClass().getResource("/Pictures/frInvoiceBankAccount.png"));
+		        bank.scalePercent(78f, 65f);
+		        doc.add(bank);
 		        
 				doc.close();
 				pdfFileout.close();
@@ -3407,8 +3422,12 @@ public class RSModel {
 		        
 		        doc.add(new Phrase(" "));
 		        
-		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
-				footer.scalePercent(70f, 38f);
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/prVoucherGuideline.png"));
+				guideline.scalePercent(74f, 45f);
+		        doc.add(guideline);
+		        
+		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer2.png"));
+				footer.scalePercent(90f, 45f);
 		        doc.add(footer);
 		        
 				doc.close();
@@ -3526,7 +3545,7 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("REMARK"));
-	            secondColumn = new PdfPCell(new Paragraph(pr.getRemark() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(pr.getRemark()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3542,8 +3561,12 @@ public class RSModel {
 		        
 		        doc.add(new Phrase(" "));
 		        
+		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/prVoucherGuidelineWeb.png"));
+				guideline.scalePercent(74f, 45f);
+		        doc.add(guideline);
+		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
-				footer.scalePercent(70f, 38f);
+				footer.scalePercent(70f, 45f);
 		        doc.add(footer);
 		        
 				doc.close();
@@ -3560,7 +3583,8 @@ public class RSModel {
 		return 1;
 	}
 	
-	public int exportPRInvoice(PackageReservation pr){
+
+public int exportPRInvoice(PackageReservation pr){
 		File file = null;
 		
 		try {
@@ -3612,7 +3636,7 @@ public class RSModel {
 		        //cell.setColspan(2);
 	            
 				Image logo = Image.getInstance(this.getClass().getResource("/Pictures/logo.jpg"));
-				logo.scalePercent(70f);
+				logo.scalePercent(70f, 60f);
 		        doc.add(logo);
 				
 		        Font headingFont = new Font(Font.FontFamily.COURIER, 32,
@@ -3656,8 +3680,14 @@ public class RSModel {
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
-	            firstColumn = new PdfPCell(new Paragraph("AMOUNT TO PAY"));
-	            secondColumn = new PdfPCell(new Paragraph(pr.getAmountToPay() + ""));
+	            firstColumn = new PdfPCell(new Paragraph("OPTION TO FINAL"));
+	            secondColumn = new PdfPCell(new Paragraph(pr.getOptionToFinal()));
+	            table.addCell(firstColumn);
+	            table.addCell(secondColumn);
+	            
+	            firstColumn = new PdfPCell(new Paragraph("TOTAL PAYMENT"));
+	            secondColumn = new PdfPCell(new Paragraph(NUMBER_FORMAT.format(pr.getAmountToPay()) + 
+	            		" " + pr.getTotalPaymentType()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3667,7 +3697,7 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	           	
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(pr.getRemark() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(pr.getRemark()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3680,11 +3710,11 @@ public class RSModel {
 		        Font boldFont = new Font(FontFamily.HELVETICA, 14, Font.BOLD);
 		        
 		        Chunk normal = new Chunk("BDO ACCOUNT: # ", normalFont);
-          		Chunk bold = new Chunk("003530216725\n", boldFont);
+          		Chunk bold = new Chunk("003530216725 ", boldFont);
           		doc.add(normal);
           		doc.add(bold);
 		        
-          		normal = new Chunk("BPI ACCOUNT: # ", normalFont);
+          		normal = new Chunk("/ BPI ACCOUNT: # ", normalFont);
           		bold = new Chunk("1603100243\n", boldFont);
           		doc.add(normal);
           		doc.add(bold);
@@ -3696,12 +3726,8 @@ public class RSModel {
 		        
 		        doc.add(new Phrase("\n"));
 		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/prInvoiceGuideline.png"));
-				guideline.scalePercent(65f, 40f);
-		        doc.add(guideline);
-		        
-		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
-				footer.scalePercent(70f, 38f);
+		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer2.png"));
+				footer.scalePercent(90f, 42f);
 		        doc.add(footer);
 		        
 				doc.close();
@@ -3770,7 +3796,7 @@ public class RSModel {
 		        //cell.setColspan(2);
 	            
 				Image logo = Image.getInstance(this.getClass().getResource("/Pictures/logo.jpg"));
-				logo.scalePercent(70f);
+				logo.scalePercent(70f, 60f);
 		        doc.add(logo);
 				
 		        Font headingFont = new Font(Font.FontFamily.COURIER, 32,
@@ -3814,8 +3840,14 @@ public class RSModel {
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
-	            firstColumn = new PdfPCell(new Paragraph("AMOUNT TO PAY"));
-	            secondColumn = new PdfPCell(new Paragraph(pr.getAmountToPay() + ""));
+	            firstColumn = new PdfPCell(new Paragraph("OPTION TO FINAL"));
+	            secondColumn = new PdfPCell(new Paragraph(pr.getOptionToFinal()));
+	            table.addCell(firstColumn);
+	            table.addCell(secondColumn);
+	            
+	            firstColumn = new PdfPCell(new Paragraph("TOTAL PAYMENT"));
+	            secondColumn = new PdfPCell(new Paragraph(NUMBER_FORMAT.format(pr.getTotalPayment()) +
+	            		" " + pr.getTotalPaymentType()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3825,7 +3857,7 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	           	
 	            firstColumn = new PdfPCell(new Paragraph("REMARKS"));
-	            secondColumn = new PdfPCell(new Paragraph(pr.getRemark() + ""));
+	            secondColumn = new PdfPCell(new Paragraph(pr.getRemark()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3846,12 +3878,6 @@ public class RSModel {
           		bold = new Chunk("BASECAMP INTERNATIONAL TOUR INC.\n", boldFont);
           		doc.add(normal);
           		doc.add(bold);
-		        
-		        doc.add(new Phrase("\n"));
-		        
-		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/prInvoiceGuidelineWeb.png"));
-				guideline.scalePercent(65f, 40f);
-		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
 				footer.scalePercent(70f, 38f);

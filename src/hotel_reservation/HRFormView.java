@@ -2,6 +2,8 @@ package hotel_reservation;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.FocusTraversalPolicy;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -9,6 +11,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Vector;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.DocumentListener;
@@ -17,6 +21,7 @@ import javax.swing.event.ListSelectionListener;
 
 import references.AutoCompletion;
 import references.JTextFieldHintUI;
+import references.MyOwnFocusTraversalPolicy;
 import reservation_system.RSModel;
 
 public class HRFormView extends JFrame{
@@ -44,7 +49,7 @@ public class HRFormView extends JFrame{
 	
 	private JList lHistory;
 	
-	private JComboBox cbHotelOrResort, cbReservationType,
+	private JComboBox cbHotelOrResort, cbReservationType, cbTotalPaymentType,
 		cbPaymentType, cbStatus, cbBreakfast;
 	
 	private JButton btnAddHR;
@@ -68,6 +73,8 @@ public class HRFormView extends JFrame{
 	private JButton btnCancel;
 	
 	private RSModel model;
+	
+	private static MyOwnFocusTraversalPolicy newPolicy;
 	
 	public HRFormView(RSModel model){
 		super("Hotel Reservation Form");
@@ -329,48 +336,55 @@ public class HRFormView extends JFrame{
 		ftfReservationDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfReservationDate.setName("Reservation Date");
 		ftfReservationDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
-		ftfReservationDate.setBounds(460, 40, 100, 20);
+		ftfReservationDate.setBounds(460, 40, 120, 20);
 		add(ftfReservationDate);
 		
 		ftfOptionToPay = new JFormattedTextField(model.DATE_FORMAT);
 		ftfOptionToPay.setName("Option To Pay");
 		ftfOptionToPay.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
-		ftfOptionToPay.setBounds(460, 70, 100, 20);
+		ftfOptionToPay.setBounds(460, 70, 120, 20);
 		add(ftfOptionToPay);
 		
 		ftfAmountToPay = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfAmountToPay.setValue(new Double(0));
 		ftfAmountToPay.setName("Amount To Pay");
-		ftfAmountToPay.setBounds(460, 100, 100, 20);
+		ftfAmountToPay.setBounds(460, 100, 120, 20);
 		add(ftfAmountToPay);
 		
 		ftfOptionToFinal = new JFormattedTextField(model.DATE_FORMAT);
 		ftfOptionToFinal.setName("Option To Final");
 		ftfOptionToFinal.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
-		ftfOptionToFinal.setBounds(460, 130, 100, 20);
+		ftfOptionToFinal.setBounds(460, 130, 120, 20);
 		add(ftfOptionToFinal);
 		
 		ftfTotalPayment = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfTotalPayment.setValue(new Double(0));
 		ftfTotalPayment.setName("Total Payment");
-		ftfTotalPayment.setBounds(460, 160, 100, 20);
+		ftfTotalPayment.setBounds(460, 160, 120, 20);
 		add(ftfTotalPayment);
+		
+		cbTotalPaymentType = new JComboBox(new String[]{"Pesos","Won"});
+		cbTotalPaymentType.setName("Total Payment Type");
+		cbTotalPaymentType.setBounds(580, 160, 60, 20);
+		cbTotalPaymentType.setEditable(true);
+		new AutoCompletion(cbTotalPaymentType);
+		add(cbTotalPaymentType);
 		
 		cbPaymentType = new JComboBox(model.getPaymentType().toArray());
 		cbPaymentType.setName("Payment Type");
 		cbPaymentType.setEditable(true);
 		new AutoCompletion(cbPaymentType);
-		cbPaymentType.setBounds(460, 190, 80, 20);
+		cbPaymentType.setBounds(460, 190, 100, 20);
 		add(cbPaymentType);
 		
 		btnAddPT = new JButton("+");
 		btnAddPT.setMargin(new Insets(0,0,0,0));
-		btnAddPT.setBounds(540, 190, 20, 20);
+		btnAddPT.setBounds(560, 190, 20, 20);
 		add(btnAddPT);
 		
 		tfReceiptNo = new JTextField("");
 		tfReceiptNo.setName("Receipt No");
-		tfReceiptNo.setBounds(460, 220, 100, 20);
+		tfReceiptNo.setBounds(460, 220, 120, 20);
 		add(tfReceiptNo);
 		
 		ftfCurrency = new JFormattedTextField(model.NUMBER_FORMAT);
@@ -504,6 +518,43 @@ public class HRFormView extends JFrame{
 			ftfIncomePHP.setVisible(false);
 			ftfIncomeKRW.setVisible(false);
 		}
+		
+		Vector<Component> order = new Vector<Component>(30);
+	    order.add(ftfCheckIn);
+	    order.add(ftfCheckOut);
+	    order.add(cbHotelOrResort.getEditor().getEditorComponent());
+	    order.add(tfGuestName);
+	    order.add(ftfNoOfAdult);
+	    order.add(ftfNoOfChild);
+	    order.add(tfRoomType);
+	    order.add(ftfNoOfRooms);
+	    order.add(ftfNoOfNights);
+	    order.add(cbBreakfast.getEditor().getEditorComponent());
+	    order.add(tfConfirmationNumber);
+	    order.add(tfCompany);
+	    order.add(cbStatus.getEditor().getEditorComponent());
+	    order.add(cbReservationType.getEditor().getEditorComponent());
+	    order.add(ftfReservationDate);
+	    order.add(ftfOptionToPay);
+	    order.add(ftfAmountToPay);
+	    order.add(ftfOptionToFinal);
+	    order.add(ftfTotalPayment);
+	    order.add(cbTotalPaymentType.getEditor().getEditorComponent());
+	    order.add(cbPaymentType.getEditor().getEditorComponent());
+	    order.add(tfReceiptNo);
+	    order.add(ftfCurrency);
+	    order.add(ftfPayInPHP);
+	    order.add(ftfPayInKRW);
+	    order.add(ftfPayInDate);
+	    order.add(ftfPayOutPHP);
+	    order.add(ftfPayOutKRW);
+	    order.add(ftfPayOutDate);
+	    order.add(ftfIncomePHP);
+	    order.add(ftfIncomeKRW);
+	    newPolicy = new MyOwnFocusTraversalPolicy(order);
+		
+	    this.setFocusTraversalPolicy(newPolicy);
+		
 	}
 	
 	public void setTextFieldFocusListener(FocusListener listener){
@@ -630,9 +681,11 @@ public class HRFormView extends JFrame{
 				ftfCheckIn.getText(), 
 				ftfCheckOut.getText(),
 				cbHotelOrResort.getSelectedItem().toString(),
+				
 				tfGuestName.getText(), 
 				Integer.parseInt(ftfNoOfAdult.getValue().toString()), 
 				Integer.parseInt(ftfNoOfChild.getValue().toString()), 
+				
 				tfRoomType.getText(), 
 				Integer.parseInt(ftfNoOfRooms.getValue().toString()),
 				Integer.parseInt(ftfNoOfNights.getValue().toString()),
@@ -647,6 +700,7 @@ public class HRFormView extends JFrame{
 				Double.parseDouble(ftfAmountToPay.getValue().toString()),
 				ftfOptionToFinal.getText(),
 				Double.parseDouble(ftfTotalPayment.getValue().toString()),
+				cbTotalPaymentType.getSelectedItem().toString(),
 				
 				cbPaymentType.getSelectedItem().toString(),
 				tfReceiptNo.getText(),
@@ -691,6 +745,7 @@ public class HRFormView extends JFrame{
 		ftfAmountToPay.setValue(hr.getAmountToPay());
 		ftfOptionToFinal.setText(hr.getOptionToFinal());
 		ftfTotalPayment.setValue(hr.getTotalPayment());
+		cbTotalPaymentType.setSelectedItem(hr.getTotalPaymentType());
 		
 		cbPaymentType.setSelectedItem(hr.getPaymentType());
 		tfReceiptNo.setText(hr.getReceiptNumber());
@@ -934,6 +989,13 @@ public class HRFormView extends JFrame{
 					}
 					else{
 						ftfTotalPayment.setBorder(tfBorder);
+					}
+					
+					if(hrh.isTotalPaymentTypeEdited()){
+						cbTotalPaymentType.setBorder(red);
+					}
+					else{
+						cbTotalPaymentType.setBorder(cbBorder);
 					}
 					
 					if(hrh.isPaymentTypeEdited()){

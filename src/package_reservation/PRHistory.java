@@ -14,6 +14,7 @@ public class PRHistory {
 	private boolean isAmountToPayEdited;
 	private boolean isOptionToFinalEdited;
 	private boolean isTotalPaymentEdited;
+	private boolean isTotalPaymentTypeEdited;
 	
 	private boolean isGuestNameEdited;
 	private boolean isNumberOfAdultEdited;
@@ -36,13 +37,14 @@ public class PRHistory {
 			boolean isReservationTypeEdited, boolean isReservationDateEdited,
 			boolean isOptionToPayEdited, boolean isAmountToPayEdited,
 			boolean isOptionToFinalEdited, boolean isTotalPaymentEdited,
-			boolean isGuestNameEdited, boolean isNumberOfAdultEdited,
-			boolean isNumberOfChildEdited, boolean isPaymentTypeEdited,
-			boolean isPayInPHPEdited, boolean isPayInKRWEdited,
-			boolean isPayInDateEdited, boolean isPayOutPHPEdited,
-			boolean isPayOutKRWEdited, boolean isPayOutDateEdited,
-			boolean isIncomePHPEdited, boolean isIncomeKRWEdited,
-			boolean isNoteEdited, boolean isRemarkEdited) {
+			boolean isTotalPaymentTypeEdited, boolean isGuestNameEdited,
+			boolean isNumberOfAdultEdited, boolean isNumberOfChildEdited,
+			boolean isPaymentTypeEdited, boolean isPayInPHPEdited,
+			boolean isPayInKRWEdited, boolean isPayInDateEdited,
+			boolean isPayOutPHPEdited, boolean isPayOutKRWEdited,
+			boolean isPayOutDateEdited, boolean isIncomePHPEdited,
+			boolean isIncomeKRWEdited, boolean isNoteEdited,
+			boolean isRemarkEdited) {
 		super();
 		this.name = name;
 		this.date = date;
@@ -56,6 +58,7 @@ public class PRHistory {
 		this.isAmountToPayEdited = isAmountToPayEdited;
 		this.isOptionToFinalEdited = isOptionToFinalEdited;
 		this.isTotalPaymentEdited = isTotalPaymentEdited;
+		this.isTotalPaymentTypeEdited = isTotalPaymentTypeEdited;
 		this.isGuestNameEdited = isGuestNameEdited;
 		this.isNumberOfAdultEdited = isNumberOfAdultEdited;
 		this.isNumberOfChildEdited = isNumberOfChildEdited;
@@ -142,6 +145,12 @@ public class PRHistory {
 	}
 	public void setTotalPaymentEdited(boolean isTotalPaymentEdited) {
 		this.isTotalPaymentEdited = isTotalPaymentEdited;
+	}
+	public boolean isTotalPaymentTypeEdited() {
+		return isTotalPaymentTypeEdited;
+	}
+	public void setTotalPaymentTypeEdited(boolean isTotalPaymentTypeEdited) {
+		this.isTotalPaymentTypeEdited = isTotalPaymentTypeEdited;
 	}
 	public boolean isGuestNameEdited() {
 		return isGuestNameEdited;

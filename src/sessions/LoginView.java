@@ -60,6 +60,8 @@ public class LoginView extends JFrame{
 	    btnSetting = new JButton("Setting");
 	    btnSetting.setBounds(75,110,80,20);
 	    add(btnSetting);
+	    
+	    listeners();
 	}
 
 	public void setBtnLoginListener(ActionListener listener){
@@ -97,5 +99,34 @@ public class LoginView extends JFrame{
 		data.put("password", new String(pfPassword.getPassword()));
 		
 		return data;
+	}
+	
+	public void listeners(){
+		tfUsername.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+
+				if(e.getKeyCode() == e.VK_ENTER){
+					tfUsername.requestFocus(false);
+					pfPassword.requestFocus();
+				}
+			}
+			public void keyTyped(KeyEvent e) {}
+			
+			public void keyReleased(KeyEvent e) {}
+		});
+		
+		pfPassword.addKeyListener(new KeyListener() {
+			
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode() == e.VK_ENTER){
+					btnLogin.doClick();
+				}
+			}
+			
+			public void keyTyped(KeyEvent arg0) { }
+			
+			public void keyReleased(KeyEvent arg0) { }
+		});
 	}
 }

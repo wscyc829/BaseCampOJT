@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -58,7 +60,8 @@ public class RSController {
 		for(javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()){
 			try {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-				
+				//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+				/*
 				int fontSize = 11;
 				Hashtable defaults = UIManager.getDefaults();
 				Enumeration keys = defaults.keys();
@@ -70,7 +73,7 @@ public class RSController {
 				        defaults.put (key, new FontUIResource(Font.SANS_SERIF, font.getStyle(), fontSize));
 				    }
 				    	
-				}
+				}*/
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -1343,8 +1346,10 @@ class HRBtnPrintListener implements ActionListener{
 
 		public void valueChanged(ListSelectionEvent e) {
 			int i = ((ListSelectionModel)e.getSource()).getLeadSelectionIndex();
+			int id = prView.getPRSelectedID(i);
+			
 			prfScreen();
-			prfView.updateView(model.getAllPRs().get(i));
+			prfView.updateView(model.getAllPRs("","","id", id+"").get(0));
 			prView.dispose();
 		}
 	}

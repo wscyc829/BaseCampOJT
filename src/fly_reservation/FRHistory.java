@@ -18,6 +18,7 @@ public class FRHistory {
 	private boolean isAmountToPayEdited;
 	private boolean isOptionToFinalEdited;
 	private boolean isTotalPaymentEdited;
+	private boolean isTotalPaymentTypeEdited;
 	
 	private boolean isGuestNameEdited;
 	private boolean isGenderEdited;
@@ -33,6 +34,7 @@ public class FRHistory {
 	private boolean isPayOutDateEdited;
 	private boolean isIncomePHPEdited;
 	private boolean isIncomeKRWEdited;
+	
 	private boolean isNoteEdited;
 	private boolean isRemarkEdited;
 	public FRHistory(String name, String date, boolean isAirlineEdited,
@@ -42,14 +44,15 @@ public class FRHistory {
 			boolean isRecordLocatorEdited, boolean isReservationTypeEdited,
 			boolean isReservationDateEdited, boolean isOptionToPayEdited,
 			boolean isAmountToPayEdited, boolean isOptionToFinalEdited,
-			boolean isTotalPaymentEdited, boolean isGuestNameEdited,
-			boolean isGenderEdited, boolean isNumberOfAdultEdited,
-			boolean isNumberOfChildEdited, boolean isPaymentTypeEdited,
-			boolean isPayInPHPEdited, boolean isPayInKRWEdited,
-			boolean isPayInDateEdited, boolean isPayOutPHPEdited,
-			boolean isPayOutKRWEdited, boolean isPayOutDateEdited,
-			boolean isIncomePHPEdited, boolean isIncomeKRWEdited,
-			boolean isNoteEdited, boolean isRemarkEdited) {
+			boolean isTotalPaymentEdited, boolean isTotalPaymentTypeEdited,
+			boolean isGuestNameEdited, boolean isGenderEdited,
+			boolean isNumberOfAdultEdited, boolean isNumberOfChildEdited,
+			boolean isPaymentTypeEdited, boolean isPayInPHPEdited,
+			boolean isPayInKRWEdited, boolean isPayInDateEdited,
+			boolean isPayOutPHPEdited, boolean isPayOutKRWEdited,
+			boolean isPayOutDateEdited, boolean isIncomePHPEdited,
+			boolean isIncomeKRWEdited, boolean isNoteEdited,
+			boolean isRemarkEdited) {
 		super();
 		this.name = name;
 		this.date = date;
@@ -67,6 +70,7 @@ public class FRHistory {
 		this.isAmountToPayEdited = isAmountToPayEdited;
 		this.isOptionToFinalEdited = isOptionToFinalEdited;
 		this.isTotalPaymentEdited = isTotalPaymentEdited;
+		this.isTotalPaymentTypeEdited = isTotalPaymentTypeEdited;
 		this.isGuestNameEdited = isGuestNameEdited;
 		this.isGenderEdited = isGenderEdited;
 		this.isNumberOfAdultEdited = isNumberOfAdultEdited;
@@ -178,6 +182,12 @@ public class FRHistory {
 	}
 	public void setTotalPaymentEdited(boolean isTotalPaymentEdited) {
 		this.isTotalPaymentEdited = isTotalPaymentEdited;
+	}
+	public boolean isTotalPaymentTypeEdited() {
+		return isTotalPaymentTypeEdited;
+	}
+	public void setTotalPaymentTypeEdited(boolean isTotalPaymentTypeEdited) {
+		this.isTotalPaymentTypeEdited = isTotalPaymentTypeEdited;
 	}
 	public boolean isGuestNameEdited() {
 		return isGuestNameEdited;

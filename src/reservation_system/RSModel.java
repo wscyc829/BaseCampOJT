@@ -51,6 +51,7 @@ public class RSModel {
 	public NumberFormat NUMBER_FORMAT;
 	public NumberFormat INTEGER_FORMAT;
 	public MaskFormatter IP_FORMAT;
+	
 	private String ip = "000.000.000.000";
 	private String dbUser = "";
 	private String dbPass = "";
@@ -58,19 +59,21 @@ public class RSModel {
 	private User currentUser;
 	
 	public RSModel(){
-		currentUser = null;
-		
 		DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
 		TIME_FORMAT = new SimpleDateFormat("HH:mm");
 		DATE_TIME_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		NUMBER_FORMAT = NumberFormat.getNumberInstance();
 		NUMBER_FORMAT.setMaximumFractionDigits(2);
 		INTEGER_FORMAT = NumberFormat.getIntegerInstance();
+		
 		try {
 			IP_FORMAT = new MaskFormatter("###.###.###.###");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+
+		currentUser = null;
 	}
 	
 	public String getIp() {
@@ -115,12 +118,14 @@ public class RSModel {
 				}else{
 					JOptionPane.showMessageDialog(null,
 							"Wrong password!",
-							"Error", JOptionPane.ERROR_MESSAGE);
+							"Error", 
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}else{
 				JOptionPane.showMessageDialog(null,
 						"User doesn't exists!",
-						"Error", JOptionPane.ERROR_MESSAGE);
+						"Error", 
+						JOptionPane.ERROR_MESSAGE);
 			}
 			
 		}catch(SQLException e){
@@ -139,9 +144,10 @@ public class RSModel {
 		Connection connect;
 		Statement stat;
 		
-		String query = "INSERT INTO user (username,password,`access level`)"
-						+ " VALUES ('" + user.getUsername() + "', '" + user.getPassword() + "', "
-						+ user.getAccessLevel() + ")";
+		String query = "INSERT INTO user (username,password,`access level`)" +
+				" VALUES ('" + user.getUsername() + "', '" +
+				user.getPassword() + "', " + 
+				user.getAccessLevel() + ")";
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -191,12 +197,14 @@ public class RSModel {
 				}else{
 					JOptionPane.showMessageDialog(null,
 							"Wrong old password!",
-							"Error", JOptionPane.ERROR_MESSAGE);
+							"Error", 
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}else{
 				JOptionPane.showMessageDialog(null,
 						"User doesn't exists!",
-						"Error", JOptionPane.ERROR_MESSAGE);
+						"Error", 
+						JOptionPane.ERROR_MESSAGE);
 			}
 			
 		}catch(SQLException e){
@@ -1963,9 +1971,13 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
-			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
+			    	if(existing == JOptionPane.NO_OPTION || 
+			    			existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
 			    	else if(existing == JOptionPane.YES_OPTION){
@@ -2087,8 +2099,11 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -2226,8 +2241,10 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -2381,8 +2398,10 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -2537,8 +2556,11 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -2685,8 +2707,11 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -2875,8 +2900,11 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -3050,8 +3078,11 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -3184,8 +3215,11 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -3333,8 +3367,11 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -3472,8 +3509,11 @@ public class RSModel {
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -3613,8 +3653,11 @@ public int exportPRInvoice(PackageReservation pr){
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -3773,8 +3816,11 @@ public int exportPRInvoice(PackageReservation pr){
 			    file = fileChooser.getSelectedFile();
 			    
 			    if(file.exists()){
-			    	int existing = JOptionPane.showConfirmDialog(null,"The file exists, overwrite?",
-			    				"Existing file",JOptionPane.YES_NO_CANCEL_OPTION);
+			    	int existing = JOptionPane.showConfirmDialog(null,
+			    			"The file exists, overwrite?",
+			    			"Existing file",
+			    			JOptionPane.YES_NO_CANCEL_OPTION);
+			    	
 			    	if(existing == JOptionPane.NO_OPTION || existing == JOptionPane.CANCEL_OPTION){
 		            	return 2;
 		            }
@@ -3912,8 +3958,7 @@ public int exportPRInvoice(PackageReservation pr){
 		FileWriter fw;
 		BufferedWriter bw;
 		
-		try
-		{
+		try{
 			file = new File("serverData.txt");
 			    
 			    if(!file.exists()){
@@ -3947,8 +3992,7 @@ public int exportPRInvoice(PackageReservation pr){
 		FileReader fr;
 		BufferedReader br;
 
-		try
-		{
+		try{
 			file = new File("serverData.txt");
 			    
 			    if(file.exists()){
@@ -3973,20 +4017,24 @@ public int exportPRInvoice(PackageReservation pr){
 		if(code == 0){
 			JOptionPane.showMessageDialog(null,
 					"No server found at ip address: \"" + ip + "\".",
-					"Connection Error", JOptionPane.ERROR_MESSAGE);
+					"Connection Error", 
+					JOptionPane.ERROR_MESSAGE);
 		}else if(code == 1045){
 			JOptionPane.showMessageDialog(null,
-					"Can't connect to server with username: \""+dbUser+
-					"\" , password: \""+dbPass + "\".",
-					"Connection Error", JOptionPane.ERROR_MESSAGE);
+					"Can't connect to server with username: \"" + dbUser +
+					"\" , password: \"" + dbPass + "\".",
+					"Connection Error", 
+					JOptionPane.ERROR_MESSAGE);
 		}else if(code == 1049){
 			JOptionPane.showMessageDialog(null,
 					"No database found in server.",
-					"Connection Error", JOptionPane.ERROR_MESSAGE);
+					"Connection Error",
+					JOptionPane.ERROR_MESSAGE);
 		}else{
 			JOptionPane.showMessageDialog(null,
 					"Something went wrong in database, please contact the developers.",
-					"Connection Error", JOptionPane.ERROR_MESSAGE);
+					"Connection Error", 
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

@@ -354,7 +354,8 @@ public class RSController {
 			if(cpView.isInputValid()){
 				HashMap<String, String> data = cpView.getAllData();
 				
-				if(model.changePassword(data.get("Old password"), data.get("New password"))){
+				if(model.changePassword(data.get("Old password"), 
+						data.get("New password"))){
 					cpView.dispose();
 					mainScreen();
 				}
@@ -470,19 +471,25 @@ class HRBtnPrintListener implements ActionListener{
 				int error = model.exportHRS(hrs);
 					
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully", 
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-														  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 						//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 			else{
-				JOptionPane.showMessageDialog(null,"No data to print",
-							 "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						"No data to print",
+						"Error", 
+						JOptionPane.ERROR_MESSAGE);
 			}
-			
 		}
 	}
 	
@@ -494,17 +501,24 @@ class HRBtnPrintListener implements ActionListener{
 				int error = model.exportBillingHRS(hrs);
 					
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"File created Successfully",
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-														  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 						//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 			else{
-				JOptionPane.showMessageDialog(null,"No data to print",
-							 "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						"No data to print",
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 			
 		}
@@ -531,7 +545,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -571,7 +587,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -611,7 +629,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -634,10 +654,15 @@ class HRBtnPrintListener implements ActionListener{
 				HotelReservation hr = hrfView.getAllData();
 				int error = model.exportHRVoucher(hr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully",
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed",
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -651,10 +676,15 @@ class HRBtnPrintListener implements ActionListener{
 				HotelReservation hr = hrfView.getAllData();
 				int error = model.exportHRVoucherWeb(hr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully", 
+							"Success",
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -668,10 +698,15 @@ class HRBtnPrintListener implements ActionListener{
 				HotelReservation hr = hrfView.getAllData();
 				int error = model.exportHRBookingOrder(hr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully", 
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -685,10 +720,15 @@ class HRBtnPrintListener implements ActionListener{
 				HotelReservation hr = hrfView.getAllData();
 				int error = model.exportHRInvoice(hr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully", 
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -702,10 +742,15 @@ class HRBtnPrintListener implements ActionListener{
 				HotelReservation hr = hrfView.getAllData();
 				int error = model.exportHRInvoiceWeb(hr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully", 
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -723,6 +768,7 @@ class HRBtnPrintListener implements ActionListener{
 				}else{
 					model.updateHR(hr);
 				}
+				
 				hrfView.dispose();
 				hrScreen();
 			}
@@ -791,7 +837,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -831,7 +879,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -871,7 +921,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -911,7 +963,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -951,7 +1005,8 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -974,10 +1029,15 @@ class HRBtnPrintListener implements ActionListener{
 				FlightReservation fr = frfView.getAllData();
 				int error = model.exportFRPurchaseOrder(fr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully",
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed",
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -991,10 +1051,15 @@ class HRBtnPrintListener implements ActionListener{
 				FlightReservation fr = frfView.getAllData();
 				int error = model.exportFRInvoice(fr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully",
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -1080,7 +1145,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -1120,7 +1187,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -1160,7 +1229,9 @@ class HRBtnPrintListener implements ActionListener{
 		    		if(!message.equals("")){
 			    		JOptionPane.showMessageDialog(null,
 		    					"Invalid Sysmbol " + message,
-		    					"Error", JOptionPane.ERROR_MESSAGE);
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
 			    		input = input.replaceAll("'", "");
 			    		input = input.replaceAll(Pattern.quote("\\"), "");
 		    		}
@@ -1183,10 +1254,15 @@ class HRBtnPrintListener implements ActionListener{
 				PackageReservation pr = prfView.getAllData();
 				int error = model.exportPRVoucher(pr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully",
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -1200,10 +1276,15 @@ class HRBtnPrintListener implements ActionListener{
 				PackageReservation pr = prfView.getAllData();
 				int error = model.exportPRVoucherWeb(pr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"File created Successfully",
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -1217,10 +1298,15 @@ class HRBtnPrintListener implements ActionListener{
 				PackageReservation pr = prfView.getAllData();
 				int error = model.exportPRInvoice(pr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully", 
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -1234,10 +1320,15 @@ class HRBtnPrintListener implements ActionListener{
 				PackageReservation pr = prfView.getAllData();
 				int error = model.exportPRInvoiceWeb(pr);
 				if(error == 1)
-					JOptionPane.showMessageDialog(null, "File created Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, 
+							"File created Successfully", 
+							"Success", 
+							JOptionPane.INFORMATION_MESSAGE);
 				else if(error == 3)
-					JOptionPane.showMessageDialog(null,"Wrong file type or file is in used by other application",
-												  "Save failed", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+							"Wrong file type or file is in used by other application",
+							"Save failed", 
+							JOptionPane.ERROR_MESSAGE);
 				else if(error == 2){
 					//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
@@ -1268,11 +1359,9 @@ class HRBtnPrintListener implements ActionListener{
 		}
 	}
 	
-	
 	class TextFieldFocusListener implements FocusListener{
 
-		public void focusLost(final FocusEvent e) {	
-		}
+		public void focusLost(final FocusEvent e) {}
 		
 		public void focusGained(final FocusEvent e) {
 			// TODO Auto-generated method stub
@@ -1300,6 +1389,7 @@ class HRBtnPrintListener implements ActionListener{
 			    		if(s.contains("'")){
 			    			message += "(\') ";
 			    		}
+			    		
 			    		if(s.contains("\\")){
 			    			message += "(\\)";
 			    		}
@@ -1307,7 +1397,9 @@ class HRBtnPrintListener implements ActionListener{
 			    		if(!message.equals("")){
 				    		JOptionPane.showMessageDialog(null,
 			    					"Invalid Sysmbol " + message,
-			    					"Error", JOptionPane.ERROR_MESSAGE);
+			    					"Error",
+			    					JOptionPane.ERROR_MESSAGE);
+				    		
 				    		s = s.replaceAll("'", "");
 				    		s = s.replaceAll(Pattern.quote("\\"), "");
 				    		
@@ -1315,7 +1407,6 @@ class HRBtnPrintListener implements ActionListener{
 							ta.insertString(0, s, null);
 			    		}
 					} catch (BadLocationException e2) {
-						// TODO Auto-generated catch block
 						e2.printStackTrace();
 					}
 		        }
@@ -1343,9 +1434,9 @@ class HRBtnPrintListener implements ActionListener{
 			int i = ((ListSelectionModel)e.getSource()).getLeadSelectionIndex();
 			int id = frView.getFRSelectedID(i);
 			
+			frView.dispose();
 			frfScreen();
 			frfView.updateView(model.getAllFRs("","","id", id+"").get(0));
-			frView.dispose();
 		}
 	}
 	
@@ -1355,9 +1446,9 @@ class HRBtnPrintListener implements ActionListener{
 			int i = ((ListSelectionModel)e.getSource()).getLeadSelectionIndex();
 			int id = prView.getPRSelectedID(i);
 			
+			prView.dispose();
 			prfScreen();
 			prfView.updateView(model.getAllPRs("","","id", id+"").get(0));
-			prView.dispose();
 		}
 	}
 }

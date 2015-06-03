@@ -9,6 +9,7 @@ import com.itextpdf.text.Image;
 
 public class RSView extends JFrame{
 	private JButton btnLogOut;
+	
 	private JButton btnHotelReservation;
 	
 	private JButton btnFlyReservation;
@@ -71,7 +72,6 @@ public class RSView extends JFrame{
 		if(model.getCurrentUser().getAccessLevel() == 0){
 			btnRegister.setVisible(false);
 		}
-		
 	}
 	
 	public void setBtnLogOutListener(ActionListener listener){

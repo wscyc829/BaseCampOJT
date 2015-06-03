@@ -29,31 +29,40 @@ import references.OwnTableCellRenderer;
 import reservation_system.RSModel;
 
 public class HRView extends JFrame{
+	private ArrayList<HotelReservation> hrs;
+	
 	private JButton btnAdd;
 	
 	private JButton btnBack;
+	
 	private JButton btnSearch;
+	
 	private JButton btnRefresh;
 
 	private JButton btnPrint;
+	
 	private JButton btnPrintBilling;
+
+	private JComboBox cbSearch, cbHotelOrResort;
+	
+	private JFormattedTextField ftfFromDate, ftfToDate, ftfTotalPayIn, ftfTotalPayOut,
+		ftfTotalIncome;
 	
 	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn, lblTotalPayOut, lblTotalIncome;
 	
 	private JLabel lblImage;
 	
-	private JComboBox cbSearch, cbHotelOrResort;
+	private JTable table;
 	
 	private JTextField tfSearch;
 	
-	private JFormattedTextField ftfFromDate, ftfToDate, ftfTotalPayIn, ftfTotalPayOut,
-		ftfTotalIncome;
-	
-	
-	private JTable table;
-
-	private ArrayList<HotelReservation> hrs;
 	private RSModel model;
+	
+	private String[] columnNames = {"ID", "No.", "Created By", "Check In", "Check Out", 
+			"Reservation Date", "Hotel/Resort", "Guest Name", "Room Type", 
+			"No Of Rooms", "Reservation Type", "Payment Type", "Option To Final",
+			"Status", "Pay In - PHP", "Opt To Pay", "Pay Out - PHP", "Income - PHP",
+			"isMark"};
 	
 	public HRView(RSModel model){
 		super("Hotel Reservation");
@@ -93,7 +102,9 @@ public class HRView extends JFrame{
 		lblDash.setBounds(500, 40, 20, 20);
 		add(lblDash);
 		
-		cbSearch = new JComboBox(new String[]{"N/A", "Hotel/Resort", "Guest Name", "Status", "Reservation Type", "Reservation Date"});
+		cbSearch = new JComboBox(new String[]{
+				"N/A", "Hotel/Resort", "Guest Name", "Status", 
+				"Reservation Type", "Reservation Date"});
 		cbSearch.setBounds(320, 10, 130, 20);
 		add(cbSearch);
 		
@@ -138,13 +149,8 @@ public class HRView extends JFrame{
 		btnPrintBilling.setBounds(820, 40, 100, 20);
 		add(btnPrintBilling);
 		
-		String[] columnNames = {"ID", "No.", "Created By", "Check In", "Check Out", 
-				"Reservation Date", "Hotel/Resort", "Guest Name", "Room Type", 
-				"No Of Rooms", "Reservation Type", "Payment Type", "Option To Final",
-				"Status", "Pay In - PHP", "Opt To Pay", "Pay Out - PHP", "Income - PHP",
-				"isMark"};
-		
 		ArrayList<HotelReservation> list = model.getAllHRs();
+		
 		String[][] data = new String[list.size()][columnNames.length];
 		
 		DefaultTableModel tablemodel = new DefaultTableModel(data, columnNames) {
@@ -181,14 +187,17 @@ public class HRView extends JFrame{
 		    	return comp;
 			}
 		};
+		
 		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultRenderer(String.class, new OwnTableCellRenderer());
 		table.setDefaultRenderer(Double.class, new OwnTableCellRenderer());
 		table.setDefaultRenderer(Integer.class, new OwnTableCellRenderer());
+		
 		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(10, 70, 1175, 460);
 		add(scrollPane);
@@ -198,9 +207,10 @@ public class HRView extends JFrame{
 		add(lblTotalPayIn);
 		
 		ftfTotalPayIn = new JFormattedTextField(model.NUMBER_FORMAT);
+		ftfTotalPayIn.setName("Total Pay In");
 		ftfTotalPayIn.setValue(new Double(0));
-		ftfTotalPayIn.setBounds(240, 540, 100, 20);
 		ftfTotalPayIn.setEditable(false);
+		ftfTotalPayIn.setBounds(240, 540, 100, 20);
 		add(ftfTotalPayIn);
 		
 		lblTotalPayOut = new JLabel("Total Pay Out:");
@@ -208,9 +218,10 @@ public class HRView extends JFrame{
 		add(lblTotalPayOut);
 		
 		ftfTotalPayOut = new JFormattedTextField(model.NUMBER_FORMAT);
+		ftfTotalPayOut.setName("Total Pay Out");
 		ftfTotalPayOut.setValue(new Double(0));
-		ftfTotalPayOut.setBounds(580, 540, 100, 20);
 		ftfTotalPayOut.setEditable(false);
+		ftfTotalPayOut.setBounds(580, 540, 100, 20);
 		add(ftfTotalPayOut);
 		
 		lblTotalIncome= new JLabel("Total Income:");
@@ -218,15 +229,17 @@ public class HRView extends JFrame{
 		add(lblTotalIncome);
 		
 		ftfTotalIncome = new JFormattedTextField(model.NUMBER_FORMAT);
+		ftfTotalIncome.setName("Total Income");
 		ftfTotalIncome.setValue(new Double(0));
-		ftfTotalIncome.setBounds(920, 540, 100, 20);
 		ftfTotalIncome.setEditable(false);
+		ftfTotalIncome.setBounds(920, 540, 100, 20);
 		add(ftfTotalIncome);
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
 			table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
 			table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
-            lblTotalPayOut.setVisible(false);
+            
+			lblTotalPayOut.setVisible(false);
             lblTotalIncome.setVisible(false);
             
             ftfTotalPayOut.setVisible(false);
@@ -251,15 +264,18 @@ public class HRView extends JFrame{
 	public Image getScaledImage(Image srcImg, int w, int h){
 	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D g2 = resizedImg.createGraphics();
+	    
 	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 	    g2.drawImage(srcImg, 0, 0, w, h, null);
 	    g2.dispose();
+	    
 	    return resizedImg;
 	}
 	
 	public ImageIcon getImageIcon(String url, int width, int height){
 		Image temp;
 		ImageIcon tempImageIcon = null;
+		
 		try {
 			temp = ImageIO.read(this.getClass().getResource(url));
 			temp = getScaledImage(temp, width, height);
@@ -267,12 +283,14 @@ public class HRView extends JFrame{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		return tempImageIcon;
 	}
 	
 	public void setTextFieldFocusListener(FocusListener listener){
 		for(Component c:getContentPane().getComponents()){
-			if(c.getClass().equals(JFormattedTextField.class) || c.getClass().equals(JTextField.class) ){
+			if(c.getClass().equals(JFormattedTextField.class) || 
+					c.getClass().equals(JTextField.class) ){
 				((JTextField)c).addFocusListener(listener);
 			}
 		}
@@ -280,7 +298,8 @@ public class HRView extends JFrame{
 	
 	public void setTextFieldDocumentListener(DocumentListener listener){
 		for(Component c:getContentPane().getComponents()){
-			if(c.getClass().equals(JFormattedTextField.class) || c.getClass().equals(JTextField.class) ){
+			if(c.getClass().equals(JFormattedTextField.class) || 
+					c.getClass().equals(JTextField.class) ){
 				((JTextField)c).getDocument().addDocumentListener(listener);
 			}
 		}
@@ -321,6 +340,7 @@ public class HRView extends JFrame{
 		map.put("start", ftfFromDate.getText());
 		map.put("end", ftfToDate.getText());
 		map.put("column name", cbSearch.getSelectedItem().toString());
+		
 		if(cbSearch.getSelectedItem().toString().equals("Hotel/Resort")){
 			if(cbHotelOrResort.getSelectedIndex() > -1){
 				map.put("value", cbHotelOrResort.getSelectedItem().toString());
@@ -334,6 +354,7 @@ public class HRView extends JFrame{
 		else{
 			map.put("value", tfSearch.getText());
 		}
+		
 		return map;
 	}
 	
@@ -377,20 +398,21 @@ public class HRView extends JFrame{
 				totalIncome += hr.getIncomePHP();
 			}
 		}
+		
 		ftfTotalPayIn.setValue(totalPayIn);
 		ftfTotalPayOut.setValue(totalPayOut);
 		ftfTotalIncome.setValue(totalIncome);
 		
 
-		for (int column = 0; column < table.getColumnCount(); column++)
-		{
+		for (int column = 0; column < table.getColumnCount(); column++){
+			
 		    TableColumn tableColumn = table.getColumnModel().getColumn(column);
 		    //int preferredWidth = tableColumn.getMinWidth();
 		    int preferredWidth = 70;
 		    int maxWidth = tableColumn.getMaxWidth();
 
-		    for (int row = 0; row < table.getRowCount(); row++)
-		    {
+		    for (int row = 0; row < table.getRowCount(); row++){
+		    	
 		        TableCellRenderer cellRenderer = table.getCellRenderer(row, column);
 		        Component c = table.prepareRenderer(cellRenderer, row, column);
 		        int width = c.getPreferredSize().width + table.getIntercellSpacing().width;
@@ -398,8 +420,7 @@ public class HRView extends JFrame{
 
 		        //  We've exceeded the maximum width, no need to check other rows
 
-		        if (preferredWidth >= maxWidth)
-		        {
+		        if (preferredWidth >= maxWidth){
 		            preferredWidth = maxWidth;
 		            break;
 		        }

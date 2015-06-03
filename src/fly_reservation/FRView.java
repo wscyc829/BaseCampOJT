@@ -26,24 +26,34 @@ import reservation_system.RSModel;
 
 public class FRView extends JFrame{
 	private JButton btnAdd;
-	private JButton btnBack;
-	private JButton btnSearch;
-	private JButton btnRefresh;
 	
-	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn, lblTotalPayOut, lblTotalIncome;
+	private JButton btnBack;
+	
+	private JButton btnSearch;
+	
+	private JButton btnRefresh;
+
+	private JComboBox cbSearch;
+	
+	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn,
+		lblTotalPayOut, lblTotalIncome;
 	
 	private JLabel lblImage;
 	
-	private JComboBox cbSearch;
-	
-	private JTextField tfSearch;
-	
 	private JFormattedTextField ftfFromDate, ftfToDate, ftfTotalPayIn, ftfTotalPayOut,
-		ftfTotalIncome;
+	ftfTotalIncome;
 	
 	private JTable table;
 	
+	private JTextField tfSearch;
+	
 	private RSModel model;
+	
+	private String[] columnNames = {"ID", "No.", "Created By",
+			"Departure Date", "Origin", "Destination", "Flight No",
+			"Payment Type", "Guest Name", "Gender", "Adult No",
+			"Child No", "Option To Final", "Pay In - PHP", 
+			"Option To Pay", "Pay Out - PHP", "Income - PHP"};
 	
 	public FRView(RSModel model){
 		super("Flight Reservation");
@@ -82,7 +92,8 @@ public class FRView extends JFrame{
 		lblDash.setBounds(500, 40, 20, 20);
 		add(lblDash);
 		
-		cbSearch = new JComboBox(new String[]{"Guest Name", "Reservation Type", "Flight No"});
+		cbSearch = new JComboBox(new String[]{
+				"Guest Name", "Reservation Type", "Flight No"});
 		cbSearch.setBounds(320, 10, 130, 20);
 		add(cbSearch);
 		
@@ -110,13 +121,10 @@ public class FRView extends JFrame{
 		btnRefresh.setBounds(820, 10, 100, 20);
 		add(btnRefresh);
 		
-		String[] columnNames = {"ID", "No.", "Created By", "Departure Date", "Origin", "Destination", "Flight No",
-								"Payment Type", "Guest Name", "Gender", "Adult No",
-								"Child No", "Option To Final", "Pay In - PHP", 
-								"Option To Pay", "Pay Out - PHP", "Income - PHP"};
 		ArrayList<FlightReservation> flights = model.getAllFRs();
 		
 		String[][] data = new String[flights.size()][columnNames.length];
+		
 		table = new JTable(data, columnNames);
 		
 		DefaultTableModel tablemodel = new DefaultTableModel(data, columnNames) {
@@ -153,10 +161,12 @@ public class FRView extends JFrame{
 		    	return comp;
 			}
 		};
+		
 		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
 		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setBounds(10, 70, 1175, 460);
 		add(scrollPane);
@@ -166,8 +176,8 @@ public class FRView extends JFrame{
 		add(lblTotalPayIn);
 		
 		ftfTotalPayIn = new JFormattedTextField(model.NUMBER_FORMAT);
-		ftfTotalPayIn.setBounds(240, 540, 100, 20);
 		ftfTotalPayIn.setEditable(false);
+		ftfTotalPayIn.setBounds(240, 540, 100, 20);
 		add(ftfTotalPayIn);
 		
 		lblTotalPayOut = new JLabel("Total Pay Out:");
@@ -175,8 +185,8 @@ public class FRView extends JFrame{
 		add(lblTotalPayOut);
 		
 		ftfTotalPayOut = new JFormattedTextField(model.NUMBER_FORMAT);
-		ftfTotalPayOut.setBounds(580, 540, 100, 20);
 		ftfTotalPayOut.setEditable(false);
+		ftfTotalPayOut.setBounds(580, 540, 100, 20);
 		add(ftfTotalPayOut);
 		
 		lblTotalIncome= new JLabel("Total Income:");
@@ -184,8 +194,8 @@ public class FRView extends JFrame{
 		add(lblTotalIncome);
 		
 		ftfTotalIncome = new JFormattedTextField(model.NUMBER_FORMAT);
-		ftfTotalIncome.setBounds(920, 540, 100, 20);
 		ftfTotalIncome.setEditable(false);
+		ftfTotalIncome.setBounds(920, 540, 100, 20);
 		add(ftfTotalIncome);
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
@@ -205,21 +215,24 @@ public class FRView extends JFrame{
 	public Image getScaledImage(Image srcImg, int w, int h){
 	    BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D g2 = resizedImg.createGraphics();
-	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+	    
+	    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, 
+	    		RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 	    g2.drawImage(srcImg, 0, 0, w, h, null);
 	    g2.dispose();
+	    
 	    return resizedImg;
 	}
 	
 	public ImageIcon getImageIcon(String url, int width, int height){
 		Image temp;
 		ImageIcon tempImageIcon = null;
+		
 		try {
 			temp = ImageIO.read(this.getClass().getResource(url));
 			temp = getScaledImage(temp, width, height);
 			tempImageIcon = new ImageIcon(temp);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return tempImageIcon;
@@ -227,7 +240,8 @@ public class FRView extends JFrame{
 	
 	public void setTextFieldFocusListener(FocusListener listener){
 		for(Component c:getContentPane().getComponents()){
-			if(c.getClass().equals(JFormattedTextField.class) || c.getClass().equals(JTextField.class) ){
+			if(c.getClass().equals(JFormattedTextField.class) ||
+					c.getClass().equals(JTextField.class) ){
 				((JTextField)c).addFocusListener(listener);
 			}
 		}
@@ -235,7 +249,8 @@ public class FRView extends JFrame{
 	
 	public void setTextFieldDocumentListener(DocumentListener listener){
 		for(Component c:getContentPane().getComponents()){
-			if(c.getClass().equals(JFormattedTextField.class) || c.getClass().equals(JTextField.class) ){
+			if(c.getClass().equals(JFormattedTextField.class) || 
+					c.getClass().equals(JTextField.class) ){
 				((JTextField)c).getDocument().addDocumentListener(listener);
 			}
 		}
@@ -314,14 +329,14 @@ public class FRView extends JFrame{
 		ftfTotalPayOut.setValue(totalPayOut);
 		ftfTotalIncome.setValue(totalIncome);
 		
-		for (int column = 0; column < table.getColumnCount(); column++)
-		{
+		for (int column = 0; column < table.getColumnCount(); column++) {
+			
 		    TableColumn tableColumn = table.getColumnModel().getColumn(column);
 		    int preferredWidth = 74;
 		    int maxWidth = tableColumn.getMaxWidth();
 
-		    for (int row = 0; row < table.getRowCount(); row++)
-		    {
+		    for (int row = 0; row < table.getRowCount(); row++) {
+		    	
 		        TableCellRenderer cellRenderer = table.getCellRenderer(row, column);
 		        Component c = table.prepareRenderer(cellRenderer, row, column);
 		        int width = c.getPreferredSize().width + table.getIntercellSpacing().width;
@@ -329,8 +344,7 @@ public class FRView extends JFrame{
 
 		        //  We've exceeded the maximum width, no need to check other rows
 
-		        if (preferredWidth >= maxWidth)
-		        {
+		        if (preferredWidth >= maxWidth) {
 		            preferredWidth = maxWidth;
 		            break;
 		        }

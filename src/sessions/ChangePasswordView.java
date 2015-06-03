@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 import javax.swing.*;
@@ -58,10 +59,12 @@ public class ChangePasswordView extends JFrame{
 	    add(tfNewPassword);
 	    
 	    btnSave = new JButton("Save");
+	    btnSave.setMnemonic(KeyEvent.VK_S);
 	    btnSave.setBounds(30,80,100,20);
 	    add(btnSave);
 	    
 	    btnCancel = new JButton("Cancel");
+	    btnCancel.setMnemonic(KeyEvent.VK_C);
 	    btnCancel.setBounds(160,80,100,20);
 	    add(btnCancel);
 	}

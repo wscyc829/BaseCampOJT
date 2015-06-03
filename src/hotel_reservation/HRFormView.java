@@ -10,6 +10,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -72,9 +73,9 @@ public class HRFormView extends JFrame{
 	
 	private JButton btnCancel;
 	
-	private RSModel model;
+	private JCheckBox btnMark;
 	
-	private static MyOwnFocusTraversalPolicy newPolicy;
+	private RSModel model;
 	
 	public HRFormView(RSModel model){
 		super("Hotel Reservation Form");
@@ -388,7 +389,7 @@ public class HRFormView extends JFrame{
 		add(tfReceiptNo);
 		
 		ftfCurrency = new JFormattedTextField(model.NUMBER_FORMAT);
-		ftfCurrency.setValue(new Integer(0));
+		ftfCurrency.setValue(new Double(0));
 		ftfCurrency.setName("Currency");
 		ftfCurrency.setBounds(460, 250, 100, 20);
 		add(ftfCurrency);
@@ -430,15 +431,15 @@ public class HRFormView extends JFrame{
 		add(ftfPayOutDate);
 		
 		ftfIncomePHP = new JFormattedTextField(model.NUMBER_FORMAT);
-		ftfIncomePHP.setEditable(false);
 		ftfIncomePHP.setValue(new Double(0));
+		ftfIncomePHP.setEditable(false);
 		ftfIncomePHP.setName("Income - PHP");
 		ftfIncomePHP.setBounds(460, 400, 100, 20);
 		add(ftfIncomePHP);
 		
 		ftfIncomeKRW = new JFormattedTextField(model.NUMBER_FORMAT);
-		ftfIncomeKRW.setEditable(false);
 		ftfIncomeKRW.setValue(new Double(0));
+		ftfIncomeKRW.setEditable(false);
 		ftfIncomeKRW.setName("Income - KRW");
 		ftfIncomeKRW.setBounds(610, 400, 100, 20);
 		add(ftfIncomeKRW);
@@ -472,32 +473,43 @@ public class HRFormView extends JFrame{
 		add(jp2);
 		
 		btnExportV = new JButton("Export - Voucher");
+		btnExportV.setMnemonic(KeyEvent.VK_V);
 		btnExportV.setBounds(510, 430, 200, 20);
 		add(btnExportV);
 		
 		btnExportVW = new JButton("Export - Voucher (Web)");
+		btnExportVW.setMnemonic(KeyEvent.VK_W);
 		btnExportVW.setBounds(510, 460, 200, 20);
 		add(btnExportVW);
 		
 		btnExportBO = new JButton("Export - Booking Order");
+		btnExportBO.setMnemonic(KeyEvent.VK_B);
 		btnExportBO.setBounds(510, 490, 200, 20);
 		add(btnExportBO);
 		
 		btnExportIV = new JButton("Export - Invoice");
+		btnExportIV.setMnemonic(KeyEvent.VK_I);
 		btnExportIV.setBounds(510, 520, 200, 20);
 		add(btnExportIV);
 		
 		btnExportIVW = new JButton("Export - Invoice (Web)");
+		btnExportIVW.setMnemonic(KeyEvent.VK_N);
 		btnExportIVW.setBounds(510, 550, 200, 20);
 		add(btnExportIVW);
 		
 		btnSave = new JButton("Save");
+		btnSave.setMnemonic(KeyEvent.VK_S);
 		btnSave.setBounds(175, 580, 100, 20);
 		add(btnSave);
 		
 		btnCancel = new JButton("Cancel");
+		btnCancel.setMnemonic(KeyEvent.VK_C);
 		btnCancel.setBounds(445, 580, 100, 20);
 		add(btnCancel);
+		
+		btnMark = new JCheckBox("Mark");
+		btnMark.setBounds(660, 10, 50, 20);
+		add(btnMark);
 		
 		listeners();
 		
@@ -551,10 +563,10 @@ public class HRFormView extends JFrame{
 	    order.add(ftfPayOutDate);
 	    order.add(ftfIncomePHP);
 	    order.add(ftfIncomeKRW);
-	    newPolicy = new MyOwnFocusTraversalPolicy(order);
+	    
+	    MyOwnFocusTraversalPolicy newPolicy = new MyOwnFocusTraversalPolicy(order);
 		
 	    this.setFocusTraversalPolicy(newPolicy);
-		
 	}
 	
 	public void setTextFieldFocusListener(FocusListener listener){
@@ -713,7 +725,9 @@ public class HRFormView extends JFrame{
 				Double.parseDouble(ftfIncomePHP.getValue().toString()),
 				Double.parseDouble(ftfIncomeKRW.getValue().toString()), 
 				taNote.getText(), 
-				taRemark.getText());
+				taRemark.getText(),
+				
+				btnMark.isSelected());
 		hr.setId(this.hr.getId());
 		
 		return hr;
@@ -725,20 +739,20 @@ public class HRFormView extends JFrame{
 		ftfCheckIn.setText(hr.getCheckIn()); 
 		ftfCheckOut.setText(hr.getCheckOut());
 		cbHotelOrResort.setSelectedItem(hr.getHotelOrResort());
-		
+			
 		tfGuestName.setText(hr.getGuestName());
 		ftfNoOfAdult.setValue(hr.getNumberOfAdult()); 
 		ftfNoOfChild.setValue(hr.getNumberOfChild());
-		
+			
 		tfRoomType.setText(hr.getRoomType());
 		ftfNoOfRooms.setValue(hr.getNumberOfRooms());
 		ftfNoOfNights.setValue(hr.getNumberOfNights());
-		
+			
 		cbBreakfast.setSelectedItem(hr.getBreakfast());
 		tfConfirmationNumber.setText(hr.getConfirmationNumber());
 		tfCompany.setText(hr.getCompany());
 		cbStatus.setSelectedItem(hr.getStatus());
-		
+			
 		cbReservationType.setSelectedItem(hr.getReservationType());
 		ftfReservationDate.setText(hr.getReservationDate());
 		ftfOptionToPay.setText(hr.getOptionToPay());
@@ -746,7 +760,7 @@ public class HRFormView extends JFrame{
 		ftfOptionToFinal.setText(hr.getOptionToFinal());
 		ftfTotalPayment.setValue(hr.getTotalPayment());
 		cbTotalPaymentType.setSelectedItem(hr.getTotalPaymentType());
-		
+			
 		cbPaymentType.setSelectedItem(hr.getPaymentType());
 		tfReceiptNo.setText(hr.getReceiptNumber());
 		ftfPayInPHP.setValue(hr.getPayInPHP());
@@ -757,17 +771,19 @@ public class HRFormView extends JFrame{
 		ftfPayOutDate.setText(hr.getPayOutDate()); 
 		ftfIncomePHP.setValue(hr.getIncomePHP());
 		ftfIncomeKRW.setValue(hr.getIncomeKRW()); 
-		
+			
 		taNote.setText(hr.getNote());
 		taRemark.setText(hr.getRemark());
-		
+			
+		btnMark.setSelected(hr.isMark());
+			
 		ArrayList<HRHistory> hrhs = model.getAllHRHistory(hr.getId());
 		DefaultListModel listmodel = (DefaultListModel) lHistory.getModel();
-		
+
 		if(hr.getId() > 0){
 			listmodel.addElement(hr.getCreatedAt() + " Created by: " + hr.getCreatedBy());
 		}
-		
+			
 		for(HRHistory hrh : hrhs){
 			listmodel.addElement(hrh.getDate() + " Edited by: " + hrh.getName());
 		}
@@ -857,6 +873,7 @@ public class HRFormView extends JFrame{
 			Border tfBorder = new JTextField().getBorder();
 			Border cbBorder = new JComboBox().getBorder();
 			Border taBorder = new JTextArea().getBorder();
+			Border cBorder = new JCheckBox().getBorder();
 			
 			public void valueChanged(ListSelectionEvent e) {
 				// TODO Auto-generated method stub
@@ -873,7 +890,7 @@ public class HRFormView extends JFrame{
 					if(hrh.isCheckOutEdited()){
 						ftfCheckOut.setBorder(red);
 					}
-					else{
+					else{                   
 						ftfCheckOut.setBorder(tfBorder);
 					}
 					if(hrh.isHotelOrResortEdited()){
@@ -1072,6 +1089,13 @@ public class HRFormView extends JFrame{
 					}
 					else{
 						taRemark.setBorder(taBorder);
+					}
+					
+					if(hrh.isMarkEdited()){
+						btnMark.setForeground(Color.red);
+					}
+					else{
+						btnMark.setForeground(Color.black);
 					}
 				}
 			}});

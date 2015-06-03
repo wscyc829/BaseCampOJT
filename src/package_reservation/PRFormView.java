@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -382,26 +383,32 @@ public class PRFormView extends JFrame{
 		add(jp2);
 		
 		btnExportV = new JButton("Export - Voucher");
+		btnExportV.setMnemonic(KeyEvent.VK_V);
 		btnExportV.setBounds(510, 220, 200, 20);
 		add(btnExportV);
 		
 		btnExportVW = new JButton("Export - Voucher (Web)");
+		btnExportVW.setMnemonic(KeyEvent.VK_W);
 		btnExportVW.setBounds(510, 250, 200, 20);
 		add(btnExportVW);
 		
 		btnExportIV = new JButton("Export - Invoice");
+		btnExportIV.setMnemonic(KeyEvent.VK_I);
 		btnExportIV.setBounds(510, 280, 200, 20);
 		add(btnExportIV);
 		
 		btnExportIVW = new JButton("Export - Invoice (Web)");
+		btnExportIVW.setMnemonic(KeyEvent.VK_N);
 		btnExportIVW.setBounds(510, 310, 200, 20);
 		add(btnExportIVW);
 		
 		btnSave = new JButton("Save");
+		btnSave.setMnemonic(KeyEvent.VK_S);
 		btnSave.setBounds(300, 430, 90, 20);
 		add(btnSave);
 		
 		btnCancel = new JButton("Cancel");
+		btnCancel.setMnemonic(KeyEvent.VK_C);
 		btnCancel.setBounds(400, 430, 90, 20);
 		add(btnCancel);
 		

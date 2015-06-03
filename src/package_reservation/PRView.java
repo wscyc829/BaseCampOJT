@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,10 +59,12 @@ public class PRView extends JFrame{
 		add(lblImage);
 		
 		btnAdd = new JButton("Add");
+		btnAdd.setMnemonic(KeyEvent.VK_A);
 		btnAdd.setBounds(10, 10, 100, 20);
 		add(btnAdd);
 		
 		btnBack = new JButton("Back");
+		btnBack.setMnemonic(KeyEvent.VK_B);
 		btnBack.setBounds(120, 10, 100, 20);
 		add(btnBack);
 		
@@ -96,10 +99,12 @@ public class PRView extends JFrame{
 		add(ftfToDate);
 		
 		btnSearch = new JButton("Search");
+		btnSearch.setMnemonic(KeyEvent.VK_S);
 		btnSearch.setBounds(700, 10, 100, 20);
 		add(btnSearch);
 		
 		btnRefresh = new JButton("Refresh");
+		btnRefresh.setMnemonic(KeyEvent.VK_R);
 		btnRefresh.setBounds(820, 10, 100, 20);
 		add(btnRefresh);
 		

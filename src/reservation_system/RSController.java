@@ -160,6 +160,13 @@ public class RSController {
 		mainView.setBtnFRListener(new RSBtnFRListener());
 		mainView.setBtnPRListener(new RSBtnPRListener());
 		mainView.setBtnChangePasswordListener(new RSBtnChangePasswordListener());
+		mainView.addWindowListener(new WindowAdapter() {
+			@Override
+		    public void windowClosing(WindowEvent windowEvent) {
+				mainView.dispose();
+				loginScreen();
+		    }
+		});
 		mainView.setVisible(true);
 	}
 	

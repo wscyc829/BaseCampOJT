@@ -225,7 +225,7 @@ public class RSModel {
 				"`total payment type`, `payment type`, `receipt number`," +
 				"`pay in - php`, `pay in - krw`, `pay in - date`, " +
 				"`pay out - php`, `pay out - krw`, `pay out - date`," +
-				"`income - php`, `income - krw`, `note`, `remark`)" +
+				"`income - php`, `income - krw`, `note`, `remark`, `isMark`)" +
 				"VALUES (" +
 				"'" + currentUser.getUsername() + "'," +
 				"'" + DATE_TIME_FORMAT.format(new Date()) + "'," +
@@ -265,7 +265,8 @@ public class RSModel {
 				hr.getIncomeKRW() + "," +
 				
 				"'" + hr.getNote() + "'," +
-				"'" + hr.getRemark() + "')";
+				"'" + hr.getRemark() + "'," +
+				hr.isMark() + ")";
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -328,7 +329,8 @@ public class RSModel {
 				"`income - krw` = " + hr.getIncomeKRW() + "," +
 				
 				"`note` = '" + hr.getNote() + "'," +
-				"`remark` = '" + hr.getRemark() + "' " +
+				"`remark` = '" + hr.getRemark() + "', " +
+				"`isMark` = " + hr.isMark() + " " + 
 				"WHERE id = " + hr.getId();
 		
 		String query1 = "INSERT INTO `hr history` " +
@@ -342,7 +344,7 @@ public class RSModel {
 				"`isPaymentTypeEdited`, `isReceiptNumberEdited`, `isPayInPHPEdited`," +
 				"`isPayInKRWEdited`, `isPayInDateEdited`, `isPayOutPHPEdited`, " + 
 				"`isPayOutKRWEdited`, `isPayOutDateEdited`, `isIncomePHPEdited`," +
-				"`isIncomeKRWEdited`, `isNoteEdited`, `isRemarkEdited`) " +
+				"`isIncomeKRWEdited`, `isNoteEdited`, `isRemarkEdited`, `isMarkEdited`) " +
 				"VALUES(" +
 				old.getId() + ", " +
 				"'" + currentUser.getUsername() + "'," +
@@ -383,8 +385,9 @@ public class RSModel {
                 ((edited = edited || (old.getIncomeKRW() != hr.getIncomeKRW())) && (old.getIncomeKRW() != hr.getIncomeKRW())) + "," +
                 
                 ((edited = edited || !old.getNote().equals(hr.getNote())) && !old.getNote().equals(hr.getNote())) + "," +
-                ((edited = edited || !old.getRemark().equals(hr.getRemark())) && !old.getRemark().equals(hr.getRemark())) +
-				")";
+                ((edited = edited || !old.getRemark().equals(hr.getRemark())) && !old.getRemark().equals(hr.getRemark())) + "," +
+				((edited = edited || old.isMark() != hr.isMark()) && (old.isMark() != hr.isMark())) +
+                ")";
 
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -461,7 +464,9 @@ public class RSModel {
 						rs.getDouble("income - KRW"), 
 						
 						rs.getString("note"), 
-						rs.getString("remark"));
+						rs.getString("remark"),
+						
+						rs.getBoolean("isMark"));
 				hr.setId(rs.getInt("id"));
 				list.add(hr);
 			}
@@ -564,7 +569,9 @@ public class RSModel {
 						rs.getDouble("income - KRW"), 
 						
 						rs.getString("note"), 
-						rs.getString("remark"));
+						rs.getString("remark"),
+						
+						rs.getBoolean("isMark"));
 				hr.setId(rs.getInt("id"));
 				list.add(hr);
 			}
@@ -637,7 +644,9 @@ public class RSModel {
 						rs.getBoolean("isIncomeKRWEdited"),
 						
 						rs.getBoolean("isNoteEdited"),
-						rs.getBoolean("isRemarkEdited"));
+						rs.getBoolean("isRemarkEdited"),
+						
+						rs.getBoolean("isMarkEdited"));
 				list.add(hrh);
 			}
 			connect.close();
@@ -2404,7 +2413,7 @@ public class RSModel {
 		        //cell.setColspan(2);
 	            
 				Image logo = Image.getInstance(this.getClass().getResource("/Pictures/logo.jpg"));
-				logo.scalePercent(70f);
+				logo.scalePercent(70f,60f);
 		        doc.add(logo);
 				
 		        Font headingFont = new Font(Font.FontFamily.COURIER, 32,
@@ -2487,7 +2496,7 @@ public class RSModel {
 		        doc.add(new Phrase(" "));
 		        
 		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrVoucherGuidelineWeb.png"));
-				guideline.scalePercent(62f, 45f);
+				guideline.scalePercent(62f, 40f);
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));

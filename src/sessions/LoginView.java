@@ -50,14 +50,17 @@ public class LoginView extends JFrame{
 	    add(pfPassword);
 	    
 	    btnLogin = new JButton("Login");
+	    btnLogin.setMnemonic(KeyEvent.VK_L);
 	    btnLogin.setBounds(30,80,80,20);
 	    add(btnLogin);
 	    
 	    btnQuit = new JButton("Quit");
+	    btnQuit.setMnemonic(KeyEvent.VK_Q);
 	    btnQuit.setBounds(120,80,80,20);
 	    add(btnQuit);
 	    
 	    btnSetting = new JButton("Setting");
+	    btnSetting.setMnemonic(KeyEvent.VK_S);
 	    btnSetting.setBounds(75,110,80,20);
 	    add(btnSetting);
 	    

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.util.HashMap;
 
@@ -71,10 +72,12 @@ public class SettingView extends JFrame{
 	    add(tfPassword);
 	    
 	    btnSave = new JButton("Save");
+	    btnSave.setMnemonic(KeyEvent.VK_S);
 	    btnSave.setBounds(10,120,100,20);
 	    add(btnSave);
 	    
 	    btnCancel = new JButton("Cancel");
+	    btnCancel.setMnemonic(KeyEvent.VK_C);
 	    btnCancel.setBounds(115,120,100,20);
 	    add(btnCancel);
 	}

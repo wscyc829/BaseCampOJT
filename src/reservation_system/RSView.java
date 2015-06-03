@@ -1,6 +1,7 @@
 package reservation_system;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 
@@ -28,6 +29,7 @@ public class RSView extends JFrame{
 		setLayout(null);
 		setLocationRelativeTo(null);
 		setResizable(false);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setIconImage(new ImageIcon(getClass().getResource("/Pictures/icon.png")).getImage());
 		
 		this.model = model;
@@ -37,26 +39,32 @@ public class RSView extends JFrame{
 		add(lblWelcome);
 			
 		btnHotelReservation = new JButton("Hotel Reservation");
+		btnHotelReservation.setMnemonic(KeyEvent.VK_H);
 		btnHotelReservation.setBounds(75, 50, 200, 20);
 		add(btnHotelReservation);
 		
 		btnFlyReservation = new JButton("Flight Reservation");
+		btnFlyReservation.setMnemonic(KeyEvent.VK_F);
 		btnFlyReservation.setBounds(75, 80, 200, 20);
 		add(btnFlyReservation);
 		
 		btnPackageReservation = new JButton("Package Reservation");
+		btnPackageReservation.setMnemonic(KeyEvent.VK_P);
 		btnPackageReservation.setBounds(75, 110, 200, 20);
 		add(btnPackageReservation);
 		
 		btnChangePassword = new JButton("Change Password");
+		btnChangePassword.setMnemonic(KeyEvent.VK_C);
 		btnChangePassword.setBounds(75, 140, 200, 20);
 		add(btnChangePassword);
 		
 		btnRegister = new JButton("Register");
+		btnRegister.setMnemonic(KeyEvent.VK_R);
 		btnRegister.setBounds(125, 170, 100, 20);
 		add(btnRegister);
 		
 		btnLogOut = new JButton("Log out");
+		btnLogOut.setMnemonic(KeyEvent.VK_L);
 		btnLogOut.setBounds(260, 10, 80, 20);
 		add(btnLogOut);
 		
@@ -64,7 +72,6 @@ public class RSView extends JFrame{
 			btnRegister.setVisible(false);
 		}
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	public void setBtnLogOutListener(ActionListener listener){

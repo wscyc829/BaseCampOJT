@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,12 +18,14 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.*;
 
 import references.AutoCompletion;
 import references.JTextFieldHintUI;
+import references.OwnTableCellRenderer;
 import reservation_system.RSModel;
 
 public class HRView extends JFrame{
@@ -69,10 +72,12 @@ public class HRView extends JFrame{
 		add(lblImage);
 		
 		btnAdd = new JButton("Add");
+		btnAdd.setMnemonic(KeyEvent.VK_A);
 		btnAdd.setBounds(10, 10, 100, 20);
 		add(btnAdd);
 		
 		btnBack = new JButton("Back");
+		btnBack.setMnemonic(KeyEvent.VK_B);
 		btnBack.setBounds(120, 10, 100, 20);
 		add(btnBack);
 		
@@ -113,27 +118,31 @@ public class HRView extends JFrame{
 		ftfToDate.setBounds(505, 40, 100, 20);
 		add(ftfToDate);
 
-
 		btnSearch = new JButton("Search");
+		btnSearch.setMnemonic(KeyEvent.VK_S);
 		btnSearch.setBounds(700, 10, 100, 20);
 		add(btnSearch);
 		
 		btnRefresh = new JButton("Refresh");
+		btnRefresh.setMnemonic(KeyEvent.VK_R);
 		btnRefresh.setBounds(820, 10, 100, 20);
 		add(btnRefresh);
 		
 		btnPrint = new JButton("Print");
+		btnPrint.setMnemonic(KeyEvent.VK_P);
 		btnPrint.setBounds(700, 40, 100, 20);
 		add(btnPrint);
 		
-
 		btnPrintBilling = new JButton("Print Billing");
+		btnPrintBilling.setMnemonic(KeyEvent.VK_B);
 		btnPrintBilling.setBounds(820, 40, 100, 20);
 		add(btnPrintBilling);
 		
-		String[] columnNames = {"ID", "No.", "Created By", "Check In", "Check Out", "Reservation Date",
-				"Hotel/Resort", "Guest Name", "Room Type", "No Of Rooms", "Reservation Type", 
-				"Payment Type", "Option To Final", "Status", "Pay In - PHP", "Opt To Pay", "Pay Out - PHP", "Income - PHP"};
+		String[] columnNames = {"ID", "No.", "Created By", "Check In", "Check Out", 
+				"Reservation Date", "Hotel/Resort", "Guest Name", "Room Type", 
+				"No Of Rooms", "Reservation Type", "Payment Type", "Option To Final",
+				"Status", "Pay In - PHP", "Opt To Pay", "Pay Out - PHP", "Income - PHP",
+				"isMark"};
 		
 		ArrayList<HotelReservation> list = model.getAllHRs();
 		String[][] data = new String[list.size()][columnNames.length];
@@ -177,6 +186,7 @@ public class HRView extends JFrame{
 		table.setDefaultRenderer(Double.class, new OwnTableCellRenderer());
 		table.setDefaultRenderer(Integer.class, new OwnTableCellRenderer());
 		table.removeColumn(table.getColumnModel().getColumn(0));
+		table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -188,6 +198,7 @@ public class HRView extends JFrame{
 		add(lblTotalPayIn);
 		
 		ftfTotalPayIn = new JFormattedTextField(model.NUMBER_FORMAT);
+		ftfTotalPayIn.setValue(new Double(0));
 		ftfTotalPayIn.setBounds(240, 540, 100, 20);
 		ftfTotalPayIn.setEditable(false);
 		add(ftfTotalPayIn);
@@ -197,6 +208,7 @@ public class HRView extends JFrame{
 		add(lblTotalPayOut);
 		
 		ftfTotalPayOut = new JFormattedTextField(model.NUMBER_FORMAT);
+		ftfTotalPayOut.setValue(new Double(0));
 		ftfTotalPayOut.setBounds(580, 540, 100, 20);
 		ftfTotalPayOut.setEditable(false);
 		add(ftfTotalPayOut);
@@ -206,6 +218,7 @@ public class HRView extends JFrame{
 		add(lblTotalIncome);
 		
 		ftfTotalIncome = new JFormattedTextField(model.NUMBER_FORMAT);
+		ftfTotalIncome.setValue(new Double(0));
 		ftfTotalIncome.setBounds(920, 540, 100, 20);
 		ftfTotalIncome.setEditable(false);
 		add(ftfTotalIncome);
@@ -301,41 +314,6 @@ public class HRView extends JFrame{
 		cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		cellSelectionModel.addListSelectionListener(listener);
 	}
-	public class OwnTableCellRenderer extends DefaultTableCellRenderer {
-
-	    public Component getTableCellRendererComponent(JTable table, 
-	                                                   Object value,
-	                                                   boolean isSelected,
-	                                                   boolean hasFocus, 
-	                                                   int row, 
-	                                                   int column) {
-	        setBackground(Color.white);
-	        setForeground(Color.black);
-	        
-	        TableCellRenderer renderer;
-	        TableModel model = table.getModel();
-	        int modelRow = table.getRowSorter().convertRowIndexToModel(row);
-	        int columnStatusPosition = 13;
-	        String statusColumnValue = (String) model.getValueAt(modelRow, columnStatusPosition);
-	        
-	        if (statusColumnValue.equals("Cancelled")) {
-	        	setOpaque(true);
-	            setBackground(Color.decode("#FF7373"));
-	            setForeground(Color.WHITE);
-	        }
-	        else if(statusColumnValue.equals("Paid")){
-	        	setOpaque(true);
-	            setBackground(Color.decode("#2EB82E"));
-	            setForeground(Color.WHITE);
-	        }
-	        else {
-	        	setOpaque(false);
-	        }
-
-	        setText(value != null ? value.toString() : "");
-	        return this;
-	    }
-	}
 	
 	public HashMap<String, String> getAllData(){
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -386,9 +364,10 @@ public class HRView extends JFrame{
 					hr.getPayInPHP(),
 					hr.getOptionToPay(),
 					hr.getPayOutPHP(),
-					hr.getIncomePHP()
+					hr.getIncomePHP(),
+					hr.isMark()
 			};
-			
+
 			tablemodel.addRow(r);
 			i++;
 			

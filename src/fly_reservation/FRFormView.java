@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -457,21 +458,24 @@ public class FRFormView extends JFrame{
 		add(jp2);
 		
 		btnExportPO = new JButton("Export - Purchase Order");
+		btnExportPO.setMnemonic(KeyEvent.VK_P);
 		btnExportPO.setBounds(575, 350, 200, 20);
 		add(btnExportPO);
 		
 		btnExportIV = new JButton("Export - Invoice");
+		btnExportIV.setMnemonic(KeyEvent.VK_I);
 		btnExportIV.setBounds(575, 380, 200, 20);
 		add(btnExportIV);
 		
 		btnSave = new JButton("Save");
+		btnSave.setMnemonic(KeyEvent.VK_S);
 		btnSave.setBounds(335, 420, 90, 20);
 		add(btnSave);
 		
 		btnCancel = new JButton("Cancel");
+		btnCancel.setMnemonic(KeyEvent.VK_C);
 		btnCancel.setBounds(440, 420, 90, 20);
 		add(btnCancel);
-		
 		
 		listeners();
 		

@@ -43,6 +43,8 @@ public class HotelReservation {
 	private String note;
 	private String remark;
 	
+	private boolean isMark;
+	
 	public HotelReservation(){
 		this.id = -1;
 	}
@@ -57,7 +59,8 @@ public class HotelReservation {
 			String totalPaymentType, String paymentType, String receiptNumber,
 			double payInPHP, double payInKRW, String payInDate,
 			double payOutPHP, double payOutKRW, String payOutDate,
-			double incomePHP, double incomeKRW, String note, String remark) {
+			double incomePHP, double incomeKRW, String note, String remark,
+			boolean isMark) {
 		this.id = -1;
 		this.createdBy = createdBy;
 		this.createdAt = createdAt;
@@ -93,6 +96,7 @@ public class HotelReservation {
 		this.incomeKRW = incomeKRW;
 		this.note = note;
 		this.remark = remark;
+		this.isMark = isMark;
 	}
 
 	public int getId() {
@@ -373,5 +377,13 @@ public class HotelReservation {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public boolean isMark() {
+		return isMark;
+	}
+
+	public void setMark(boolean isMark) {
+		this.isMark = isMark;
 	}
 }

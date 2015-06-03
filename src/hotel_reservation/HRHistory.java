@@ -37,6 +37,9 @@ public class HRHistory {
 	
 	private boolean isNoteEdited;
 	private boolean isRemarkEdited;
+	
+	private boolean isMarkEdited;
+	
 	public HRHistory(String name, String date, boolean isCheckInEdited,
 			boolean isCheckOutEdited, boolean isHotelOrResortEdited,
 			boolean isGuestNameEdited, boolean isNumberOfAdultEdited,
@@ -53,7 +56,7 @@ public class HRHistory {
 			boolean isPayOutPHPEdited, boolean isPayOutKRWEdited,
 			boolean isPayOutDateEdited, boolean isIncomePHPEdited,
 			boolean isIncomeKRWEdited, boolean isNoteEdited,
-			boolean isRemarkEdited) {
+			boolean isRemarkEdited, boolean isMarkEdited) {
 		super();
 		this.name = name;
 		this.date = date;
@@ -89,6 +92,7 @@ public class HRHistory {
 		this.isIncomeKRWEdited = isIncomeKRWEdited;
 		this.isNoteEdited = isNoteEdited;
 		this.isRemarkEdited = isRemarkEdited;
+		this.isMarkEdited = isMarkEdited;
 	}
 	public String getName() {
 		return name;
@@ -294,4 +298,11 @@ public class HRHistory {
 	public void setRemarkEdited(boolean isRemarkEdited) {
 		this.isRemarkEdited = isRemarkEdited;
 	}
+	public boolean isMarkEdited() {
+		return isMarkEdited;
+	}
+	public void setMarkEdited(boolean isMarkEdited) {
+		this.isMarkEdited = isMarkEdited;
+	}
+	
 }

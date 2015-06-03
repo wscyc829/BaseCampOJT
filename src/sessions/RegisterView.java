@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -76,10 +77,12 @@ public class RegisterView extends JFrame{
 	    add(cbAccessLevel);
 	    
 	    btnRegister = new JButton("Register");
+	    btnRegister.setMnemonic(KeyEvent.VK_R);
 	    btnRegister.setBounds(20,130,100,20);
 	    add(btnRegister);
 	    
 	    btnCancel = new JButton("Cancel");
+	    btnCancel.setMnemonic(KeyEvent.VK_C);
 	    btnCancel.setBounds(135,130,100,20);
 	    add(btnCancel);
 	}

@@ -6,6 +6,8 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Vector;
@@ -45,17 +47,18 @@ public class FRFormView extends JFrame{
 	private JButton btnCancel;
 	
 	private JComboBox  cbAirline, cbFlightNumber, cbOrigin, cbDestination,
-		cbTotalPaymentType, cbReservationType, cbGender, cbPaymentType;
+		cbTotalPaymentType, cbReservationType, cbGender, cbPaymentType,
+		cbStatus;
 	
 	private JLabel lblAirline, lblFlightNo, lblDepartureDate, lblDepartureTime, 
 		lblArrivalTime, lblOrigin, lblDestination, lblRecordLocator,
 		lblReservationType, lblReservationDate, lblOptionToPay, lblAmountToPay,
 		lblOptionToFinal, lblTotalPayment, lblGuestName, lblGender, lblNoOfAdult, 
-		lblNoOfChild, lblPaymentType, lblCurrency, lblCurrencyNote,
+		lblNoOfChild, lblPaymentType, lblReceiptNumber, lblCurrency, lblCurrencyNote,
 		lblPayIn, lblPayInPHP, lblPayInKRW, lblPayInDate, 
 		lblPayOut , lblPayOutPHP, lblPayOutKRW, lblPayOutDate,
-		lblIncome, lblIncomePHP, lblIncomeKRW, lblNote,  
-		lblRemark, lblHistory;
+		lblIncome, lblIncomePHP, lblIncomeKRW, lblStatus, lblNote,  
+		lblRemark, lblHistory, lblID;
 	
 	private JList lHistory;
 	
@@ -67,10 +70,17 @@ public class FRFormView extends JFrame{
 	
 	private JTextArea taNote, taRemark;
 	
-	private JTextField tfRecordLocator, tfGuestName;
+	private JTextField tfRecordLocator, tfGuestName, tfReceiptNumber;
 	
 	private RSModel model;
 	
+	private String[] gender = new String[]{"Female", "Male"};
+	
+	private String[] status = new String[]{"Not Confirm", "Confirmed",
+			"Paid", "Final", "Cancelled"};
+	
+	private String[] totalPaymentType = new String[]{"Pesos","Won"};
+
 	public FRFormView(RSModel model){
 		super("Flight Reservation Form");
 		setSize(845, 480);
@@ -153,64 +163,72 @@ public class FRFormView extends JFrame{
 		add(lblNoOfAdult);
 		
 		lblNoOfChild = new JLabel("Child");
-		lblNoOfChild.setBounds(370, 250, 50, 20);
+		lblNoOfChild.setBounds(360, 250, 50, 20);
 		add(lblNoOfChild);
 		
 		lblPaymentType = new JLabel("Payment Type");
 		lblPaymentType.setBounds(480, 10, 100, 20);
 		add(lblPaymentType);
 		
+		lblReceiptNumber = new JLabel("Receipt No.");
+		lblReceiptNumber.setBounds(480, 40, 100, 20);
+		add(lblReceiptNumber);
+		
 		lblCurrency = new JLabel("Currency");
-		lblCurrency.setBounds(480, 40, 100, 20);
+		lblCurrency.setBounds(480, 70, 100, 20);
 		add(lblCurrency);
 		
 		lblCurrencyNote = new JLabel("(PHP to KRW)");
-		lblCurrencyNote.setBounds(680, 40, 100, 20);
+		lblCurrencyNote.setBounds(680, 70, 100, 20);
 		add(lblCurrencyNote);
 		
 		lblPayIn = new JLabel("Pay In");
-		lblPayIn.setBounds(480, 70, 100, 20);
+		lblPayIn.setBounds(480, 100, 100, 20);
 		add(lblPayIn);
 		
 		lblPayInPHP = new JLabel("PHP");
-		lblPayInPHP.setBounds(550, 70, 30, 20);
+		lblPayInPHP.setBounds(550, 100, 30, 20);
 		add(lblPayInPHP);
 		
 		lblPayInKRW = new JLabel("KRW");
-		lblPayInKRW.setBounds(700, 70, 30, 20);
+		lblPayInKRW.setBounds(700, 100, 30, 20);
 		add(lblPayInKRW);
 		
 		lblPayInDate = new JLabel("Date");
-		lblPayInDate.setBounds(550, 100, 30, 20);
+		lblPayInDate.setBounds(550, 130, 30, 20);
 		add(lblPayInDate);
 		
 		lblPayOut = new JLabel("Pay Out");
-		lblPayOut.setBounds(480, 130, 100, 20);
+		lblPayOut.setBounds(480, 160, 100, 20);
 		add(lblPayOut);
 		
 		lblPayOutPHP = new JLabel("PHP");
-		lblPayOutPHP.setBounds(550, 130, 30, 20);
+		lblPayOutPHP.setBounds(550, 160, 30, 20);
 		add(lblPayOutPHP);
 		
 		lblPayOutKRW = new JLabel("KRW");
-		lblPayOutKRW.setBounds(700, 130, 30, 20);
+		lblPayOutKRW.setBounds(700, 160, 30, 20);
 		add(lblPayOutKRW);
 		
 		lblPayOutDate = new JLabel("Date");
-		lblPayOutDate.setBounds(550, 160, 30, 20);
+		lblPayOutDate.setBounds(550, 190, 30, 20);
 		add(lblPayOutDate);
 		
 		lblIncome = new JLabel("Income");
-		lblIncome.setBounds(480, 190, 100, 20);
+		lblIncome.setBounds(480, 220, 100, 20);
 		add(lblIncome);
 		
 		lblIncomePHP = new JLabel("PHP");
-		lblIncomePHP.setBounds(550, 190, 30, 20);
+		lblIncomePHP.setBounds(550, 220, 30, 20);
 		add(lblIncomePHP);
 		
 		lblIncomeKRW = new JLabel("KRW");
-		lblIncomeKRW.setBounds(700, 190, 30, 20);
+		lblIncomeKRW.setBounds(700, 220, 30, 20);
 		add(lblIncomeKRW);
+		
+		lblStatus = new JLabel("Status");
+		lblStatus.setBounds(480, 250, 100, 20);
+		add(lblStatus);
 		
 		lblNote = new JLabel("Note");
 		lblNote.setBounds(10, 280, 100, 20);
@@ -334,14 +352,14 @@ public class FRFormView extends JFrame{
 		ftfTotalPayment = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfTotalPayment.setName("Total Payment");
 		ftfTotalPayment.setValue(new Double(0));
-		ftfTotalPayment.setBounds(340, 160, 120, 20);
+		ftfTotalPayment.setBounds(340, 160, 65, 20);
 		add(ftfTotalPayment);
 		
-		cbTotalPaymentType = new JComboBox(new String[]{"Pesos", "Won"});
+		cbTotalPaymentType = new JComboBox(totalPaymentType);
 		cbTotalPaymentType.setName("Total Payment Type");
 		cbTotalPaymentType.setEditable(true);
 		new AutoCompletion(cbTotalPaymentType);
-		cbTotalPaymentType.setBounds(460, 160, 60, 20);
+		cbTotalPaymentType.setBounds(405, 160, 55, 20);
 		add(cbTotalPaymentType);
 		
 		tfGuestName = new JTextField();
@@ -349,7 +367,7 @@ public class FRFormView extends JFrame{
 		tfGuestName.setBounds(340, 190, 120, 20);
 		add(tfGuestName);
 		
-		cbGender = new JComboBox(new String[]{"Male","Female"});
+		cbGender = new JComboBox(gender);
 		cbGender.setName("Gender");
 		cbGender.setEditable(true);
 		new AutoCompletion(cbGender);
@@ -380,62 +398,74 @@ public class FRFormView extends JFrame{
 		btnAddPT.setBounds(660, 10, 20, 20);
 		add(btnAddPT);
 		
+		tfReceiptNumber = new JTextField("");
+		tfReceiptNumber.setName("Receipt Number");
+		tfReceiptNumber.setBounds(580, 40, 100, 20);
+		add(tfReceiptNumber);
+		
 		ftfCurrency = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfCurrency.setName("Currency");
 		ftfCurrency.setValue(new Double(0));
 		ftfCurrency.setUI(new JTextFieldHintUI("PHP to KRW", Color.gray));
-		ftfCurrency.setBounds(580, 40, 100, 20);
+		ftfCurrency.setBounds(580, 70, 100, 20);
 		add(ftfCurrency);
 		
 		ftfPayInPHP = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfPayInPHP.setName("Pay In - PHP");
 		ftfPayInPHP.setValue(new Double(0));
-		ftfPayInPHP.setBounds(580, 70, 100, 20);
+		ftfPayInPHP.setBounds(580, 100, 100, 20);
 		add(ftfPayInPHP);
 		
 		ftfPayInKRW = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfPayInKRW.setName("Pay In - KRW");
 		ftfPayInKRW.setValue(new Double(0));
-		ftfPayInKRW.setBounds(730, 70, 100, 20);
+		ftfPayInKRW.setBounds(730, 100, 100, 20);
 		add(ftfPayInKRW);
 		
 		ftfPayInDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfPayInDate.setName("Pay In - Date");
 		ftfPayInDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
-		ftfPayInDate.setBounds(580, 100, 100, 20);
+		ftfPayInDate.setBounds(580, 130, 100, 20);
 		add(ftfPayInDate);
 		
 		ftfPayOutPHP = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfPayOutPHP.setName("Pay Out - PHP");
 		ftfPayOutPHP.setValue(new Double(0));
-		ftfPayOutPHP.setBounds(580, 130, 100, 20);
+		ftfPayOutPHP.setBounds(580, 160, 100, 20);
 		add(ftfPayOutPHP);
 		
 		ftfPayOutKRW = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfPayOutKRW.setName("Pay Out - KRW");
 		ftfPayOutKRW.setValue(new Double(0));
-		ftfPayOutKRW.setBounds(730, 130, 100, 20);
+		ftfPayOutKRW.setBounds(730, 160, 100, 20);
 		add(ftfPayOutKRW);
 		
 		ftfPayOutDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfPayOutDate.setName("Pay Out - Date");
 		ftfPayOutDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
-		ftfPayOutDate.setBounds(580, 160, 100, 20);
+		ftfPayOutDate.setBounds(580, 190, 100, 20);
 		add(ftfPayOutDate);
 		
 		ftfIncomePHP = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfIncomePHP.setName("Income - PHP");
 		ftfIncomePHP.setValue(new Double(0));
 		ftfIncomePHP.setEditable(false);
-		ftfIncomePHP.setBounds(580, 190, 100, 20);
+		ftfIncomePHP.setBounds(580, 220, 100, 20);
 		add(ftfIncomePHP);
 		
 		ftfIncomeKRW = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfIncomeKRW.setName("Income - KRW");
 		ftfIncomeKRW.setValue(new Double(0));
 		ftfIncomeKRW.setEditable(false);
-		ftfIncomeKRW.setBounds(730, 190, 100, 20);
+		ftfIncomeKRW.setBounds(730, 220, 100, 20);
 		add(ftfIncomeKRW);
+		
+		cbStatus = new JComboBox(status);
+		cbStatus.setName("Status");
+		cbStatus.setEditable(true);
+		new AutoCompletion(cbStatus);
+		cbStatus.setBounds(580, 250, 100, 20);
+		add(cbStatus);
 		
 		taNote = new JTextArea("");
 		taNote.setName("Note");
@@ -462,14 +492,18 @@ public class FRFormView extends JFrame{
 		jp2.setBounds(520, 280, 310, 60);
 		add(jp2);
 		
+		lblID = new JLabel("");
+		lblID.setBounds(10, 420, 100, 20);
+		add(lblID);
+		
 		btnExportPO = new JButton("Export - Purchase Order");
 		btnExportPO.setMnemonic(KeyEvent.VK_P);
-		btnExportPO.setBounds(575, 350, 200, 20);
+		btnExportPO.setBounds(630, 350, 200, 20);
 		add(btnExportPO);
 		
 		btnExportIV = new JButton("Export - Invoice");
 		btnExportIV.setMnemonic(KeyEvent.VK_I);
-		btnExportIV.setBounds(575, 380, 200, 20);
+		btnExportIV.setBounds(630, 380, 200, 20);
 		add(btnExportIV);
 		
 		btnSave = new JButton("Save");
@@ -523,6 +557,7 @@ public class FRFormView extends JFrame{
 	    order.add(ftfNoOfAdult);
 	    order.add(ftfNoOfChild);
 	    order.add(cbPaymentType.getEditor().getEditorComponent());
+	    order.add(tfReceiptNumber);
 	    order.add(ftfCurrency);
 	    order.add(ftfPayInPHP);
 	    order.add(ftfPayInKRW);
@@ -532,6 +567,7 @@ public class FRFormView extends JFrame{
 	    order.add(ftfPayOutDate);
 	    order.add(ftfIncomePHP);
 	    order.add(ftfIncomeKRW);
+	    order.add(cbStatus.getEditor().getEditorComponent());
 	    
 	    MyOwnFocusTraversalPolicy newPolicy = new MyOwnFocusTraversalPolicy(order);
 		
@@ -613,7 +649,8 @@ public class FRFormView extends JFrame{
 				JTextField tf = (JTextField)c;
 				if(!tf.getName().equals("Record Locator") && 
 						!tf.getName().equals("Option To Pay") &&
-						!tf.getName().equals("Option To Final") && 
+						!tf.getName().equals("Option To Final") &&
+						!tf.getName().equals("Receipt Number") &&
 						!tf.getName().equals("Currency") && 
 						!tf.getName().equals("Pay In - PHP") && 
 						!tf.getName().equals("Pay In - KRW") &&
@@ -687,6 +724,8 @@ public class FRFormView extends JFrame{
 				Integer.parseInt(ftfNoOfChild.getValue().toString()), 
 				
 				cbPaymentType.getSelectedItem().toString(),
+				tfReceiptNumber.getText(),
+				
 				Double.parseDouble(ftfPayInPHP.getValue().toString()), 
 				Double.parseDouble(ftfPayInKRW.getValue().toString()), 
 				ftfPayInDate.getText(),
@@ -697,6 +736,8 @@ public class FRFormView extends JFrame{
 				
 				Double.parseDouble(ftfIncomePHP.getValue().toString()), 
 				Double.parseDouble(ftfIncomeKRW.getValue().toString()),
+				
+				cbStatus.getSelectedItem().toString(),
 				
 				taNote.getText(),
 				taRemark.getText());
@@ -735,6 +776,8 @@ public class FRFormView extends JFrame{
 		ftfNoOfChild.setValue(fr.getNumberOfChild());
 		
 		cbPaymentType.setSelectedItem(fr.getPaymentType()); 
+		tfReceiptNumber.setText(fr.getReceiptNumber());
+		
 		ftfPayInPHP.setValue(fr.getPayInPHP()); 
 		ftfPayInKRW.setValue(fr.getPayInKRW());
 		ftfPayInDate.setText(fr.getPayInDate());
@@ -745,6 +788,8 @@ public class FRFormView extends JFrame{
 		
 		ftfIncomePHP.setValue(fr.getIncomePHP()); 
 		ftfIncomeKRW.setValue(fr.getIncomeKRW());
+		
+		cbStatus.setSelectedItem(fr.getStatus());
 		
 		taNote.setText(fr.getNote());
 		taRemark.setText(fr.getRemark());
@@ -758,6 +803,10 @@ public class FRFormView extends JFrame{
 
 		for(FRHistory frh : frhs){
 			listmodel.addElement(frh.getDate() + " Edited by: " + frh.getName());
+		}
+		
+		if(this.fr.getId() > 0){
+			lblID.setText("ID:"+this.fr.getId());
 		}
 	}
 	
@@ -829,13 +878,32 @@ public class FRFormView extends JFrame{
 			}
 			
 			public void focusGained(FocusEvent arg0) {
-				// TODO Auto-generated method stub
 				old = Double.parseDouble(ftfCurrency.getText().replaceAll(",", ""));
 			}
 		});
 		
 		setAutoConvertListener(ftfPayInPHP, ftfPayInKRW);
 		setAutoConvertListener(ftfPayOutPHP, ftfPayOutKRW);
+		
+		cbPaymentType.setSelectedIndex(-1);
+		cbPaymentType.addItemListener(new ItemListener() {
+			
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbPaymentType.getSelectedItem().toString().equals("Cash")){
+					lblReceiptNumber.setVisible(true);
+					tfReceiptNumber.setVisible(true);
+				}
+				else{
+					lblReceiptNumber.setVisible(false);
+					tfReceiptNumber.setVisible(false);
+					tfReceiptNumber.setText("");
+				}
+			}
+		});
+		
+		if(model.getPaymentType().size() > 0){
+			cbPaymentType.setSelectedIndex(0);
+		}
 		
 		lHistory.addListSelectionListener(new ListSelectionListener(){
 			Border red = BorderFactory.createLineBorder(Color.red);
@@ -990,6 +1058,13 @@ public class FRFormView extends JFrame{
 						cbPaymentType.setBorder(cbBorder);
 					}
 					
+					if(frh.isReceiptNumberEdited()){
+						tfReceiptNumber.setBorder(red);
+					}
+					else{
+						tfReceiptNumber.setBorder(tfBorder);
+					}
+					
 					if(frh.isPayInPHPEdited()){
 						ftfPayInPHP.setBorder(red);
 					}
@@ -1044,6 +1119,13 @@ public class FRFormView extends JFrame{
 					}
 					else{
 						ftfIncomeKRW.setBorder(tfBorder);
+					}
+					
+					if(frh.isStatusEdited()){
+						cbStatus.setBorder(red);
+					}
+					else{
+						cbStatus.setBorder(cbBorder);
 					}
 					
 					if(frh.isNoteEdited()){

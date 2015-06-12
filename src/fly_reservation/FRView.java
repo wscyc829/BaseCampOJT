@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.*;
 
 import references.JTextFieldHintUI;
+import references.OwnTableCellRenderer;
 import reservation_system.RSModel;
 
 public class FRView extends JFrame{
@@ -36,7 +37,7 @@ public class FRView extends JFrame{
 	private JComboBox cbSearch;
 	
 	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn,
-		lblTotalPayOut, lblTotalIncome;
+		lblTotalPayOut, lblTotalIncome, lblTotalRows;
 	
 	private JLabel lblImage;
 	
@@ -49,10 +50,13 @@ public class FRView extends JFrame{
 	
 	private RSModel model;
 	
-	private String[] columnNames = {"ID", "No.", "Created By",
+	private String[] searchBy = new String[]{
+			"Guest Name", "Reservation Type", "Flight Number"};
+	
+	private String[] columnNames = {"ID", "Created By",
 			"Departure Date", "Origin", "Destination", "Flight No",
 			"Payment Type", "Guest Name", "Gender", "Adult No",
-			"Child No", "Option To Final", "Pay In - PHP", 
+			"Child No", "Option To Final", "Status", "Pay In - PHP", 
 			"Option To Pay", "Pay Out - PHP", "Income - PHP"};
 	
 	public FRView(RSModel model){
@@ -92,8 +96,7 @@ public class FRView extends JFrame{
 		lblDash.setBounds(500, 40, 20, 20);
 		add(lblDash);
 		
-		cbSearch = new JComboBox(new String[]{
-				"Guest Name", "Reservation Type", "Flight No"});
+		cbSearch = new JComboBox(searchBy);
 		cbSearch.setBounds(320, 10, 130, 20);
 		add(cbSearch);
 		
@@ -136,7 +139,7 @@ public class FRView extends JFrame{
             	if(getRowCount() > 0){
             		return getValueAt(0, column).getClass();
             	}
-            	else if(column == 0 || column == 1 || column == 10 || column == 11){
+            	else if(column == 0 || column == 9 || column == 10){
             		return Integer.class;
             	}
             	else if(column == 13 || column == 15 || column == 16){
@@ -163,7 +166,10 @@ public class FRView extends JFrame{
 		};
 		
 		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-		table.removeColumn(table.getColumnModel().getColumn(0));
+		table.setDefaultRenderer(String.class, new OwnTableCellRenderer());
+		table.setDefaultRenderer(Double.class, new OwnTableCellRenderer());
+		table.setDefaultRenderer(Integer.class, new OwnTableCellRenderer());
+		
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
@@ -197,6 +203,10 @@ public class FRView extends JFrame{
 		ftfTotalIncome.setEditable(false);
 		ftfTotalIncome.setBounds(920, 540, 100, 20);
 		add(ftfTotalIncome);
+		
+		lblTotalRows = new JLabel("");
+		lblTotalRows.setBounds(10, 540, 100, 20);
+		add(lblTotalRows);
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
 			table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
@@ -300,7 +310,6 @@ public class FRView extends JFrame{
 		for(FlightReservation fr : frs){
 			Object[] r = {
 					fr.getId(),
-					(i+1),
 					fr.getCreatedBy(),
 					fr.getDepartureDate(),
 					fr.getOrigin(),
@@ -309,13 +318,14 @@ public class FRView extends JFrame{
 					fr.getPaymentType(),
 					fr.getGuestName(),
 					fr.getGender(),
-					fr.getNumberOfAdult(),
-					fr.getNumberOfChild(),
+					model.INTEGER_FORMAT.format(fr.getNumberOfAdult()),
+					model.INTEGER_FORMAT.format(fr.getNumberOfChild()),
 					fr.getOptionToFinal(),
-					fr.getPayInPHP(),
+					fr.getStatus(),
+					model.NUMBER_FORMAT.format(fr.getPayInPHP()),
 					fr.getOptionToPay(),
-					fr.getPayOutPHP(),
-					fr.getPayOutPHP()
+					model.NUMBER_FORMAT.format(fr.getPayOutPHP()),
+					model.NUMBER_FORMAT.format(fr.getIncomePHP())
 			};
 			
 			tablemodel.addRow(r);
@@ -328,6 +338,8 @@ public class FRView extends JFrame{
 		ftfTotalPayIn.setValue(totalPayIn);
 		ftfTotalPayOut.setValue(totalPayOut);
 		ftfTotalIncome.setValue(totalIncome);
+		
+		lblTotalRows.setText(i + " rows");
 		
 		for (int column = 0; column < table.getColumnCount(); column++) {
 			
@@ -355,13 +367,14 @@ public class FRView extends JFrame{
 	}
 	
 	public int getFRSelectedID(int row){
-		int modelNo = (Integer) table.getValueAt(row, 0);
-
+		int id = (Integer) table.getValueAt(row, 0);
+		
+		/*
 		for(int i=0;i<table.getModel().getRowCount();i++){
 			if((Integer)table.getModel().getValueAt(i, 1) == modelNo){
 				return (Integer) table.getModel().getValueAt(i, 0);
 			}
-		}
-		return 0;
+		}*/
+		return id;
 	}
 }

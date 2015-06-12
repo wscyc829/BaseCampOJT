@@ -58,11 +58,11 @@ public class HRFormView extends JFrame{
 		lblRoomType, lblNoOfRooms, lblNoOfNights, lblBreakfast,
 		lblConfirmationNumber, lblCompany, lblStatus, 
 		lblReservationType, lblReservationDate, lblOptionToPay, 
-		lblAmountToPay, lblOptionToFinal, lblTotalPayment, lblPaymentType, lblReceiptNo, lblCurrency, 
+		lblAmountToPay, lblOptionToFinal, lblTotalPayment, lblPaymentType, lblReceiptNumber, lblCurrency, 
 		lblCurrencyNote, lblPayIn, lblPayInPHP, lblPayInKRW, lblPayInDate, 
 		lblPayOut, lblPayOutPHP, lblPayOutKRW, lblPayOutDate, 
 		lblIncome, lblIncomePHP, lblIncomeKRW, 
-		lblNote, lblRemark, lblHistory ;
+		lblNote, lblRemark, lblHistory, lblID;
 	
 	private JList lHistory;
 	
@@ -73,9 +73,15 @@ public class HRFormView extends JFrame{
 	
 	private JTextArea taNote, taRemark;
 	
-	private JTextField tfGuestName, tfRoomType, tfCompany, tfReceiptNo, tfConfirmationNumber;
+	private JTextField tfGuestName, tfRoomType, tfCompany, tfReceiptNumber, tfConfirmationNumber;
 	
 	private RSModel model;
+	
+	private String[] breakfast = new String[]{"Included", "Not Included"};
+	
+	private String[] status = new String[]{"Not Confirm", "Confirmed",
+									"Paid", "Final", "Cancelled"};
+	private String[] totalPaymentType = new String[]{"Pesos","Won"};
 	
 	public HRFormView(RSModel model){
 		super("Hotel Reservation Form");
@@ -172,9 +178,9 @@ public class HRFormView extends JFrame{
 		lblPaymentType.setBounds(360, 190, 100, 20);
 		add(lblPaymentType);
 		
-		lblReceiptNo = new JLabel("Receipt No.");
-		lblReceiptNo.setBounds(360, 220, 100, 20);
-		add(lblReceiptNo);
+		lblReceiptNumber = new JLabel("Receipt No.");
+		lblReceiptNumber.setBounds(360, 220, 100, 20);
+		add(lblReceiptNumber);
 		
 		lblCurrency = new JLabel("Currency");
 		lblCurrency.setBounds(360, 250, 100, 20);
@@ -298,7 +304,7 @@ public class HRFormView extends JFrame{
 		ftfNoOfNights.setBounds(120, 220, 120, 20);
 		add(ftfNoOfNights);
 		
-		cbBreakfast = new JComboBox(new String[]{"Included", "Not Included"});
+		cbBreakfast = new JComboBox(breakfast);
 		cbBreakfast.setName("Breakfast");
 		cbBreakfast.setEditable(true);
 		new AutoCompletion(cbBreakfast);
@@ -315,8 +321,7 @@ public class HRFormView extends JFrame{
 		tfCompany.setBounds(120, 310, 120, 20);
 		add(tfCompany);
 		
-		cbStatus = new JComboBox(new String[]{
-				"Not Confirm", "Confirmed", "Paid", "Final", "Cancelled"});
+		cbStatus = new JComboBox(status);
 		cbStatus.setName("Status");
 		cbStatus.setEditable(true);
 		new AutoCompletion(cbStatus);
@@ -365,7 +370,7 @@ public class HRFormView extends JFrame{
 		ftfTotalPayment.setBounds(460, 160, 120, 20);
 		add(ftfTotalPayment);
 		
-		cbTotalPaymentType = new JComboBox(new String[]{"Pesos","Won"});
+		cbTotalPaymentType = new JComboBox(totalPaymentType);
 		cbTotalPaymentType.setName("Total Payment Type");
 		cbTotalPaymentType.setBounds(580, 160, 60, 20);
 		cbTotalPaymentType.setEditable(true);
@@ -384,10 +389,10 @@ public class HRFormView extends JFrame{
 		btnAddPT.setBounds(560, 190, 20, 20);
 		add(btnAddPT);
 		
-		tfReceiptNo = new JTextField("");
-		tfReceiptNo.setName("Receipt No");
-		tfReceiptNo.setBounds(460, 220, 120, 20);
-		add(tfReceiptNo);
+		tfReceiptNumber = new JTextField("");
+		tfReceiptNumber.setName("Receipt Number");
+		tfReceiptNumber.setBounds(460, 220, 120, 20);
+		add(tfReceiptNumber);
 		
 		ftfCurrency = new JFormattedTextField(model.NUMBER_FORMAT);
 		ftfCurrency.setValue(new Double(0));
@@ -473,6 +478,10 @@ public class HRFormView extends JFrame{
 		jp2.setBounds(120, 510, 220, 60);
 		add(jp2);
 		
+		lblID = new JLabel("");
+		lblID.setBounds(10, 580, 100, 20);
+		add(lblID);
+		
 		btnExportV = new JButton("Export - Voucher");
 		btnExportV.setMnemonic(KeyEvent.VK_V);
 		btnExportV.setBounds(510, 430, 200, 20);
@@ -554,7 +563,7 @@ public class HRFormView extends JFrame{
 	    order.add(ftfTotalPayment);
 	    order.add(cbTotalPaymentType.getEditor().getEditorComponent());
 	    order.add(cbPaymentType.getEditor().getEditorComponent());
-	    order.add(tfReceiptNo);
+	    order.add(tfReceiptNumber);
 	    order.add(ftfCurrency);
 	    order.add(ftfPayInPHP);
 	    order.add(ftfPayInKRW);
@@ -646,7 +655,7 @@ public class HRFormView extends JFrame{
 				JTextField tf = (JTextField)c;
 				
 				if(!tf.getName().equals("Currency") && 
-						!tf.getName().equals("Receipt No") &&
+						!tf.getName().equals("Receipt Number") &&
 						!tf.getName().equals("Option To Pay") && 
 						!tf.getName().equals("Option To Final") &&
 						!tf.getName().equals("Company") &&
@@ -728,7 +737,7 @@ public class HRFormView extends JFrame{
 				cbTotalPaymentType.getSelectedItem().toString(),
 				
 				cbPaymentType.getSelectedItem().toString(),
-				tfReceiptNo.getText(),
+				tfReceiptNumber.getText(),
 				
 				Double.parseDouble(ftfPayInPHP.getValue().toString()),
 				Double.parseDouble(ftfPayInKRW.getValue().toString()), 
@@ -781,7 +790,7 @@ public class HRFormView extends JFrame{
 		cbTotalPaymentType.setSelectedItem(hr.getTotalPaymentType());
 			
 		cbPaymentType.setSelectedItem(hr.getPaymentType());
-		tfReceiptNo.setText(hr.getReceiptNumber());
+		tfReceiptNumber.setText(hr.getReceiptNumber());
 		
 		ftfPayInPHP.setValue(hr.getPayInPHP());
 		ftfPayInKRW.setValue(hr.getPayInKRW()); 
@@ -808,6 +817,10 @@ public class HRFormView extends JFrame{
 			
 		for(HRHistory hrh : hrhs){
 			listmodel.addElement(hrh.getDate() + " Edited by: " + hrh.getName());
+		}
+		
+		if(this.hr.getId() > 0){
+			lblID.setText("ID:" + this.hr.getId());
 		}
 	}
 	
@@ -874,13 +887,13 @@ public class HRFormView extends JFrame{
 			
 			public void itemStateChanged(ItemEvent arg0) {
 				if(cbPaymentType.getSelectedItem().toString().equals("Cash")){
-					lblReceiptNo.setVisible(true);
-					tfReceiptNo.setVisible(true);
+					lblReceiptNumber.setVisible(true);
+					tfReceiptNumber.setVisible(true);
 				}
 				else{
-					lblReceiptNo.setVisible(false);
-					tfReceiptNo.setVisible(false);
-					tfReceiptNo.setText("");
+					lblReceiptNumber.setVisible(false);
+					tfReceiptNumber.setVisible(false);
+					tfReceiptNumber.setText("");
 				}
 			}
 		});
@@ -1050,10 +1063,10 @@ public class HRFormView extends JFrame{
 					}
 					
 					if(hrh.isReceiptNumberEdited()){
-						tfReceiptNo.setBorder(red);
+						tfReceiptNumber.setBorder(red);
 					}
 					else{
-						tfReceiptNo.setBorder(tfBorder);
+						tfReceiptNumber.setBorder(tfBorder);
 					}
 					
 					if(hrh.isPayInPHPEdited()){

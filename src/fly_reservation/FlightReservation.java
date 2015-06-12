@@ -28,6 +28,8 @@ public class FlightReservation {
 	private int numberOfChild;
 	
 	private String paymentType;
+	private String receiptNumber;
+	
 	private double payInPHP;
 	private double payInKRW;
 	private String payInDate;
@@ -36,6 +38,8 @@ public class FlightReservation {
 	private String payOutDate;
 	private double incomePHP;
 	private double incomeKRW;
+	
+	private String status;
 	
 	private String note;
 	private String remark;
@@ -51,10 +55,10 @@ public class FlightReservation {
 			String reservationDate, String optionToPay, double amountToPay,
 			String optionToFinal, double totalPayment, String totalPaymentType,
 			String guestName, String gender, int numberOfAdult,
-			int numberOfChild, String paymentType, double payInPHP,
-			double payInKRW, String payInDate, double payOutPHP,
+			int numberOfChild, String paymentType, String receiptNumber, 
+			double payInPHP, double payInKRW, String payInDate, double payOutPHP,
 			double payOutKRW, String payOutDate, double incomePHP,
-			double incomeKRW, String note, String remark) {
+			double incomeKRW, String status, String note, String remark) {
 		this.id = -1;
 		this.createdBy = createdBy;
 		this.createdAt = createdAt;
@@ -78,6 +82,7 @@ public class FlightReservation {
 		this.numberOfAdult = numberOfAdult;
 		this.numberOfChild = numberOfChild;
 		this.paymentType = paymentType;
+		this.receiptNumber = receiptNumber;
 		this.payInPHP = payInPHP;
 		this.payInKRW = payInKRW;
 		this.payInDate = payInDate;
@@ -86,6 +91,7 @@ public class FlightReservation {
 		this.payOutDate = payOutDate;
 		this.incomePHP = incomePHP;
 		this.incomeKRW = incomeKRW;
+		this.status = status;
 		this.note = note;
 		this.remark = remark;
 	}
@@ -273,6 +279,14 @@ public class FlightReservation {
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
 	}
+	
+	public String getReceiptNumber() {
+		return receiptNumber;
+	}
+
+	public void setReceiptNumber(String receiptNumber) {
+		this.receiptNumber = receiptNumber;
+	}
 
 	public double getPayInPHP() {
 		return payInPHP;
@@ -336,6 +350,14 @@ public class FlightReservation {
 
 	public void setIncomeKRW(double incomeKRW) {
 		this.incomeKRW = incomeKRW;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getNote() {

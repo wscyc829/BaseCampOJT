@@ -20,6 +20,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.*;
 
 import references.JTextFieldHintUI;
+import references.OwnTableCellRenderer;
 import reservation_system.RSModel;
 
 public class PRView extends JFrame{
@@ -37,7 +38,7 @@ public class PRView extends JFrame{
 		ftfTotalPayIn, ftfTotalPayOut, ftfTotalIncome;
 	
 	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn, 
-		lblTotalPayOut, lblTotalIncome;
+		lblTotalPayOut, lblTotalIncome, lblTotalRows;
 	
 	private JLabel lblImage;
 	
@@ -47,10 +48,13 @@ public class PRView extends JFrame{
 	
 	private RSModel model;
 	
-	private String[] columnNames = {"ID", "No.", "Created By", "Date",
+	private String[] searchBy = new String[]{
+			"Guest Name", "Reservation Type", "Type", "Car"};
+	
+	private String[] columnNames = {"ID", "Created By", "Date",
 			"Time", "Type", "Car", "Resevation Type", "Payment Type", 
 			"Guest Name", "Adult No", "Child No", "Option To Final", 
-			"Pay In - PHP", "Option To Pay", "Pay Out - PHP", 
+			"Status", "Pay In - PHP", "Option To Pay", "Pay Out - PHP", 
 			"Income - PHP"};
 	
 	public PRView(RSModel model){
@@ -90,8 +94,7 @@ public class PRView extends JFrame{
 		lblDash.setBounds(500, 40, 20, 20);
 		add(lblDash);
 		
-		cbSearch = new JComboBox(new String[]{
-				"Guest Name", "Reservation Type", "Type", "Car"});
+		cbSearch = new JComboBox(searchBy);
 		cbSearch.setBounds(320, 10, 130, 20);
 		add(cbSearch);
 		
@@ -134,7 +137,7 @@ public class PRView extends JFrame{
             	if(getRowCount() > 0){
             		return getValueAt(0, column).getClass();
             	}
-            	else if(column == 0 || column == 1 || column == 10 || column == 11){
+            	else if(column == 0 || column == 9 || column == 10){
             		return Integer.class;
             	}
             	else if(column == 13 || column == 15 || column == 16){
@@ -161,7 +164,10 @@ public class PRView extends JFrame{
 		};
 		
 		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-		table.removeColumn(table.getColumnModel().getColumn(0));
+		table.setDefaultRenderer(String.class, new OwnTableCellRenderer());
+		table.setDefaultRenderer(Double.class, new OwnTableCellRenderer());
+		table.setDefaultRenderer(Integer.class, new OwnTableCellRenderer());
+		
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
@@ -169,7 +175,6 @@ public class PRView extends JFrame{
 		scrollPane.setBounds(10, 70, 1175, 460);
 		add(scrollPane);
 		
-
 		lblTotalPayIn = new JLabel("Total Pay In:");
 		lblTotalPayIn.setBounds(140, 540, 100, 20);
 		add(lblTotalPayIn);
@@ -196,6 +201,10 @@ public class PRView extends JFrame{
 		ftfTotalIncome.setEditable(false);
 		ftfTotalIncome.setBounds(920, 540, 100, 20);
 		add(ftfTotalIncome);
+		
+		lblTotalRows = new JLabel("");
+		lblTotalRows.setBounds(10, 540, 100, 20);
+		add(lblTotalRows);
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
 			table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
@@ -296,7 +305,6 @@ public class PRView extends JFrame{
 		for(PackageReservation pr : prs){
 			Object[] r = {
 					pr.getId(),
-					(i+1),
 					pr.getCreatedBy(),
 					pr.getDate(),
 					pr.getTime(),
@@ -305,13 +313,14 @@ public class PRView extends JFrame{
 					pr.getReservationType(),
 					pr.getPaymentType(),
 					pr.getGuestName(),
-					pr.getNumberOfAdult(),
-					pr.getNumberOfChild(),
+					model.INTEGER_FORMAT.format(pr.getNumberOfAdult()),
+					model.INTEGER_FORMAT.format(pr.getNumberOfChild()),
 					pr.getOptionToFinal(),
-					pr.getPayInPHP(),
+					pr.getStatus(),
+					model.NUMBER_FORMAT.format(pr.getPayInPHP()),
 					pr.getOptionToPay(),
-					pr.getPayOutPHP(),
-					pr.getIncomePHP(),
+					model.NUMBER_FORMAT.format(pr.getPayOutPHP()),
+					model.NUMBER_FORMAT.format(pr.getIncomePHP()),
 			};
 		
 			tablemodel.addRow(r);
@@ -324,7 +333,9 @@ public class PRView extends JFrame{
 		ftfTotalPayIn.setValue(totalPayIn);
 		ftfTotalPayOut.setValue(totalPayOut);
 		ftfTotalIncome.setValue(totalIncome);
-
+		
+		lblTotalRows.setText(i + " rows");
+		
 		for (int column = 0; column < table.getColumnCount(); column++){
 			
 		    TableColumn tableColumn = table.getColumnModel().getColumn(column);
@@ -351,14 +362,15 @@ public class PRView extends JFrame{
 	}
 	
 	public int getPRSelectedID(int row){
-		int modelNo = (Integer) table.getValueAt(row, 0);
-
+		int id = (Integer) table.getValueAt(row, 0);
+		
+		/*
 		for(int i=0;i<table.getModel().getRowCount();i++){
 			if((Integer)table.getModel().getValueAt(i, 1) == modelNo){
 				return (Integer) table.getModel().getValueAt(i, 0);
 			}
-		}
+		}*/
 		
-		return 0;
+		return id;
 	}
 }

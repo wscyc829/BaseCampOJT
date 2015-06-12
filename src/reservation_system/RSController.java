@@ -61,7 +61,7 @@ public class RSController {
 			try {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 				//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-				/*
+				
 				int fontSize = 11;
 				Hashtable defaults = UIManager.getDefaults();
 				Enumeration keys = defaults.keys();
@@ -73,7 +73,7 @@ public class RSController {
 				        defaults.put (key, new FontUIResource(Font.SANS_SERIF, font.getStyle(), fontSize));
 				    }
 				    	
-				}*/
+				}
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

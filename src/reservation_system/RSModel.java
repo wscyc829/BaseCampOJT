@@ -518,7 +518,7 @@ public class RSModel {
 			}
 			
 			if(!value.isEmpty()){
-				if(isWithEnd){
+				if(isWithEnd || isWithStart){
 					query += " AND ";
 				}
 				if(columnName.equals("id")){
@@ -896,6 +896,8 @@ public class RSModel {
 				fr.getNumberOfChild() + "," +
 				
 				"'" + fr.getPaymentType() + "'," +
+				"'" + fr.getReceiptNumber() + "'," +
+				
 				fr.getPayInPHP() + "," +
 				fr.getPayInKRW() + "," +
 				"'" + fr.getPayInDate() + "'," + 
@@ -904,6 +906,9 @@ public class RSModel {
 				"'" + fr.getPayOutDate() + "'," +
 				fr.getIncomePHP() + "," +
 				fr.getIncomeKRW() + "," +
+				
+				"'" + fr.getStatus() + "'," +
+				
 				"'" + fr.getNote() + "'," +
 				"'" + fr.getRemark() + "')";
 		
@@ -914,9 +919,10 @@ public class RSModel {
 				"`reservation date`, `option to pay`, `amount to pay`, " +
 				"`option to final`, `total payment`, `total payment type`," +
 				"`guest name`, gender, `number of adult`, `number of child`," +
-				"`payment type`, `pay in - PHP`, `pay in - KRW`, `pay in - date`," +
-				"`pay out - PHP`, `pay out - KRW`, `pay out - date`, `income - PHP`," +
-				"`income - KRW`, note, remark) VALUES " + variableQuery;
+				"`payment type`, `receipt number`, `pay in - PHP`, `pay in - KRW`," +
+				"`pay in - date`, `pay out - PHP`, `pay out - KRW`, `pay out - date`," +
+				"`income - PHP`, `income - KRW`, status, note, remark) VALUES " +
+				variableQuery;
 		
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -967,6 +973,8 @@ public class RSModel {
 				"`number of child` = " + fr.getNumberOfChild() + "," +
 				
 				"`payment type` = '" + fr.getPaymentType() + "'," +
+				"`receipt number` = '" + fr.getReceiptNumber() + "'," +
+				
 				"`pay in - PHP` = " + fr.getPayInPHP() + "," +
 				"`pay in - KRW` = " + fr.getPayInKRW() + "," +
 				"`pay in - date` = '" + fr.getPayInDate() + "'," +
@@ -975,7 +983,10 @@ public class RSModel {
 				"`pay out - date` = '" + fr.getPayOutDate() + "'," +
 				"`income - PHP` = " + fr.getIncomePHP() + "," +
 				"`income - KRW` = " + fr.getIncomeKRW() + "," +
-				"note = + '" + fr.getNote() + "'," +
+				
+				"status = '" + fr.getStatus() + "'," +
+				
+				"note = '" + fr.getNote() + "'," +
 				"remark = '" + fr.getRemark() + "' " +
 				"WHERE id = " + fr.getId();
 		
@@ -990,10 +1001,11 @@ public class RSModel {
 				"`isTotalPaymentEdited`, `isTotalPaymentTypeEdited`, " +
 				"`isGuestNameEdited`, `isGenderEdited`," +
 				"`isNumberOfAdultEdited`, `isNumberOfChildEdited`," +
-				"`isPaymentTypeEdited`, `isPayInPHPEdited`, `isPayInKRWEdited`," +
+				"`isPaymentTypeEdited`, `isReceiptNumberEdited`, " +
+				"`isPayInPHPEdited`, `isPayInKRWEdited`," +
 				"`isPayInDateEdited`, `isPayOutPHPEdited`, `isPayOutKRWEdited`," +
 				"`isPayOutDateEdited`, `isIncomePHPEdited`, `isIncomeKRWEdited`," +
-				"`isNoteEdited`, `isRemarkEdited`) " +
+				"`isStatusEdited`, `isNoteEdited`, `isRemarkEdited`) " +
 				"VALUES (" +
                 old.getId() + ", " +
                 "'" + currentUser.getUsername() + "'," +
@@ -1021,6 +1033,8 @@ public class RSModel {
                 ((edited = edited || (old.getNumberOfChild() != fr.getNumberOfChild())) && (old.getNumberOfChild() != fr.getNumberOfChild()))+ "," +
                 
 				((edited = edited || !old.getPaymentType().equals(fr.getPaymentType())) && !old.getPaymentType().equals(fr.getPaymentType())) + "," +
+				((edited = edited || !old.getReceiptNumber().equals(fr.getReceiptNumber())) && !old.getReceiptNumber().equals(fr.getReceiptNumber())) + "," +
+				
                 ((edited = edited || (old.getPayInPHP() != fr.getPayInPHP())) && (old.getPayInPHP() != fr.getPayInPHP())) + "," +
                 ((edited = edited || (old.getPayInKRW() != fr.getPayInKRW())) && (old.getPayInKRW() != fr.getPayInKRW())) + "," +
                 ((edited = edited || !old.getPayInDate().equals(fr.getPayInDate())) && !old.getPayInDate().equals(fr.getPayInDate())) + "," +
@@ -1032,6 +1046,8 @@ public class RSModel {
                 ((edited = edited || (old.getIncomePHP() != fr.getIncomePHP())) && (old.getIncomePHP() != fr.getIncomePHP())) + "," +
                 ((edited = edited || (old.getIncomeKRW() != fr.getIncomeKRW())) && (old.getIncomeKRW() != fr.getIncomeKRW())) + "," +
                 
+				((edited = edited || !old.getStatus().equals(fr.getStatus())) && !old.getStatus().equals(fr.getStatus())) + "," +
+
                 ((edited = edited || !old.getNote().equals(fr.getNote())) && !old.getNote().equals(fr.getNote())) + "," +
                 ((edited = edited || !old.getRemark().equals(fr.getRemark())) && !old.getRemark().equals(fr.getRemark())) +
                 ")";
@@ -1096,6 +1112,8 @@ public class RSModel {
 						rs.getInt("number of Child"),
 						
 						rs.getString("payment type"),
+						rs.getString("receipt number"),
+						
 						rs.getDouble("pay in - PHP"),
 						rs.getDouble("pay in - KRW"),
 						rs.getString("pay in - date"),
@@ -1104,6 +1122,9 @@ public class RSModel {
 						rs.getString("pay out - date"),
 						rs.getDouble("income - PHP"),
 						rs.getDouble("income - KRW"),
+						
+						rs.getString("status"),
+						
 						rs.getString("note"),
 						rs.getString("remark"));
 				fr.setId(rs.getInt("id"));
@@ -1148,7 +1169,7 @@ public class RSModel {
 			}
 			
 			if(!value.isEmpty()){
-				if(isWithEnd){
+				if(isWithEnd || isWithStart){
 					query += " AND ";
 				}
 				if(columnName.equals("id")){
@@ -1193,6 +1214,8 @@ public class RSModel {
 						rs.getInt("number of Child"),
 						
 						rs.getString("payment type"),
+						rs.getString("receipt number"),
+						
 						rs.getDouble("pay in - PHP"),
 						rs.getDouble("pay in - KRW"),
 						rs.getString("pay in - date"),
@@ -1201,6 +1224,9 @@ public class RSModel {
 						rs.getString("pay out - date"),
 						rs.getDouble("income - PHP"),
 						rs.getDouble("income - KRW"),
+						
+						rs.getString("status"),
+						
 						rs.getString("note"),
 						rs.getString("remark"));
 				fr.setId(rs.getInt("id"));
@@ -1260,6 +1286,8 @@ public class RSModel {
 						rs.getBoolean("isNumberOfChildEdited"),
 						
 						rs.getBoolean("isPaymentTypeEdited"),
+						rs.getBoolean("isReceiptNumberEdited"),
+						
 						rs.getBoolean("isPayInPHPEdited"),
 						rs.getBoolean("isPayInKRWEdited"),
 						rs.getBoolean("isPayInDateEdited"),
@@ -1268,6 +1296,9 @@ public class RSModel {
 						rs.getBoolean("isPayOutDateEdited"),
 						rs.getBoolean("isIncomePHPEdited"),
 						rs.getBoolean("isIncomeKRWEdited"),
+						
+						rs.getBoolean("isStatusEdited"),
+						
 						rs.getBoolean("isNoteEdited"),
 						rs.getBoolean("isRemarkEdited"));
 				list.add(frh);
@@ -1499,6 +1530,10 @@ public class RSModel {
 				"'" + pr.getType() + "'," +
 				"'" + pr.getCar() + "'," +
 				
+				"'" + pr.getGuestName() + "'," +
+				pr.getNumberOfAdult() + "," +
+				pr.getNumberOfChild() + "," +
+
 				"'" + pr.getReservationType() + "'," +
 				"'" + pr.getReservationDate() + "'," +
 				"'" + pr.getOptionToPay() + "'," +
@@ -1507,11 +1542,11 @@ public class RSModel {
 				pr.getTotalPayment() + "," +
 				"'" + pr.getTotalPaymentType() + "'," +
 				
-				"'" + pr.getGuestName() + "'," +
-				pr.getNumberOfAdult() + "," +
-				pr.getNumberOfChild() + "," +
+				"'" + pr.getStatus() + "'," +
 				
 				"'" + pr.getPaymentType() + "'," +
+				"'" + pr.getReceiptNumber() + "'," +
+				
 				pr.getPayInPHP() + "," +
 				pr.getPayInKRW() + "," +
 				"'" + pr.getPayInDate() + "'," +
@@ -1526,11 +1561,11 @@ public class RSModel {
 		
 		String defaultQuery = "INSERT INTO `package reservation`(" +
 				"`created by`, `created at`, date, time, type, car," +
+				"`guest name`, `number of adult`, `number of child`," +
 				"`reservation type`, `reservation date`, `option to pay`," +
 				"`amount to pay`, `option to final`, `total payment`, " +
-				"`total payment type`, `guest name`, `number of adult`, " +
-				"`number of child`, `payment type`, `pay in - PHP`, " +
-				"`pay in - KRW`, `pay in - date`, `pay out - PHP`," +
+				"`total payment type`, `status`,  `payment type`, `receipt number`, " +
+				"`pay in - PHP`, `pay in - KRW`, `pay in - date`, `pay out - PHP`," +
 				"`pay out - KRW`, `pay out - date`, `income - PHP`, `income - KRW`," +
 				"note, remark) VALUES " + variableQuery;
 		
@@ -1565,6 +1600,10 @@ public class RSModel {
 				"type = '" + pr.getType() + "'," +
 				"car = '" + pr.getCar() + "'," +
 				
+				"`guest name` = '" + pr.getGuestName() + "'," +
+				"`number of adult` = " + pr.getNumberOfAdult() + "," +
+				"`number of child` = " + pr.getNumberOfChild() + "," +
+
 				"`reservation type` = '" + pr.getReservationType() + "'," +
 				"`reservation date` = '" + pr.getReservationDate() + "'," +
 				"`option to pay` = '" + pr.getOptionToPay() + "'," +
@@ -1572,12 +1611,12 @@ public class RSModel {
 				"`option to final` = '" + pr.getOptionToFinal() + "'," +
 				"`total payment` = " + pr.getTotalPayment() + "," +
 				"`total payment type` = '" + pr.getTotalPaymentType() + "'," +
-				
-				"`guest name` = '" + pr.getGuestName() + "'," +
-				"`number of adult` = " + pr.getNumberOfAdult() + "," +
-				"`number of child` = " + pr.getNumberOfChild() + "," +
+
+				"`status` = '" + pr.getStatus() + "'," +
 				
 				"`payment type` = '" + pr.getPaymentType() + "'," +
+				"`receipt number` = '" + pr.getReceiptNumber() + "'," +
+				
 				"`pay in - PHP` = " + pr.getPayInPHP() + "," +
 				"`pay in - KRW` = " + pr.getPayInKRW() + "," +
 				"`pay in - date` = '" + pr.getPayInDate() + "'," +
@@ -1593,14 +1632,16 @@ public class RSModel {
 		
 		String query1 = "INSERT INTO `basecamp`.`pr history` " +
 				"(`pr id`, `name`, `date`, `isDateEdited`, `isTimeEdited`," +
-				"`isTypeEdited`, `isCarEdited`, `isReservationTypeEdited`, " +
-				"`isReservationDateEdited`, `isOptionToPayEdited`, `isAmountToPayEdited`," +
-				"`isOptionToFinalEdited`, `isTotalPaymentEdited`, `isTotalPaymentTypeEdited`," +
-				"`isGuestNameEdited`, `isNumberOfAdultEdited`, `isNumberOfChildEdited`," +
-				"`isPaymentTypeEdited`, `isPayInPHPEdited`, `isPayInKRWEdited`," +
-				"`isPayInDateEdited`, `isPayOutPHPEdited`, `isPayOutKRWEdited`, " +
-				"`isPayOutDateEdited`, `isIncomePHPEdited`, `isIncomeKRWEdited`, " +
-				"`isNoteEdited`, `isRemarkEdited`) " +
+				"`isTypeEdited`, `isCarEdited`, `isGuestNameEdited`, " +
+				"`isNumberOfAdultEdited`, `isNumberOfChildEdited`," +
+				"`isReservationTypeEdited`, `isReservationDateEdited`," +
+				"`isOptionToPayEdited`, `isAmountToPayEdited`," +
+				"`isOptionToFinalEdited`, `isTotalPaymentEdited`, " +
+				"`isTotalPaymentTypeEdited`, `isStatusEdited`," +
+				"`isPaymentTypeEdited`, `isReceiptNumberEdited`, `isPayInPHPEdited`," +
+				"`isPayInKRWEdited`, `isPayInDateEdited`, `isPayOutPHPEdited`," +
+				"`isPayOutKRWEdited`, `isPayOutDateEdited`, `isIncomePHPEdited`," +
+				"`isIncomeKRWEdited`, `isNoteEdited`, `isRemarkEdited`) " +
 				"VALUES (" +
                 old.getId() + ", " +
                 "'" + currentUser.getUsername() + "'," +
@@ -1610,6 +1651,10 @@ public class RSModel {
                 ((edited = edited || !old.getType().equals(pr.getType())) && !old.getType().equals(pr.getType())) + "," +
                 ((edited = edited || !old.getCar().equals(pr.getCar())) && !old.getCar().equals(pr.getCar())) + "," +
                 
+				((edited = edited || !old.getGuestName().equals(pr.getGuestName())) && !old.getGuestName().equals(pr.getGuestName())) + "," +
+				((edited = edited || (old.getNumberOfAdult() != pr.getNumberOfAdult())) && (old.getNumberOfAdult() != pr.getNumberOfAdult()))+ "," +
+				((edited = edited || (old.getNumberOfChild() != pr.getNumberOfChild())) && (old.getNumberOfChild() != pr.getNumberOfChild()))+ "," +
+
 				((edited = edited || !old.getReservationType().equals(pr.getReservationType())) && !old.getReservationType().equals(pr.getReservationType())) + "," +
 				((edited = edited || !old.getReservationDate().equals(pr.getReservationDate())) && !old.getReservationDate().equals(pr.getReservationDate())) + "," +
 				((edited = edited || !old.getOptionToPay().equals(pr.getOptionToPay())) && !old.getOptionToPay().equals(pr.getOptionToPay())) + "," +
@@ -1618,12 +1663,12 @@ public class RSModel {
 				((edited = edited || (old.getTotalPayment() != pr.getTotalPayment())) && (old.getTotalPayment() != pr.getTotalPayment()))+ "," +
 				((edited = edited || !old.getTotalPaymentType().equals(pr.getTotalPaymentType())) && !old.getTotalPaymentType().equals(pr.getTotalPaymentType())) + "," +
 				
-                ((edited = edited || !old.getGuestName().equals(pr.getGuestName())) && !old.getGuestName().equals(pr.getGuestName())) + "," +
-                ((edited = edited || (old.getNumberOfAdult() != pr.getNumberOfAdult())) && (old.getNumberOfAdult() != pr.getNumberOfAdult()))+ "," +
-                ((edited = edited || (old.getNumberOfChild() != pr.getNumberOfChild())) && (old.getNumberOfChild() != pr.getNumberOfChild()))+ "," +
-                
+				((edited = edited || !old.getStatus().equals(pr.getStatus())) && !old.getStatus().equals(pr.getStatus())) + "," +
+     
 				((edited = edited || !old.getPaymentType().equals(pr.getPaymentType())) && !old.getPaymentType().equals(pr.getPaymentType())) + "," +
-                ((edited = edited || (old.getPayInPHP() != pr.getPayInPHP())) && (old.getPayInPHP() != pr.getPayInPHP())) + "," +
+				((edited = edited || !old.getReceiptNumber().equals(pr.getReceiptNumber())) && !old.getReceiptNumber().equals(pr.getReceiptNumber())) + "," +
+				
+				((edited = edited || (old.getPayInPHP() != pr.getPayInPHP())) && (old.getPayInPHP() != pr.getPayInPHP())) + "," +
                 ((edited = edited || (old.getPayInKRW() != pr.getPayInKRW())) && (old.getPayInKRW() != pr.getPayInKRW())) + "," +
                 ((edited = edited || !old.getPayInDate().equals(pr.getPayInDate())) && !old.getPayInDate().equals(pr.getPayInDate())) + "," +
                 ((edited = edited || (old.getPayOutPHP() != pr.getPayOutPHP())) && (old.getPayOutPHP() != pr.getPayOutPHP())) + "," +
@@ -1631,6 +1676,7 @@ public class RSModel {
                 ((edited = edited || !old.getPayOutDate().equals(pr.getPayOutDate())) && !old.getPayOutDate().equals(pr.getPayOutDate())) + "," +
                 ((edited = edited || (old.getIncomePHP() != pr.getIncomePHP())) && (old.getIncomePHP() != pr.getIncomePHP())) + "," +
                 ((edited = edited || (old.getIncomeKRW() != pr.getIncomeKRW())) && (old.getIncomeKRW() != pr.getIncomeKRW())) + "," +
+                
                 ((edited = edited || !old.getNote().equals(pr.getNote())) && !old.getNote().equals(pr.getNote())) + "," +
                 ((edited = edited || !old.getRemark().equals(pr.getRemark())) && !old.getRemark().equals(pr.getRemark())) + 
                 ")";
@@ -1677,6 +1723,10 @@ public class RSModel {
 						rs.getString("type"),
 						rs.getString("car"),
 						
+						rs.getString("guest name"),
+						rs.getInt("number of adult"),
+						rs.getInt("number of child"),
+						
 						rs.getString("reservation type"),
 						rs.getString("reservation date"),
 						rs.getString("option to pay"),
@@ -1684,12 +1734,12 @@ public class RSModel {
 						rs.getString("option to final"),
 						rs.getDouble("total payment"),
 						rs.getString("total payment type"),
-						
-						rs.getString("guest name"),
-						rs.getInt("number of adult"),
-						rs.getInt("number of child"),
+
+						rs.getString("status"),
 						
 						rs.getString("payment type"),
+						rs.getString("receipt number"),
+						
 						rs.getDouble("pay in - PHP"),
 						rs.getDouble("pay in - KRW"),
 						rs.getString("pay in - date"),
@@ -1743,7 +1793,7 @@ public class RSModel {
 			}
 			
 			if(!value.isEmpty()){
-				if(isWithEnd){
+				if(isWithEnd || isWithStart){
 					query += " AND ";
 				}
 				if(columnName.equals("id")){
@@ -1769,6 +1819,10 @@ public class RSModel {
 						rs.getString("time"),
 						rs.getString("type"),
 						rs.getString("car"),
+
+						rs.getString("guest name"),
+						rs.getInt("number of adult"),
+						rs.getInt("number of child"),
 						
 						rs.getString("reservation type"),
 						rs.getString("reservation date"),
@@ -1778,11 +1832,11 @@ public class RSModel {
 						rs.getDouble("total payment"),
 						rs.getString("total payment type"),
 						
-						rs.getString("guest name"),
-						rs.getInt("number of adult"),
-						rs.getInt("number of child"),
+						rs.getString("status"),
 						
 						rs.getString("payment type"),
+						rs.getString("receipt number"),
+						
 						rs.getDouble("pay in - PHP"),
 						rs.getDouble("pay in - KRW"),
 						rs.getString("pay in - date"),
@@ -1833,6 +1887,10 @@ public class RSModel {
 						rs.getBoolean("isTypeEdited"),
 						rs.getBoolean("isCarEdited"),
 						
+						rs.getBoolean("isGuestNameEdited"),
+						rs.getBoolean("isNumberOfAdultEdited"),
+						rs.getBoolean("isNumberOfChildEdited"),
+						
 						rs.getBoolean("isReservationTypeEdited"),
 						rs.getBoolean("isReservationDateEdited"),
 						rs.getBoolean("isOptionToPayEdited"),
@@ -1841,11 +1899,11 @@ public class RSModel {
 						rs.getBoolean("isTotalPaymentEdited"),
 						rs.getBoolean("isTotalPaymentTypeEdited"),
 						
-						rs.getBoolean("isGuestNameEdited"),
-						rs.getBoolean("isNumberOfAdultEdited"),
-						rs.getBoolean("isNumberOfChildEdited"),
+						rs.getBoolean("isStatusEdited"),
 						
 						rs.getBoolean("isPaymentTypeEdited"),
+						rs.getBoolean("isReceiptNumberEdited"),
+						
 						rs.getBoolean("isPayInPHPEdited"),
 						rs.getBoolean("isPayInKRWEdited"),
 						rs.getBoolean("isPayInDateEdited"),

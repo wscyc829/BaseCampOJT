@@ -48,7 +48,8 @@ public class HRView extends JFrame{
 	private JFormattedTextField ftfFromDate, ftfToDate, ftfTotalPayIn, ftfTotalPayOut,
 		ftfTotalIncome;
 	
-	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn, lblTotalPayOut, lblTotalIncome;
+	private JLabel lblSearch, lblDate, lblDash, lblTotalPayIn, lblTotalPayOut,
+		lblTotalIncome, lblTotalRows;
 	
 	private JLabel lblImage;
 	
@@ -58,7 +59,11 @@ public class HRView extends JFrame{
 	
 	private RSModel model;
 	
-	private String[] columnNames = {"ID", "No.", "Created By", "Check In", "Check Out", 
+	private String[] searchBy = new String[]{
+			"N/A", "Hotel/Resort", "Guest Name", "Status", 
+			"Reservation Type", "Reservation Date"};
+	
+	private String[] columnNames = {"ID", "Created By", "Check In", "Check Out", 
 			"Reservation Date", "Hotel/Resort", "Guest Name", "Room Type", 
 			"No Of Rooms", "Reservation Type", "Payment Type", "Option To Final",
 			"Status", "Pay In - PHP", "Opt To Pay", "Pay Out - PHP", "Income - PHP",
@@ -102,9 +107,7 @@ public class HRView extends JFrame{
 		lblDash.setBounds(500, 40, 20, 20);
 		add(lblDash);
 		
-		cbSearch = new JComboBox(new String[]{
-				"N/A", "Hotel/Resort", "Guest Name", "Status", 
-				"Reservation Type", "Reservation Date"});
+		cbSearch = new JComboBox(searchBy);
 		cbSearch.setBounds(320, 10, 130, 20);
 		add(cbSearch);
 		
@@ -193,7 +196,6 @@ public class HRView extends JFrame{
 		table.setDefaultRenderer(Double.class, new OwnTableCellRenderer());
 		table.setDefaultRenderer(Integer.class, new OwnTableCellRenderer());
 		
-		table.removeColumn(table.getColumnModel().getColumn(0));
 		table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
 		table.setAutoCreateRowSorter(true);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -234,6 +236,10 @@ public class HRView extends JFrame{
 		ftfTotalIncome.setEditable(false);
 		ftfTotalIncome.setBounds(920, 540, 100, 20);
 		add(ftfTotalIncome);
+		
+		lblTotalRows = new JLabel("0 Rows");
+		lblTotalRows.setBounds(10, 540, 100, 20);
+		add(lblTotalRows);
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
 			table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
@@ -369,7 +375,6 @@ public class HRView extends JFrame{
 		for(HotelReservation hr : hrs){
 			Object[] r = {
 					hr.getId(),
-					(i+1),
 					hr.getCreatedBy(),
 					hr.getCheckIn(),
 					hr.getCheckOut(),
@@ -377,15 +382,15 @@ public class HRView extends JFrame{
 					hr.getHotelOrResort(),
 					hr.getGuestName(),
 					hr.getRoomType(),
-					hr.getNumberOfRooms(),
+					model.INTEGER_FORMAT.format(hr.getNumberOfRooms()),
 					hr.getReservationType(),
 					hr.getPaymentType(),
 					hr.getOptionToFinal(),
 					hr.getStatus(),
-					hr.getPayInPHP(),
+					model.NUMBER_FORMAT.format(hr.getPayInPHP()),
 					hr.getOptionToPay(),
-					hr.getPayOutPHP(),
-					hr.getIncomePHP(),
+					model.NUMBER_FORMAT.format(hr.getPayOutPHP()),
+					model.NUMBER_FORMAT.format(hr.getIncomePHP()),
 					hr.isMark()
 			};
 
@@ -403,7 +408,8 @@ public class HRView extends JFrame{
 		ftfTotalPayOut.setValue(totalPayOut);
 		ftfTotalIncome.setValue(totalIncome);
 		
-
+		lblTotalRows.setText(model.INTEGER_FORMAT.format(i) + " rows");
+		
 		for (int column = 0; column < table.getColumnCount(); column++){
 			
 		    TableColumn tableColumn = table.getColumnModel().getColumn(column);
@@ -458,13 +464,13 @@ public class HRView extends JFrame{
 	}
 	
 	public int getHRSelectedID(int row){
-		int modelNo = (Integer) table.getValueAt(row, 0);
-
+		int id = (Integer) table.getValueAt(row, 0);
+		/*
 		for(int i=0;i<table.getModel().getRowCount();i++){
 			if((Integer)table.getModel().getValueAt(i, 1) == modelNo){
 				return (Integer) table.getModel().getValueAt(i, 0);
 			}
-		}
-		return 0;
+		}*/
+		return id;
 	}
 }

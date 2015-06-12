@@ -19,7 +19,7 @@ public class OwnTableCellRenderer extends DefaultTableCellRenderer {
 	        TableCellRenderer renderer;
 	        TableModel model = table.getModel();
 	        int modelRow = table.getRowSorter().convertRowIndexToModel(row);
-	        int columnStatusPosition = 13;
+	        int columnStatusPosition = 12;
 	        String statusColumnValue = (String) model.getValueAt(modelRow, columnStatusPosition);
 	        
 	        if (statusColumnValue.equals("Cancelled")) {

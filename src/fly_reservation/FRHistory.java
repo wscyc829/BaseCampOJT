@@ -26,6 +26,8 @@ public class FRHistory {
 	private boolean isNumberOfChildEdited;
 	
 	private boolean isPaymentTypeEdited;
+	private boolean isReceiptNumberEdited;
+	
 	private boolean isPayInPHPEdited;
 	private boolean isPayInKRWEdited;
 	private boolean isPayInDateEdited;
@@ -35,8 +37,11 @@ public class FRHistory {
 	private boolean isIncomePHPEdited;
 	private boolean isIncomeKRWEdited;
 	
+	private boolean isStatusEdited;
+	
 	private boolean isNoteEdited;
 	private boolean isRemarkEdited;
+	
 	public FRHistory(String name, String date, boolean isAirlineEdited,
 			boolean isFlightNumberEdited, boolean isDepartureDateEdited,
 			boolean isDepartureTimeEdited, boolean isArrivalTimeEdited,
@@ -47,13 +52,14 @@ public class FRHistory {
 			boolean isTotalPaymentEdited, boolean isTotalPaymentTypeEdited,
 			boolean isGuestNameEdited, boolean isGenderEdited,
 			boolean isNumberOfAdultEdited, boolean isNumberOfChildEdited,
-			boolean isPaymentTypeEdited, boolean isPayInPHPEdited,
-			boolean isPayInKRWEdited, boolean isPayInDateEdited,
-			boolean isPayOutPHPEdited, boolean isPayOutKRWEdited,
-			boolean isPayOutDateEdited, boolean isIncomePHPEdited,
-			boolean isIncomeKRWEdited, boolean isNoteEdited,
+			boolean isPaymentTypeEdited, boolean isReceiptNumberEdited,
+			boolean isPayInPHPEdited, boolean isPayInKRWEdited, 
+			boolean isPayInDateEdited, boolean isPayOutPHPEdited, 
+			boolean isPayOutKRWEdited, boolean isPayOutDateEdited, 
+			boolean isIncomePHPEdited, boolean isIncomeKRWEdited,
+			boolean isStatusEdited, boolean isNoteEdited,
 			boolean isRemarkEdited) {
-		super();
+
 		this.name = name;
 		this.date = date;
 		this.isAirlineEdited = isAirlineEdited;
@@ -64,6 +70,7 @@ public class FRHistory {
 		this.isOriginEdited = isOriginEdited;
 		this.isDestinationEdited = isDestinationEdited;
 		this.isRecordLocatorEdited = isRecordLocatorEdited;
+		
 		this.isReservationTypeEdited = isReservationTypeEdited;
 		this.isReservationDateEdited = isReservationDateEdited;
 		this.isOptionToPayEdited = isOptionToPayEdited;
@@ -71,11 +78,15 @@ public class FRHistory {
 		this.isOptionToFinalEdited = isOptionToFinalEdited;
 		this.isTotalPaymentEdited = isTotalPaymentEdited;
 		this.isTotalPaymentTypeEdited = isTotalPaymentTypeEdited;
+		
 		this.isGuestNameEdited = isGuestNameEdited;
 		this.isGenderEdited = isGenderEdited;
 		this.isNumberOfAdultEdited = isNumberOfAdultEdited;
 		this.isNumberOfChildEdited = isNumberOfChildEdited;
+		
 		this.isPaymentTypeEdited = isPaymentTypeEdited;
+		this.isReceiptNumberEdited = isReceiptNumberEdited;
+		
 		this.isPayInPHPEdited = isPayInPHPEdited;
 		this.isPayInKRWEdited = isPayInKRWEdited;
 		this.isPayInDateEdited = isPayInDateEdited;
@@ -84,6 +95,9 @@ public class FRHistory {
 		this.isPayOutDateEdited = isPayOutDateEdited;
 		this.isIncomePHPEdited = isIncomePHPEdited;
 		this.isIncomeKRWEdited = isIncomeKRWEdited;
+		
+		this.isStatusEdited = isStatusEdited;
+		
 		this.isNoteEdited = isNoteEdited;
 		this.isRemarkEdited = isRemarkEdited;
 	}
@@ -219,6 +233,12 @@ public class FRHistory {
 	public void setPaymentTypeEdited(boolean isPaymentTypeEdited) {
 		this.isPaymentTypeEdited = isPaymentTypeEdited;
 	}
+	public boolean isReceiptNumberEdited() {
+		return isReceiptNumberEdited;
+	}
+	public void setReceiptNumberEdited(boolean isReceiptNumberEdited) {
+		this.isReceiptNumberEdited = isReceiptNumberEdited;
+	}
 	public boolean isPayInPHPEdited() {
 		return isPayInPHPEdited;
 	}
@@ -266,6 +286,12 @@ public class FRHistory {
 	}
 	public void setIncomeKRWEdited(boolean isIncomeKRWEdited) {
 		this.isIncomeKRWEdited = isIncomeKRWEdited;
+	}
+	public boolean isStatusEdited() {
+		return isStatusEdited;
+	}
+	public void setStatusEdited(boolean isStatusEdited) {
+		this.isStatusEdited = isStatusEdited;
 	}
 	public boolean isNoteEdited() {
 		return isNoteEdited;

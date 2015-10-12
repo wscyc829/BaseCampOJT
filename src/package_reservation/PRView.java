@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.*;
 
+import references.AutoCompletion;
 import references.JTextFieldHintUI;
 import references.OwnTableCellRenderer;
 import reservation_system.RSModel;
@@ -32,7 +35,7 @@ public class PRView extends JFrame{
 	
 	private JButton btnRefresh;
 	
-	private JComboBox cbSearch;
+	private JComboBox cbSearch, cbReservationType, cbType, cbCar;
 	
 	private JFormattedTextField ftfFromDate, ftfToDate, 
 		ftfTotalPayIn, ftfTotalPayOut, ftfTotalIncome;
@@ -101,6 +104,27 @@ public class PRView extends JFrame{
 		tfSearch = new JTextField("");
 		tfSearch.setBounds(460, 10, 200, 20);
 		add(tfSearch);
+		
+		cbReservationType = new JComboBox(model.getReservationType().toArray());
+		cbReservationType.setName("Reservation Type");
+		cbReservationType.setEditable(true);
+		new AutoCompletion(cbReservationType);
+		cbReservationType.setBounds(460, 10, 200, 20);
+		add(cbReservationType);
+		
+		cbType = new JComboBox(model.getType().toArray());
+		cbType.setName("Type");
+		cbType.setEditable(true);
+		new AutoCompletion(cbType);
+		cbType.setBounds(460, 10, 200, 20);
+		add(cbType);
+		
+		cbCar = new JComboBox(model.getCar().toArray());
+		cbCar.setName("Car");
+		cbCar.setEditable(true);
+		new AutoCompletion(cbCar);
+		cbCar.setBounds(460, 10, 200, 20);
+		add(cbCar);
 		
 		ftfFromDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfFromDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
@@ -210,14 +234,18 @@ public class PRView extends JFrame{
 			table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
 			table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
             
+			lblTotalPayIn.setVisible(false);
             lblTotalPayOut.setVisible(false);
             lblTotalIncome.setVisible(false);
             
+            ftfTotalPayIn.setVisible(false);
             ftfTotalPayOut.setVisible(false);
             ftfTotalIncome.setVisible(false);
         }
 
 		updateView(model.getAllPRs());
+		
+		listeners();
 	}
 	
 	public Image getScaledImage(Image srcImg, int w, int h){
@@ -289,7 +317,31 @@ public class PRView extends JFrame{
 		map.put("start", ftfFromDate.getText());
 		map.put("end", ftfToDate.getText());
 		map.put("column name", cbSearch.getSelectedItem().toString());
-		map.put("value", tfSearch.getText());
+		
+		if(cbSearch.getSelectedItem().toString().equals("Reservation Type")){
+			if(cbReservationType.getSelectedIndex() > -1){
+				map.put("value", cbReservationType.getSelectedItem().toString());
+			}
+			else
+				map.put("value", "");
+		}
+		else if(cbSearch.getSelectedItem().toString().equals("Type")){
+			if(cbType.getSelectedIndex() > -1){
+				map.put("value", cbType.getSelectedItem().toString());
+			}
+			else
+				map.put("value", "");
+		}
+		else if(cbSearch.getSelectedItem().toString().equals("Car")){
+			if(cbCar.getSelectedIndex() > -1){
+				map.put("value", cbCar.getSelectedItem().toString());
+			}
+			else
+				map.put("value", "");
+		}
+		else{
+			map.put("value", tfSearch.getText());
+		}
 		
 		return map;
 	}
@@ -359,6 +411,48 @@ public class PRView extends JFrame{
 
 		    tableColumn.setPreferredWidth( preferredWidth );
 		}
+	}
+	
+	public void listeners(){
+		cbSearch.setSelectedIndex(-1);
+		cbSearch.addItemListener(new ItemListener() {
+			
+			public void itemStateChanged(ItemEvent arg0) {
+				if(cbSearch.getSelectedItem().toString().equals("N/A")){
+					cbReservationType.setVisible(false);
+					cbType.setVisible(false);
+					cbCar.setVisible(false);
+					tfSearch.setVisible(false);
+				}
+				else if(cbSearch.getSelectedItem().toString().equals("Reservation Type")){
+					cbReservationType.setVisible(true);
+					cbType.setVisible(false);
+					cbCar.setVisible(false);
+					tfSearch.setVisible(false);
+				}
+				else if(cbSearch.getSelectedItem().toString().equals("Type")){
+					cbReservationType.setVisible(false);
+					cbType.setVisible(true);
+					cbCar.setVisible(false);
+					tfSearch.setVisible(false);
+				}
+				else if(cbSearch.getSelectedItem().toString().equals("Car")){
+					cbReservationType.setVisible(false);
+					cbType.setVisible(false);
+					cbCar.setVisible(true);
+					tfSearch.setVisible(false);
+				}
+				else{
+					cbReservationType.setVisible(false);
+					cbType.setVisible(false);
+					cbCar.setVisible(false);
+					tfSearch.setVisible(true);
+					tfSearch.setText("");
+				}
+			}
+		});
+		
+		cbSearch.setSelectedIndex(0);
 	}
 	
 	public int getPRSelectedID(int row){

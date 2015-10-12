@@ -138,7 +138,7 @@ public class PackageReservation {
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	
 	public String getCar() {
 		return car;
 	}
@@ -146,7 +146,7 @@ public class PackageReservation {
 	public void setCar(String car) {
 		this.car = car;
 	}
-
+	
 	public String getGuestName() {
 		return guestName;
 	}

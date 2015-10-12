@@ -519,6 +519,13 @@ public class FRFormView extends JFrame{
 		listeners();
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
+			btnAddAirline.setVisible(false);
+			btnAddFlight.setVisible(false);
+			btnAddOrigin.setVisible(false);
+			btnAddDestination.setVisible(false);
+			btnAddPT.setVisible(false);
+			btnAddRT.setVisible(false);
+			
 			lblPayOut.setVisible(false);
 			lblPayOutPHP.setVisible(false);
 			lblPayOutKRW.setVisible(false);

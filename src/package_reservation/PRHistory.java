@@ -128,7 +128,7 @@ public class PRHistory {
 	public void setTypeEdited(boolean isTypeEdited) {
 		this.isTypeEdited = isTypeEdited;
 	}
-
+	
 	public boolean isCarEdited() {
 		return isCarEdited;
 	}
@@ -136,7 +136,7 @@ public class PRHistory {
 	public void setCarEdited(boolean isCarEdited) {
 		this.isCarEdited = isCarEdited;
 	}
-
+	
 	public boolean isGuestNameEdited() {
 		return isGuestNameEdited;
 	}

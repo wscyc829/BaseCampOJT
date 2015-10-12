@@ -26,6 +26,8 @@ import reservation_system.RSModel;
 public class PRFormView extends JFrame{
 	private PackageReservation pr = new PackageReservation();
 	
+	private JButton btnAddType;
+	
 	private JButton btnAddCar;
 	
 	private JButton btnAddRT;
@@ -44,7 +46,7 @@ public class PRFormView extends JFrame{
 	
 	private JButton btnCancel;
 	
-	private JComboBox cbCar, cbFlightNo, cbTotalPaymentType, 
+	private JComboBox cbType, cbCar, cbFlightNo, cbTotalPaymentType, 
 		cbStatus, cbPaymentType, cbReservationType;
 	
 	JFormattedTextField ftfDate, ftfTime, ftfReservationDate, ftfOptionToPay,
@@ -65,7 +67,7 @@ public class PRFormView extends JFrame{
 	
 	private JTextArea taNote, taRemark;
 	
-	private JTextField tfType, tfGuestName, tfReceiptNumber;
+	private JTextField tfGuestName, tfReceiptNumber;
 	
 	private RSModel model;
 	
@@ -225,10 +227,17 @@ public class PRFormView extends JFrame{
 		ftfTime.setName("Time");
 		add(ftfTime);
 		
-		tfType = new JTextField("");
-		tfType.setBounds(80, 70, 120, 20);
-		tfType.setName("Type");
-		add(tfType);
+		cbType = new JComboBox(model.getType().toArray());
+		cbType.setName("Type");
+		cbType.setEditable(true);
+		new AutoCompletion(cbType);
+		cbType.setBounds(80, 70, 100, 20);
+		add(cbType);
+		
+		btnAddType = new JButton("+");
+		btnAddType.setMargin(new Insets(0,0,0,0));
+		btnAddType.setBounds(180, 70, 20, 20);
+		add(btnAddType);
 		
 		cbCar = new JComboBox(model.getCar().toArray());
 		cbCar.setName("Car");
@@ -450,6 +459,11 @@ public class PRFormView extends JFrame{
 		listeners();
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
+			btnAddType.setVisible(false);
+			btnAddCar.setVisible(false);
+			btnAddPT.setVisible(false);
+			btnAddRT.setVisible(false);
+			
 			lblPayOut.setVisible(false);
 			lblPayOutPHP.setVisible(false);
 			lblPayOutKRW.setVisible(false);
@@ -470,8 +484,7 @@ public class PRFormView extends JFrame{
 		Vector<Component> order = new Vector<Component>(20);
 	    order.add(ftfDate);
 	    order.add(ftfTime);
-	    order.add(tfType);
-	    order.add(cbCar.getEditor().getEditorComponent());
+	    order.add(cbType.getEditor().getEditorComponent());
 	    order.add(tfGuestName);
 	    order.add(ftfNoOfAdult);
 	    order.add(ftfNoOfChild);
@@ -521,6 +534,10 @@ public class PRFormView extends JFrame{
 	public void setTextAreaDocumentListener(DocumentListener listener){
 		taNote.getDocument().addDocumentListener(listener);
 		taRemark.getDocument().addDocumentListener(listener);
+	}
+	
+	public void setBtnAddTypeListener(ActionListener listener){
+		btnAddType.addActionListener(listener);
 	}
 	
 	public void setBtnAddCarListener(ActionListener listener){
@@ -624,8 +641,8 @@ public class PRFormView extends JFrame{
 				
 				ftfDate.getText(), 
 				ftfTime.getText(), 
-				tfType.getText(), 
-				cbCar.getSelectedItem().toString(), 
+				cbType.getSelectedItem().toString(), 
+				cbCar.getSelectedItem().toString(),
 				
 				tfGuestName.getText(),
 				Integer.parseInt(ftfNoOfAdult.getValue().toString()), 
@@ -670,7 +687,7 @@ public class PRFormView extends JFrame{
 		//update all data
 		ftfDate.setText(pr.getDate());
 		ftfTime.setText(pr.getTime());
-		tfType.setText(pr.getType());
+		cbType.setSelectedItem(pr.getType());
 		cbCar.setSelectedItem(pr.getCar());
 		
 		cbReservationType.setSelectedItem(pr.getReservationType());
@@ -719,6 +736,14 @@ public class PRFormView extends JFrame{
 		
 		if(this.pr.getId() > 0){
 			lblID.setText("ID:"+this.pr.getId());
+		}
+	}
+	
+	public void updateType(ArrayList<String> list){
+		cbType.removeAllItems();
+		
+		for(String name : list){
+			cbType.addItem(name);
 		}
 	}
 	
@@ -826,17 +851,10 @@ public class PRFormView extends JFrame{
 					}
 					
 					if(prh.isTypeEdited()){
-						tfType.setBorder(red);
+						cbType.setBorder(red);
 					}
 					else{
-						tfType.setBorder(tfBorder);
-					}
-					
-					if(prh.isCarEdited()){
-						cbCar.setBorder(red);
-					}
-					else{
-						cbCar.setBorder(cbBorder);
+						cbType.setBorder(cbBorder);
 					}
 					
 					if(prh.isGuestNameEdited()){

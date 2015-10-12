@@ -43,7 +43,7 @@ public class HRView extends JFrame{
 	
 	private JButton btnPrintBilling;
 
-	private JComboBox cbSearch, cbHotelOrResort;
+	private JComboBox cbSearch, cbHotelOrResort, cbReservationType, cbStatus;
 	
 	private JFormattedTextField ftfFromDate, ftfToDate, ftfTotalPayIn, ftfTotalPayOut,
 		ftfTotalIncome;
@@ -121,6 +121,21 @@ public class HRView extends JFrame{
 		new AutoCompletion(cbHotelOrResort);
 		cbHotelOrResort.setBounds(460, 10, 200, 20);
 		add(cbHotelOrResort);
+		
+		cbReservationType = new JComboBox(model.getReservationType().toArray());
+		cbReservationType.setName("Reservation Type");
+		cbReservationType.setEditable(true);
+		new AutoCompletion(cbReservationType);
+		cbReservationType.setBounds(460, 10, 200, 20);
+		add(cbReservationType);
+		
+		cbStatus = new JComboBox(new String[]{"Not Confirm", "Confirmed",
+				"Paid", "Final", "Cancelled"});
+		cbStatus.setName("Status");
+		cbStatus.setEditable(true);
+		new AutoCompletion(cbStatus);
+		cbStatus.setBounds(460, 10, 200, 20);
+		add(cbStatus);
 		
 		ftfFromDate = new JFormattedTextField(model.DATE_FORMAT);
 		ftfFromDate.setUI(new JTextFieldHintUI("yyyy/mm/dd", Color.gray));
@@ -245,9 +260,11 @@ public class HRView extends JFrame{
 			table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
 			table.removeColumn(table.getColumnModel().getColumn(table.getColumnCount()-1));
             
+			lblTotalPayIn.setVisible(false);
 			lblTotalPayOut.setVisible(false);
             lblTotalIncome.setVisible(false);
             
+            ftfTotalPayIn.setVisible(false);
             ftfTotalPayOut.setVisible(false);
             ftfTotalIncome.setVisible(false);
         }
@@ -261,7 +278,6 @@ public class HRView extends JFrame{
 	public ArrayList<HotelReservation> getHrs() {
 		return hrs;
 	}
-
 
 	public void setHrs(ArrayList<HotelReservation> hrs) {
 		this.hrs = hrs;
@@ -350,6 +366,20 @@ public class HRView extends JFrame{
 		if(cbSearch.getSelectedItem().toString().equals("Hotel/Resort")){
 			if(cbHotelOrResort.getSelectedIndex() > -1){
 				map.put("value", cbHotelOrResort.getSelectedItem().toString());
+			}
+			else
+				map.put("value", "");
+		}
+		else if(cbSearch.getSelectedItem().toString().equals("Status")){
+			if(cbStatus.getSelectedIndex() > -1){
+				map.put("value", cbStatus.getSelectedItem().toString());
+			}
+			else
+				map.put("value", "");
+		}
+		else if(cbSearch.getSelectedItem().toString().equals("Reservation Type")){
+			if(cbReservationType.getSelectedIndex() > -1){
+				map.put("value", cbReservationType.getSelectedItem().toString());
 			}
 			else
 				map.put("value", "");
@@ -445,15 +475,35 @@ public class HRView extends JFrame{
 					btnPrintBilling.setVisible(false);
 					tfSearch.setVisible(false);
 					cbHotelOrResort.setVisible(false);
+					cbReservationType.setVisible(false);
+					cbStatus.setVisible(false);
 				}
 				else if(cbSearch.getSelectedItem().toString().equals("Hotel/Resort")){
 					btnPrintBilling.setVisible(true);
 					tfSearch.setVisible(false);
 					cbHotelOrResort.setVisible(true);
+					cbReservationType.setVisible(false);
+					cbStatus.setVisible(false);
+				}
+				else if(cbSearch.getSelectedItem().toString().equals("Reservation Type")){
+					btnPrintBilling.setVisible(false);
+					tfSearch.setVisible(false);
+					cbHotelOrResort.setVisible(false);
+					cbReservationType.setVisible(true);
+					cbStatus.setVisible(false);
+				}
+				else if(cbSearch.getSelectedItem().toString().equals("Status")){
+					btnPrintBilling.setVisible(false);
+					tfSearch.setVisible(false);
+					cbHotelOrResort.setVisible(false);
+					cbReservationType.setVisible(false);
+					cbStatus.setVisible(true);
 				}
 				else{
 					btnPrintBilling.setVisible(false);
 					cbHotelOrResort.setVisible(false);
+					cbReservationType.setVisible(false);
+					cbStatus.setVisible(false);
 					tfSearch.setVisible(true);
 					tfSearch.setText("");
 				}

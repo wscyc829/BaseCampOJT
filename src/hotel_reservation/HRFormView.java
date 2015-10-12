@@ -524,6 +524,10 @@ public class HRFormView extends JFrame{
 		listeners();
 		
 		if(model.getCurrentUser().getAccessLevel() == 0){
+			btnAddHR.setVisible(false);
+			btnAddPT.setVisible(false);
+			btnAddRT.setVisible(false);
+			
 			lblPayOut.setVisible(false);
 			lblPayOutPHP.setVisible(false);
 			lblPayOutKRW.setVisible(false);

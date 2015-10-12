@@ -61,7 +61,7 @@ public class RSController {
 			try {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 				//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-				
+				/*
 				int fontSize = 11;
 				Hashtable defaults = UIManager.getDefaults();
 				Enumeration keys = defaults.keys();
@@ -73,7 +73,7 @@ public class RSController {
 				        defaults.put (key, new FontUIResource(Font.SANS_SERIF, font.getStyle(), fontSize));
 				    }
 				    	
-				}
+				}*/
 			} catch (ClassNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -281,6 +281,7 @@ public class RSController {
 	
 	public void prfScreen(){
 		prfView = new PRFormView(model);
+		prfView.setBtnAddTypeListener(new PRFBtnAddTypeListener());
 		prfView.setBtnAddCarListener(new PRFBtnAddCarListener());
 		prfView.setBtnAddRTListener(new PRFBtnAddRTListener());
 		prfView.setBtnAddPTListener(new PRFBtnAddPTListener());
@@ -513,6 +514,12 @@ class HRBtnPrintListener implements ActionListener{
 				else if(error == 2){
 						//JOptionPane.showMessageDialog(null, "Cancelled going back to form", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
 				}
+				else if(error == 4){
+					JOptionPane.showMessageDialog(null,
+							"Can't print billing with different hotels/resorts", 
+							"Export failed",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 			else{
 				JOptionPane.showMessageDialog(null,
@@ -520,7 +527,6 @@ class HRBtnPrintListener implements ActionListener{
 						"Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
-			
 		}
 	}
 	class HRFBtnAddHRListener implements ActionListener{
@@ -1119,6 +1125,48 @@ class HRBtnPrintListener implements ActionListener{
 	class PRBtnRefreshListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			prView.updateView(model.getAllPRs());
+		}
+	}
+	
+	class PRFBtnAddTypeListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane jp = new JOptionPane();
+
+			String input = "";
+			String message = "";
+			
+			do{
+				input = jp.showInputDialog("Add New Type", input);
+				
+				message = "";
+	    		
+				if(input != null){
+		    		if(input.contains("'")){
+		    			message += "(\') ";
+		    		}
+		    		if(input.contains("\\")){
+		    			message += "(\\)";
+		    		}
+		    		
+		    		if(!message.equals("")){
+			    		JOptionPane.showMessageDialog(null,
+		    					"Invalid Sysmbol " + message,
+		    					"Error", 
+		    					JOptionPane.ERROR_MESSAGE);
+			    		
+			    		input = input.replaceAll("'", "");
+			    		input = input.replaceAll(Pattern.quote("\\"), "");
+		    		}
+		    		if(input.equals("")){
+						message = " ";
+					}
+				}
+			}while(!message.equals("") && input != null);
+			
+			if(input != null){
+				model.addType(input);
+				prfView.updateType(model.getType());
+			}
 		}
 	}
 	

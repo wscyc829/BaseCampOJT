@@ -21,6 +21,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -1528,7 +1529,6 @@ public class RSModel {
 				"'" + pr.getDate() + "'," +
 				"'" + pr.getTime() + "'," +
 				"'" + pr.getType() + "'," +
-				"'" + pr.getCar() + "'," +
 				
 				"'" + pr.getGuestName() + "'," +
 				pr.getNumberOfAdult() + "," +
@@ -1560,7 +1560,7 @@ public class RSModel {
 				"'" + pr.getRemark() + "')";
 		
 		String defaultQuery = "INSERT INTO `package reservation`(" +
-				"`created by`, `created at`, date, time, type, car," +
+				"`created by`, `created at`, date, time, type," +
 				"`guest name`, `number of adult`, `number of child`," +
 				"`reservation type`, `reservation date`, `option to pay`," +
 				"`amount to pay`, `option to final`, `total payment`, " +
@@ -1598,7 +1598,6 @@ public class RSModel {
 				"date = '" + pr.getDate() + "'," +
 				"time = '" + pr.getTime() + "'," +
 				"type = '" + pr.getType() + "'," +
-				"car = '" + pr.getCar() + "'," +
 				
 				"`guest name` = '" + pr.getGuestName() + "'," +
 				"`number of adult` = " + pr.getNumberOfAdult() + "," +
@@ -1632,7 +1631,7 @@ public class RSModel {
 		
 		String query1 = "INSERT INTO `basecamp`.`pr history` " +
 				"(`pr id`, `name`, `date`, `isDateEdited`, `isTimeEdited`," +
-				"`isTypeEdited`, `isCarEdited`, `isGuestNameEdited`, " +
+				"`isTypeEdited`, `isGuestNameEdited`, " +
 				"`isNumberOfAdultEdited`, `isNumberOfChildEdited`," +
 				"`isReservationTypeEdited`, `isReservationDateEdited`," +
 				"`isOptionToPayEdited`, `isAmountToPayEdited`," +
@@ -1649,7 +1648,6 @@ public class RSModel {
                 ((edited = edited || !old.getDate().equals(pr.getDate())) && !old.getDate().equals(pr.getDate())) + "," +
                 ((edited = edited || !old.getTime().equals(pr.getTime())) && !old.getTime().equals(pr.getTime())) + "," +
                 ((edited = edited || !old.getType().equals(pr.getType())) && !old.getType().equals(pr.getType())) + "," +
-                ((edited = edited || !old.getCar().equals(pr.getCar())) && !old.getCar().equals(pr.getCar())) + "," +
                 
 				((edited = edited || !old.getGuestName().equals(pr.getGuestName())) && !old.getGuestName().equals(pr.getGuestName())) + "," +
 				((edited = edited || (old.getNumberOfAdult() != pr.getNumberOfAdult())) && (old.getNumberOfAdult() != pr.getNumberOfAdult()))+ "," +
@@ -1819,7 +1817,7 @@ public class RSModel {
 						rs.getString("time"),
 						rs.getString("type"),
 						rs.getString("car"),
-
+						
 						rs.getString("guest name"),
 						rs.getInt("number of adult"),
 						rs.getInt("number of child"),
@@ -1929,6 +1927,74 @@ public class RSModel {
 		return list;
 	}
 	
+	public ArrayList<String> getType(){
+		ArrayList<String> list = new ArrayList<String>();
+		
+		String connection = "jdbc:mysql://" + ip + "/basecamp";
+		Connection connect;
+		Statement stat;
+		String name;
+		
+		String query = "select name from type";
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(connection, dbUser, dbPass);
+			stat = connect.createStatement();  
+
+			ResultSet rs = stat.executeQuery(query);
+			  
+			while(rs.next()){
+				name = rs.getString("name");
+				list.add(name);
+			}
+			  
+			connect.close();
+			
+			list.sort(new Comparator<String>() {
+				public int compare(String a, String b) {
+					return a.compareTo(b);
+				}
+			});
+		}catch(SQLException e){
+			e.printStackTrace();
+			printError(e.getErrorCode());
+		}catch(ClassNotFoundException cnfe){
+			cnfe.printStackTrace();
+			printError(-1);
+		}
+		
+		return list;
+	}
+	
+	public void addType(String name){
+		String connection = "jdbc:mysql://" + ip + "/basecamp";
+		Connection connect;
+		Statement stat;
+		
+		String query = "select * from type WHERE name = '" + name + "'";
+		
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			connect = DriverManager.getConnection(connection, dbUser, dbPass);
+			stat = connect.createStatement();  
+
+			ResultSet rs = stat.executeQuery(query);
+			
+			if(!rs.next()){
+				query = "INSERT INTO type (name) VALUES ('" + name + "')";
+				stat.execute(query);
+			}
+			connect.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+			printError(e.getErrorCode());
+		}catch(ClassNotFoundException cnfe){
+			cnfe.printStackTrace();
+			printError(-1);
+		}
+	}
+	
 	public ArrayList<String> getCar(){
 		ArrayList<String> list = new ArrayList<String>();
 		
@@ -1996,6 +2062,7 @@ public class RSModel {
 			printError(-1);
 		}
 	}
+	
 	public int exportHRS(ArrayList<HotelReservation> hrs){
 		File file = null;
 		double totalPayment = 0;
@@ -2127,7 +2194,6 @@ public class RSModel {
 	public int exportBillingHRS(ArrayList<HotelReservation> hrs){
 		File file = null;
 		double totalPayment = 0;
-		boolean isSame = true;
 		String name = "";
 		
 		for(HotelReservation h : hrs){
@@ -2135,10 +2201,15 @@ public class RSModel {
 				name = h.getHotelOrResort();
 			}
 			else if(!name.equals(h.getHotelOrResort())){
-				isSame = false;
-				break;
+				return 4;
 			}
 		}
+		
+		Collections.sort(hrs, new Comparator<HotelReservation>() {
+            public int compare(HotelReservation hotel, HotelReservation another) {
+                return hotel.getCheckIn().compareToIgnoreCase(another.getCheckIn());
+            }
+        });
 		
 		try {
 			
@@ -2420,9 +2491,9 @@ public class RSModel {
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer2.png"));
-				footer.scalePercent(90f, 42f);
+				footer.scalePercent(57f, 33f);
 		        doc.add(footer);
-		        
+		          
 				doc.close();
 				pdfFileout.close();
 				return 1;
@@ -2573,11 +2644,11 @@ public class RSModel {
 		        doc.add(new Phrase(" "));
 		        
 		        Image guideline = Image.getInstance(this.getClass().getResource("/Pictures/hrVoucherGuidelineWeb.png"));
-				guideline.scalePercent(62f, 40f);
+				guideline.scalePercent(62f, 38f);
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
-				footer.scalePercent(70f, 38f);
+				footer.scalePercent(57f, 28f);
 		        doc.add(footer);
 		        
 				doc.close();
@@ -2730,6 +2801,10 @@ public class RSModel {
 		        doc.add(table);
 		        
 		        doc.add(new Phrase(" "));
+		        
+		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
+				footer.scalePercent(57f, 28f);
+		        doc.add(footer);
 		        
 				doc.close();
 				pdfFileout.close();
@@ -2921,8 +2996,8 @@ public class RSModel {
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer2.png"));
-				footer.scalePercent(90f, 42f);
-		        doc.add(footer);
+				footer.scalePercent(57f, 33f);
+		        doc.add(footer);;
 		        
 				doc.close();
 				pdfFileout.close();
@@ -3097,7 +3172,7 @@ public class RSModel {
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
-				footer.scalePercent(70f, 38f);
+				footer.scalePercent(57f, 33f);
 		        doc.add(footer);
 		        
 		        doc.add(new Phrase(" "));
@@ -3238,6 +3313,10 @@ public class RSModel {
 		        doc.add(table);
 		        
 		        doc.add(new Phrase(" "));
+		        
+		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
+				footer.scalePercent(57f, 28f);
+		        doc.add(footer);
 		        
 				doc.close();
 				pdfFileout.close();
@@ -3392,6 +3471,10 @@ public class RSModel {
 		        bank.scalePercent(78f, 65f);
 		        doc.add(bank);
 		        
+		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
+				footer.scalePercent(57f, 28f);
+		        doc.add(footer);
+		        
 				doc.close();
 				pdfFileout.close();
 				return 1;
@@ -3493,7 +3576,7 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("CAR"));
-	            secondColumn = new PdfPCell(new Paragraph(pr.getCar()));
+	            secondColumn = new PdfPCell(new Paragraph(pr.getType()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3531,7 +3614,7 @@ public class RSModel {
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer2.png"));
-				footer.scalePercent(90f, 45f);
+				footer.scalePercent(57f, 28f);
 		        doc.add(footer);
 		        
 				doc.close();
@@ -3635,7 +3718,7 @@ public class RSModel {
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("CAR"));
-	            secondColumn = new PdfPCell(new Paragraph(pr.getCar()));
+	            secondColumn = new PdfPCell(new Paragraph(pr.getType()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3673,7 +3756,7 @@ public class RSModel {
 		        doc.add(guideline);
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
-				footer.scalePercent(70f, 45f);
+				footer.scalePercent(57f, 28f);
 		        doc.add(footer);
 		        
 				doc.close();
@@ -3779,7 +3862,7 @@ public int exportPRInvoice(PackageReservation pr){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("CAR"));
-	            secondColumn = new PdfPCell(new Paragraph(pr.getCar()));
+	            secondColumn = new PdfPCell(new Paragraph(pr.getType()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3796,7 +3879,7 @@ public int exportPRInvoice(PackageReservation pr){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("TOTAL PAYMENT"));
-	            secondColumn = new PdfPCell(new Paragraph(NUMBER_FORMAT.format(pr.getAmountToPay()) + 
+	            secondColumn = new PdfPCell(new Paragraph(NUMBER_FORMAT.format(pr.getTotalPayment()) + 
 	            		" " + pr.getTotalPaymentType()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
@@ -3837,7 +3920,7 @@ public int exportPRInvoice(PackageReservation pr){
 		        doc.add(new Phrase("\n"));
 		        
 		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer2.png"));
-				footer.scalePercent(90f, 42f);
+				footer.scalePercent(57f, 28f);
 		        doc.add(footer);
 		        
 				doc.close();
@@ -3942,7 +4025,7 @@ public int exportPRInvoice(PackageReservation pr){
 	            table.addCell(secondColumn);
 	            
 	            firstColumn = new PdfPCell(new Paragraph("CAR"));
-	            secondColumn = new PdfPCell(new Paragraph(pr.getCar()));
+	            secondColumn = new PdfPCell(new Paragraph(pr.getType()));
 	            table.addCell(firstColumn);
 	            table.addCell(secondColumn);
 	            
@@ -3992,8 +4075,8 @@ public int exportPRInvoice(PackageReservation pr){
           		doc.add(normal);
           		doc.add(bold);
 		        
-		        Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
-				footer.scalePercent(70f, 38f);
+          		Image footer = Image.getInstance(this.getClass().getResource("/Pictures/footer.png"));
+				footer.scalePercent(57f, 28f);
 		        doc.add(footer);
 		        
 				doc.close();
